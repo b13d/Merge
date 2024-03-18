@@ -14,6 +14,7 @@ public class ObjectManagement : MonoBehaviour
 
 
     [SerializeField] private GameObject _particle;
+    
     private Sprite _bedHoverSprite;
     private Sprite _bedSprite;
 
@@ -21,6 +22,8 @@ public class ObjectManagement : MonoBehaviour
     private bool _returnElementOnPlace = false;
     private bool _canSwitch = false;
     private Transform _switchTo;
+    private Vector3 newPosElement = new Vector3(0, 0, -2);
+
 
     private void Start()
     {
@@ -28,6 +31,8 @@ public class ObjectManagement : MonoBehaviour
         _bedSprite = GameManager.instance.BedSprite;
     }
 
+
+    
     private void FixedUpdate()
     {
         if (_returnElementOnPlace)
@@ -40,10 +45,6 @@ public class ObjectManagement : MonoBehaviour
                 _returnElementOnPlace = false;
             }
         }
-        // if (transform.localScale.x < 1)
-        // {
-        //     transform.localScale += Vector3.one * Time.deltaTime;
-        // }
 
         if (_isTouched)
         {
@@ -55,11 +56,28 @@ public class ObjectManagement : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D col)
     {
-        Debug.Log(col.tag == "Bed");
-        Debug.Log("tag: " + col.tag);
+        if (col.tag == "Box")
+        {
+            return;
+        }
         
         if (col.tag == "Bed")
         {
+            var place = col.transform.GetChild(0);
+
+            if (place.childCount > 0)
+            {
+                if (place.GetChild(0).tag == "Box")
+                {
+                    return;
+                }
+            }
+            
+            if (!_isTouched)
+            {
+                return;
+            }
+            
             _canSwitch = true;
             col.GetComponent<Image>().sprite = _bedHoverSprite;
             _switchTo = col.transform;
@@ -67,12 +85,16 @@ public class ObjectManagement : MonoBehaviour
 
         if (col.tag == "Element")
         {
+            if (col.tag == "Box")
+            {
+                return;
+            }
+            
             if (col.gameObject.GetComponent<InfoObject>().GetLevel == gameObject.GetComponent<InfoObject>().GetLevel)
             {
                 _canSwitch = false;
                 _secondObject = col.gameObject;
                 _canJoin = true;
-                // _outlining.SetActive(true);
             }
         }
     }
@@ -80,22 +102,25 @@ public class ObjectManagement : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D other)
     {
-        // Debug.Log("other: " + other);
-
         if (other.tag == "Bed")
         {
-            _switchTo = null;
-            other.GetComponent<Image>().sprite = _bedSprite;
+            if (other.transform == _switchTo)
+            {
+                _switchTo = null;
+                other.GetComponent<Image>().sprite = _bedSprite;
+            }
         }
 
 
         if (other.tag == "Element")
         {
-            if (other.gameObject.GetComponent<InfoObject>().GetLevel == gameObject.GetComponent<InfoObject>().GetLevel)
+            // Debug.LogError("Триггер вышел из зоны");
+
+            if (other.gameObject.GetComponent<InfoObject>().GetLevel ==
+                gameObject.GetComponent<InfoObject>().GetLevel && _isTouched)
             {
                 _secondObject = null;
                 _canJoin = false;
-                // _outlining.SetActive(false);
             }
         }
     }
@@ -103,22 +128,15 @@ public class ObjectManagement : MonoBehaviour
     private void OnMouseDown()
     {
         _lastPos = transform.localPosition;
-        // Debug.Log("Нажал");
-
-        if (GameManager.instance.LastObject != null)
-        {
-            // GameManager.instance.LastObject.GetComponent<Canvas>().sortingOrder = 0;
-        }
-
-
-        // gameObject.transform.GetChild(0).GetComponent<Canvas>().sortingOrder = 1;
-        // gameObject.GetComponent<SpriteRenderer>().sortingOrder = 1;
-
         _isTouched = true;
     }
 
     private void OnMouseUp()
     {
+        _isTouched = false;
+        
+        Debug.Log("switchTo: " + _switchTo);
+        
         if (_canJoin)
         {
             if (GameManager.instance.Objects.Count > gameObject.GetComponent<InfoObject>().GetLevel + 1)
@@ -126,14 +144,18 @@ public class ObjectManagement : MonoBehaviour
                 GameObject newObject = GameManager.instance.Objects[gameObject.GetComponent<InfoObject>().GetLevel + 1];
                 // newObject.transform.localScale = new Vector3(9f, 9f, 9f);
                 var newElement = Instantiate(newObject, Vector3.zero, Quaternion.identity, _secondObject.transform.parent.transform);
-                newElement.transform.localPosition = Vector3.zero;
+                newElement.transform.localPosition = newPosElement;
             }
 
             Destroy(_secondObject);
             
-            var newParticle = Instantiate(_particle, transform.localPosition, quaternion.identity);
+            var newParticle = Instantiate(_particle, transform.position, quaternion.identity);
             newParticle.GetComponent<JoinParticle>().PlayParticle();
 
+            GameManager.instance.SpawnBedsClear.ClearBeds();
+            
+            GameManager.instance.ElementsManager.CheckElements(GetComponent<InfoObject>().GetLevel);
+            
             Destroy(gameObject);
         }
 
@@ -145,29 +167,40 @@ public class ObjectManagement : MonoBehaviour
                 {
                     var secondElement = _switchTo.GetChild(0).GetChild(0);
                     secondElement.parent = transform.parent;
-                    secondElement.localPosition = Vector3.zero;
-                    
+                    secondElement.localPosition = newPosElement;
+
                     transform.parent = _switchTo.GetChild(0);
-                    transform.localPosition = Vector3.zero;
+                    transform.localPosition = newPosElement;
                 }
                 else
                 {
                     transform.parent = _switchTo.GetChild(0);
-                    transform.localPosition = Vector3.zero;
+                    transform.localPosition = newPosElement;
                 }
+                
             }
         }
         
+        _canSwitch = false;
+        
         _isTouched = false;
+        
+        // Debug.LogError("canJoin: " + _canJoin);
 
-        if (GameManager.instance.LastObject != null)
+        if (_canJoin)
         {
-            // GameManager.instance.LastObject.GetComponent<Canvas>().sortingOrder = 0;
-            // GameManager.instance.LastObject.GetComponent<SpriteRenderer>().sortingOrder = 0;
+            
+            GameManager.instance.ElementsManager.CheckElements(GetComponent<InfoObject>().GetLevel);
+        }
+        else
+        {
+            GameManager.instance.ElementsManager.CheckElements();
         }
 
+        _canJoin = false;
+        
 
+        GameManager.instance.SpawnBedsClear.ClearBeds();
         _returnElementOnPlace = true;
-        // GameManager.instance.LastObject = transform.GetChild(0).gameObject;
     }
 }

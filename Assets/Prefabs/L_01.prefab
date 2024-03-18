@@ -30,7 +30,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6666551518534719408}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -2}
   m_LocalScale: {x: 9, y: 9, z: 9}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -98,6 +98,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _level: 0
+  _currentPrice: 10
 --- !u!114 &3079213341467508108
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -111,7 +112,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _particle: {fileID: 8200928033471626935, guid: f5dbc0a3fd0d41b4fbd247e8001f4f95, type: 3}
-  _outlining: {fileID: 0}
 --- !u!212 &6814062094176549733
 SpriteRenderer:
   m_ObjectHideFlags: 0

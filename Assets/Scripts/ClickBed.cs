@@ -11,6 +11,7 @@ public class ClickBed : MonoBehaviour, IPointerClickHandler
     private Image _image;
     private int _count = 10;
     private bool _stopClick;
+    private float _oneSecond = 1f;
     
     [SerializeField] private TextMeshProUGUI _txtCount;
 
@@ -20,9 +21,31 @@ public class ClickBed : MonoBehaviour, IPointerClickHandler
         _txtCount.text = _count.ToString();
     }
 
+    private void Update()
+    {
+        if (_stopClick || GameManager.instance.GetFull)
+        {
+            return;
+        }
+
+        if (_count == 0)
+        {
+            _stopClick = true;
+            GameManager.instance.SpawnBedsClear.SpawnBox();
+            StartCoroutine(Reset());
+            return;
+        }
+        
+        _image.fillAmount += Time.deltaTime / 8;
+        
+        _count = 10 - (int)(_image.fillAmount / 0.1);
+        
+        _txtCount.text = _count.ToString();
+    }
+
     public void OnPointerClick(PointerEventData pointerEventData)
     {
-        if (_stopClick)
+        if (_stopClick || GameManager.instance.GetFull)
         {
             return;
         }
@@ -37,6 +60,7 @@ public class ClickBed : MonoBehaviour, IPointerClickHandler
 
         if (_count == 0)
         {
+            GameManager.instance.SpawnBedsClear.SpawnBox();
             _stopClick = true;
             StartCoroutine(Reset());
         }

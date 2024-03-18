@@ -327,7 +327,7 @@ GameObject:
   - component: {fileID: 4348125416612967815}
   m_Layer: 0
   m_Name: L_03
-  m_TagString: Untagged
+  m_TagString: Element
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -409,6 +409,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _level: 2
+  _currentPrice: 0
 --- !u!114 &4348125416612967815
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -422,7 +423,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _particle: {fileID: 8200928033471626935, guid: f5dbc0a3fd0d41b4fbd247e8001f4f95, type: 3}
-  _outlining: {fileID: 1501581367432823038}
 --- !u!1 &8795235395637670556
 GameObject:
   m_ObjectHideFlags: 0
