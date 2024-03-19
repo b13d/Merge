@@ -10,8 +10,7 @@ public class CoinManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _txtCountMoney;
     [SerializeField] private TextMeshProUGUI _txtBalance;
     [SerializeField] private ElementManager _elementManager;
-
-    [SerializeField] private TextMeshProUGUI[] _txtStatsCountMoney;
+    [SerializeField] private TextMeshProUGUI _txtIncome;
 
     private float _second = 1f;
 
@@ -30,21 +29,16 @@ public class CoinManager : MonoBehaviour
     {
         int sum = int.Parse(_txtCountMoney.text);
 
-        for (int i = 0; i < _pricesElements.Count; i++)
-        {
-            sum += _pricesElements[i] * _elementManager.ElementsLevels[i].count;
 
-            if (i < 2)
-            {
-                _txtStatsCountMoney[i].text =
-                    $"Элемент {i} уровня ({_elementManager.ElementsLevels[i].count}) приносит: {_pricesElements[i] * _elementManager.ElementsLevels[i].count}";
-            }
-        }
+        sum += GameManager.instance.ElementsManager.GetIncome;
+
+        _txtIncome.text = $"{GameManager.instance.ElementsManager.GetIncome} мон/сек";
 
         GameManager.instance.AmountOfMoney = sum;
         _txtCountMoney.text = sum.ToString();
         _txtBalance.text = sum.ToString();
     }
+
 
     public void UpdateUI()
     {

@@ -70,6 +70,8 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
+        Time.timeScale = 4f;
+        
         if (instance != null)
         {
             Destroy(gameObject);

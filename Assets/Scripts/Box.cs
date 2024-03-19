@@ -16,7 +16,7 @@ public class Box : MonoBehaviour, IPointerClickHandler
     
     public void OnPointerClick(PointerEventData pointerEventData)
     {
-        Debug.Log("Нажимаю на подарочек чтобы сломать");
+        // Debug.Log("Нажимаю на подарочек чтобы сломать");
         
         // GameManager.instance.SpawnBedsClear.ClearPlace(_placeIndex);
 

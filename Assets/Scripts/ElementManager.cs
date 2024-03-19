@@ -6,27 +6,37 @@ using UnityEngine;
 public class ElementManager : MonoBehaviour
 {
     [SerializeField] private GameObject _beds;
-    [SerializeField] private InfoObject _prefabLevelOne; 
-    
-    
+    [SerializeField] private InfoObject _prefabLevelOne;
+    [SerializeField] private int _currentIncrementPerSecond = 0;
+
     [Serializable]
     public struct ElementsLevelStruct
     {
         public string level;
         public int count;
+        public int income;
     }
 
     [SerializeField] private ElementsLevelStruct[] _elementsLevel;
 
+    public int GetIncome
+    {
+        get { return _currentIncrementPerSecond; }
+    }    
+    
     public ElementsLevelStruct[] ElementsLevels
     {
         get { return _elementsLevel; }
     }
 
-    public void CheckElements(int destroyElementLevel = 999)
+    public void CheckElements(int destroyElementLevel = 999, GameObject elementDelete = null, GameObject secondsElement = null, bool isLast = false)
     {
+        Debug.LogError("Проверяю элементы: " + elementDelete);
+
         ResetLevels();
         
+        _currentIncrementPerSecond = 0;
+
         for (int i = 0; i < _beds.transform.childCount; i++)
         {
             if (_beds.transform.GetChild(i).gameObject.activeSelf)
@@ -37,29 +47,30 @@ public class ElementManager : MonoBehaviour
                 {
                     if (place.GetChild(place.transform.childCount - 1).tag == "Element")
                     {
-                        var currentLevel = place.GetChild(place.transform.childCount - 1).GetComponent<InfoObject>().GetLevel;
+                        if (elementDelete != null)
+                        {
+                            if (elementDelete == place.GetChild(place.transform.childCount - 1).gameObject)
+                            {
+                                continue;
+                            }
+                        }
+
+                        if (secondsElement != null)
+                        {
+                            if (secondsElement == place.GetChild(place.transform.childCount - 1).gameObject && isLast)
+                            {
+                                continue;
+                            }
+                        }
+
+                        var currentLevel = place.GetChild(place.transform.childCount - 1).GetComponent<InfoObject>()
+                            .GetLevel;
                         _elementsLevel[currentLevel].count += 1;
+                        _currentIncrementPerSecond += _elementsLevel[currentLevel].income;
                     }
                 }
-            } 
-        }
-
-        if (destroyElementLevel != 999)
-        {
-            
-            // ЭТО УБРАТЬ
-            if (destroyElementLevel == 1)
-            {
-                _elementsLevel[destroyElementLevel].count -= 2;
-            }
-            else
-            {
-                _elementsLevel[destroyElementLevel].count -= 1;
             }
         }
-        
-        
-        // Debug.LogError("Проверка элементов");
     }
 
     void ResetLevels()

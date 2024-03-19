@@ -14,7 +14,7 @@ public class ObjectManagement : MonoBehaviour
 
 
     [SerializeField] private GameObject _particle;
-    
+
     private Sprite _bedHoverSprite;
     private Sprite _bedSprite;
 
@@ -23,7 +23,7 @@ public class ObjectManagement : MonoBehaviour
     private bool _canSwitch = false;
     private Transform _switchTo;
     private Vector3 newPosElement = new Vector3(0, 0, -2);
-
+    private GameObject _secondDeletedElement;
 
     private void Start()
     {
@@ -31,8 +31,6 @@ public class ObjectManagement : MonoBehaviour
         _bedSprite = GameManager.instance.BedSprite;
     }
 
-
-    
     private void FixedUpdate()
     {
         if (_returnElementOnPlace)
@@ -60,7 +58,7 @@ public class ObjectManagement : MonoBehaviour
         {
             return;
         }
-        
+
         if (col.tag == "Bed")
         {
             var place = col.transform.GetChild(0);
@@ -72,12 +70,12 @@ public class ObjectManagement : MonoBehaviour
                     return;
                 }
             }
-            
+
             if (!_isTouched)
             {
                 return;
             }
-            
+
             _canSwitch = true;
             col.GetComponent<Image>().sprite = _bedHoverSprite;
             _switchTo = col.transform;
@@ -89,7 +87,7 @@ public class ObjectManagement : MonoBehaviour
             {
                 return;
             }
-            
+
             if (col.gameObject.GetComponent<InfoObject>().GetLevel == gameObject.GetComponent<InfoObject>().GetLevel)
             {
                 _canSwitch = false;
@@ -133,74 +131,94 @@ public class ObjectManagement : MonoBehaviour
 
     private void OnMouseUp()
     {
+        if (!_isTouched)
+        {
+            return;
+        }
+
         _isTouched = false;
-        
-        Debug.Log("switchTo: " + _switchTo);
-        
+
+
         if (_canJoin)
         {
-            if (GameManager.instance.Objects.Count > gameObject.GetComponent<InfoObject>().GetLevel + 1)
-            {
-                GameObject newObject = GameManager.instance.Objects[gameObject.GetComponent<InfoObject>().GetLevel + 1];
-                // newObject.transform.localScale = new Vector3(9f, 9f, 9f);
-                var newElement = Instantiate(newObject, Vector3.zero, Quaternion.identity, _secondObject.transform.parent.transform);
-                newElement.transform.localPosition = newPosElement;
-            }
+            Join();
 
-            Destroy(_secondObject);
-            
-            var newParticle = Instantiate(_particle, transform.position, quaternion.identity);
-            newParticle.GetComponent<JoinParticle>().PlayParticle();
-
-            GameManager.instance.SpawnBedsClear.ClearBeds();
-            
-            GameManager.instance.ElementsManager.CheckElements(GetComponent<InfoObject>().GetLevel);
-            
-            Destroy(gameObject);
+            return;
         }
+
 
         if (_canSwitch)
         {
-            if (_switchTo != null)
-            {
-                if (_switchTo.GetChild(0).transform.childCount > 0)
-                {
-                    var secondElement = _switchTo.GetChild(0).GetChild(0);
-                    secondElement.parent = transform.parent;
-                    secondElement.localPosition = newPosElement;
-
-                    transform.parent = _switchTo.GetChild(0);
-                    transform.localPosition = newPosElement;
-                }
-                else
-                {
-                    transform.parent = _switchTo.GetChild(0);
-                    transform.localPosition = newPosElement;
-                }
-                
-            }
+            Switch();
         }
-        
+
+        Reset();
+    }
+
+    private void Reset()
+    {
         _canSwitch = false;
-        
         _isTouched = false;
-        
-        // Debug.LogError("canJoin: " + _canJoin);
 
-        if (_canJoin)
-        {
-            
-            GameManager.instance.ElementsManager.CheckElements(GetComponent<InfoObject>().GetLevel);
-        }
-        else
+        if (!_canJoin)
         {
             GameManager.instance.ElementsManager.CheckElements();
         }
 
         _canJoin = false;
-        
+
 
         GameManager.instance.SpawnBedsClear.ClearBeds();
         _returnElementOnPlace = true;
+    }
+
+    void Switch()
+    {
+        if (_switchTo != null)
+        {
+            if (_switchTo.GetChild(0).transform.childCount > 0)
+            {
+                var secondElement = _switchTo.GetChild(0).GetChild(0);
+                secondElement.parent = transform.parent;
+                secondElement.localPosition = newPosElement;
+
+                transform.parent = _switchTo.GetChild(0);
+                transform.localPosition = newPosElement;
+            }
+            else
+            {
+                transform.parent = _switchTo.GetChild(0);
+                transform.localPosition = newPosElement;
+            }
+        }
+    }
+
+    void Join()
+    {
+        // if (GameManager.instance.Objects.Count > gameObject.GetComponent<InfoObject>().GetLevel + 1)
+        if (!gameObject.GetComponent<InfoObject>().IsLastElement)
+        {
+            GameObject newObject = GameManager.instance.Objects[gameObject.GetComponent<InfoObject>().GetLevel + 1];
+            // newObject.transform.localScale = new Vector3(9f, 9f, 9f);
+            var newElement = Instantiate(newObject, Vector3.zero, Quaternion.identity,
+                _secondObject.transform.parent.transform);
+            newElement.transform.localPosition = newPosElement;
+
+            var newParticle = Instantiate(_particle, transform.position, quaternion.identity);
+            newParticle.GetComponent<JoinParticle>().PlayParticle();
+        }
+        else
+        {
+            Debug.LogError("Последний элемент!!");
+        }
+
+        GameManager.instance.SpawnBedsClear.ClearBeds();
+        GameManager.instance.ElementsManager.CheckElements(GetComponent<InfoObject>().GetLevel, gameObject,
+            _secondObject, true);
+
+        Destroy(_secondObject);
+        Destroy(gameObject);
+
+        Reset();
     }
 }

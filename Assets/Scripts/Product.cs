@@ -13,6 +13,9 @@ public class Product : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _txtCurrentIncome;
     [SerializeField] private TextMeshProUGUI _txtPrice;
     [SerializeField] private Button _button;
+    [SerializeField] private Image _image;
+    [SerializeField] private int _levelIndex;
+    [SerializeField] private int _bonus;
 
     private float _price = 0;
 
@@ -21,17 +24,28 @@ public class Product : MonoBehaviour
         _button.onClick.AddListener(BuyProduct);
     }
 
+    public int SetLevelIndex
+    {
+        set { _levelIndex = value; }
+    }
+    
+    public Sprite SetImage
+    {
+        set { _image.sprite = value; }
+    }
 
-
-
-
+    public int SetBonus
+    {
+        set { _bonus = value; }
+    }
+    
 
     [Serializable]
     public struct ProductStruct
     {
         public string title;
         public string currentIncome;
-        public float price;
+        public int price;
     }
 
 
@@ -40,6 +54,16 @@ public class Product : MonoBehaviour
         if (GameManager.instance.AmountOfMoney >= _price)
         {
             GameManager.instance.AmountOfMoney -= _price;
+
+            _price += Mathf.FloorToInt(_price / 100 * 50);
+
+            _txtPrice.text = $"{_price} $";
+
+            GameManager.instance.ElementsManager.ElementsLevels[_levelIndex].income += _bonus;
+            
+            _txtCurrentIncome.text = $"{GameManager.instance.ElementsManager.ElementsLevels[_levelIndex].income} в секунду";
+
+            GameManager.instance.ElementsManager.CheckElements();
             
             GameManager.instance.GetCoinManager.UpdateUI();
         }
@@ -49,6 +73,7 @@ public class Product : MonoBehaviour
         }
     }
 
+    
     public ProductStruct ProductProperty
     {
         get { return test; }
