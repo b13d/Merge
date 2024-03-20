@@ -56,6 +56,8 @@ public class ObjectManagement : MonoBehaviour
     {
         if (col.tag == "Box")
         {
+            _switchTo = null;
+            _canSwitch = false;
             return;
         }
 

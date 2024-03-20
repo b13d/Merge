@@ -31,6 +31,7 @@ public class ClickBed : MonoBehaviour, IPointerClickHandler
         if (_count == 0)
         {
             _stopClick = true;
+            GameManager.instance.ElementsManager.CheckElements();
             GameManager.instance.SpawnBedsClear.SpawnBox();
             StartCoroutine(Reset());
             return;
