@@ -54,12 +54,8 @@ public class ObjectManagement : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D col)
     {
-        Debug.LogError("ontriggerenter2d: " + col.tag);
-        
         if (col.tag == "Box")
         {
-            _switchTo = null;
-            _canSwitch = false;
             return;
         }
 
