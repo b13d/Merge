@@ -195,8 +195,11 @@ public class ObjectManagement : MonoBehaviour
 
     void Join()
     {
-        // if (GameManager.instance.Objects.Count > gameObject.GetComponent<InfoObject>().GetLevel + 1)
-        if (!gameObject.GetComponent<InfoObject>().IsLastElement)
+        GameManager.instance.GetLevelManager.AddExp();
+        
+        // тестовый код, на проверку последнего элемента зависящего от текущего уровня игрока
+        // !gameObject.GetComponent<InfoObject>().IsLastElement
+        if (GameManager.instance.GetLevelManager.GetLevelPlayer >= gameObject.GetComponent<InfoObject>().GetLevel)
         {
             GameObject newObject = GameManager.instance.Objects[gameObject.GetComponent<InfoObject>().GetLevel + 1];
             // newObject.transform.localScale = new Vector3(9f, 9f, 9f);

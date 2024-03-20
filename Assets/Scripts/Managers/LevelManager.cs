@@ -11,50 +11,28 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _txtExp;
     [SerializeField] private TextMeshProUGUI _txtLevel;
     [SerializeField] private SpawnBeds _spawnBeds;
-    
-    private int _count;
-    private float _second = 1f;
+
+    private int _exp;
     private int _level;
     private bool _allActiveBeds;
 
     private void Start()
     {
         _txtLevel.text = _level.ToString();
+        _txtExp.text = $"{_exp} / {_sliderExp.maxValue}";
     }
 
-    private void Update()
+    #region Properties
+
+    public int GetLevelPlayer
     {
-        _second -= Time.deltaTime;
+        get { return _level; }
     }
 
-    void FixedUpdate()
-    {
-        if (_second < 0)
-        {
-            _second = 1f;
-            
-            _count += 1;
+    #endregion
 
-            _txtExp.text = $"{_count} / {_sliderExp.maxValue}";
-            
-            _sliderExp.value = _count;
-            
-            if (_count >= _sliderExp.maxValue)
-            {
-                _level += 1;
-                _count = 0;
-                _sliderExp.maxValue += 10;
-                
-                _txtLevel.text = _level.ToString();
-
-                if (!_allActiveBeds)
-                {
-                    ActiveBed();
-                }
-            }
-        }
-    }
-
+    #region Methods
+    
     public void ActiveBed()
     {
         for (int i = 0; i < _spawnBeds.PlaceBeds.Count; i++)
@@ -64,9 +42,45 @@ public class LevelManager : MonoBehaviour
                 _spawnBeds.PlaceBeds[i].transform.parent.gameObject.SetActive(true);
 
                 _spawnBeds.CheckBedsOnVoid();
-                
+
                 return;
             }
-        } 
+        }
     }
+
+    public void AddExp()
+    {
+        _exp += 1;
+        _sliderExp.value = _exp;
+        
+        if (_exp >= _sliderExp.maxValue)
+        {
+            _exp = 0;
+            _sliderExp.maxValue += 10;
+            _sliderExp.value = 0;
+
+            AddLevel();
+
+            if (!_allActiveBeds)
+            {
+                ActiveBed();
+            }
+        }
+        
+        _txtExp.text = $"{_exp} / {_sliderExp.maxValue}";
+    }
+
+    public void AddLevel()
+    {
+        _level += 1;
+        _txtLevel.text = _level.ToString();
+    }
+    
+
+    #endregion
+    
+
+    
+    
+
 }

@@ -11,11 +11,17 @@ public class GameManager : MonoBehaviour
     [SerializeField] private SpawnBeds _spawnBeds;
     [SerializeField] private ElementManager _elementManager;
     [SerializeField] private CoinManager _coinManager;
+    [SerializeField] private LevelManager _levelManager;
     
     private bool _isFull;
     private float amountOfMoney = 0;
 
 
+    public LevelManager GetLevelManager
+    {
+        get { return _levelManager; }
+    }
+    
     public CoinManager GetCoinManager
     {
         get { return _coinManager; }
