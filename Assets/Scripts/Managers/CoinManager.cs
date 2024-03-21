@@ -17,10 +17,11 @@ public class CoinManager : MonoBehaviour
     private float _second = 1f;
     private int sum;
 
-    private void Awake()
+    private void Start()
     {
         _txtBalance.text = YandexGame.savesData.money.ToString();
         _txtCountMoney.text = YandexGame.savesData.money.ToString();
+        sum = YandexGame.savesData.money;
     }
 
     private void Update()
@@ -37,8 +38,6 @@ public class CoinManager : MonoBehaviour
     void CollectionOfMoney()
     {
         sum = int.Parse(_txtCountMoney.text);
-
-
         sum += GameManager.instance.ElementsManager.GetIncome;
 
         _txtIncome.text = $"{GameManager.instance.ElementsManager.GetIncome} мон/сек";
@@ -46,6 +45,8 @@ public class CoinManager : MonoBehaviour
         GameManager.instance.AmountOfMoney = sum;
         _txtCountMoney.text = sum.ToString();
         _txtBalance.text = sum.ToString();
+        
+        // Debug.LogError("money: " + sum);
     }
 
     public int GetMoney

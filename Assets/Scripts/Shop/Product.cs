@@ -17,7 +17,7 @@ public class Product : MonoBehaviour
     [SerializeField] private int _levelIndex;
     [SerializeField] private int _bonus;
 
-    private float _price = 0;
+    private int _price = 0;
 
     private void Start()
     {
@@ -55,7 +55,7 @@ public class Product : MonoBehaviour
         {
             GameManager.instance.AmountOfMoney -= _price;
 
-            _price += Mathf.FloorToInt(_price / 100 * 50);
+            _price += Mathf.FloorToInt( (float)_price / 100 * 50);
 
             _txtPrice.text = $"{_price} $";
 

@@ -17,7 +17,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Prefabs _prefabs;
 
     private bool _isFull;
-    private float amountOfMoney = 0;
+    private int amountOfMoney = 0;
 
     public static GameManager instance = null;
 
@@ -27,6 +27,10 @@ public class GameManager : MonoBehaviour
 
     private void FixedUpdate()
     {
+        
+        // Debug.Log("amountOfMoney: " + amountOfMoney);
+        // Debug.Log("YandexGame.saveData.money: " + YandexGame.savesData.money);
+        
         _seconds -= Time.deltaTime;
 
         if (_seconds < 0)
@@ -54,7 +58,7 @@ public class GameManager : MonoBehaviour
         get { return _coinManager; }
     }
 
-    public float AmountOfMoney
+    public int AmountOfMoney
     {
         get { return amountOfMoney; }
         set { amountOfMoney = value; }
@@ -150,12 +154,14 @@ public class GameManager : MonoBehaviour
     {
         // YandexGame.ResetSaveProgress();
         // YandexGame.SaveProgress();
+
+        amountOfMoney = YandexGame.savesData.money;
         
         if (YandexGame.savesData._elementsList.Count > 0)
         {
             int i = 0;
 
-            Debug.LogError("YandexGame.savesData.levelPlayer: " + YandexGame.savesData.levelPlayer);
+            // Debug.LogError("YandexGame.savesData.levelPlayer: " + YandexGame.savesData.levelPlayer);
             
             foreach (var value in YandexGame.savesData._elementsList)
             {
@@ -195,9 +201,5 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void SaveProgressPlayer()
-    {
-        YandexGame.savesData.money = _coinManager.GetMoney;
-        // YandexGame.savesData.incomeMoney = ElementsManager.GetIncome;
-    }
+
 }

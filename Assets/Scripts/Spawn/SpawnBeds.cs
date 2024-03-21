@@ -20,11 +20,6 @@ public class SpawnBeds : MonoBehaviour
     // показывает сколько скрыто, чтобы ориентироваться только на видимые
     // грядки
 
-    private void Update()
-    {
-        Debug.Log("isFull: " + GameManager.instance.GetFull);
-    }
-
     public List<GameObject> PlaceBeds
     {
         get { return _placeBeds; }
@@ -110,6 +105,8 @@ public class SpawnBeds : MonoBehaviour
             }
         }
 
+        // Debug.Log("_clearPlace.count: " + _clearPlace.Count);
+        
         if (_clearPlace.Count == 1)
         {
             GameManager.instance.GetFull = true;

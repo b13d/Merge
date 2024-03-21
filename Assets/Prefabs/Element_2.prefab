@@ -98,6 +98,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _level: 1
   _currentPrice: 20
+  _isLastElement: 0
 --- !u!114 &948813175938783561
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -152,7 +153,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 25
-  m_Sprite: {fileID: 21300000, guid: 8afa1d01ad6a52a40b2c46cf99993151, type: 3}
+  m_Sprite: {fileID: 21300000, guid: ab4444ffc9984df4fbb9d4d490b40679, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
