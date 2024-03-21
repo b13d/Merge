@@ -5,6 +5,8 @@ using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using YG;
+using System.Linq;
 
 public class ObjectManagement : MonoBehaviour
 {
@@ -168,10 +170,12 @@ public class ObjectManagement : MonoBehaviour
         }
 
         _canJoin = false;
-
-
+        
         GameManager.instance.SpawnBedsClear.ClearBeds();
+
         _returnElementOnPlace = true;
+        
+        GameManager.instance.SavePositionElement();
     }
 
     void Switch()
@@ -198,7 +202,7 @@ public class ObjectManagement : MonoBehaviour
     void Join()
     {
         GameManager.instance.GetLevelManager.AddExp();
-        
+
         // тестовый код, на проверку последнего элемента зависящего от текущего уровня игрока
         // !gameObject.GetComponent<InfoObject>().IsLastElement
         if (GameManager.instance.GetLevelManager.GetLevelPlayer >= gameObject.GetComponent<InfoObject>().GetLevel)
@@ -221,9 +225,11 @@ public class ObjectManagement : MonoBehaviour
         GameManager.instance.ElementsManager.CheckElements(GetComponent<InfoObject>().GetLevel, gameObject,
             _secondObject, true);
 
+
+        
         Destroy(_secondObject);
         Destroy(gameObject);
-
-        Reset();
+        // Reset();
+        return;
     }
 }

@@ -3542,7 +3542,7 @@ MonoBehaviour:
   m_Direction: 0
   m_MinValue: 0
   m_MaxValue: 10
-  m_WholeNumbers: 0
+  m_WholeNumbers: 1
   m_Value: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -4700,6 +4700,7 @@ MonoBehaviour:
   _elementManager: {fileID: 406084209}
   _coinManager: {fileID: 188050404}
   _levelManager: {fileID: 583412860}
+  _prefabs: {fileID: 1586812335}
 --- !u!4 &1313207156
 Transform:
   m_ObjectHideFlags: 0
@@ -5715,6 +5716,60 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1579095104}
   m_CullTransparentMesh: 1
+--- !u!1 &1586812333
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1586812334}
+  - component: {fileID: 1586812335}
+  m_Layer: 0
+  m_Name: PrefabsElement
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1586812334
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1586812333}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 16
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1586812335
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1586812333}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a847ece473b5d44fbfdd205394afbca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _elements:
+  - {fileID: 6666551518534719408, guid: 8eb159299eec7604fb716f1596d27393, type: 3}
+  - {fileID: 1942018143656597089, guid: bdd87059579cf56498517f476cd24b1a, type: 3}
+  - {fileID: 1942018143656597089, guid: 3b5b64686e3c6b542acfc49750db2379, type: 3}
+  - {fileID: 1942018143656597089, guid: 13de89bdca2ee634fbb94d55143241db, type: 3}
+  - {fileID: 1942018143656597089, guid: 728d6717c3bcf2a4a845be9b0114c4e8, type: 3}
+  - {fileID: 1942018143656597089, guid: 26459b5428a70da4792f7b47134b2731, type: 3}
+  - {fileID: 1942018143656597089, guid: e84a12f34204c3b4b988d7f11a0f2e22, type: 3}
+  - {fileID: 1942018143656597089, guid: c86e0eeac3e3a4a4daf311a89ddb0826, type: 3}
+  _box: {fileID: 1942018143656597089, guid: f5279d9600dd97e429fb31d8e6d74162, type: 3}
 --- !u!1001 &1609754165
 PrefabInstance:
   m_ObjectHideFlags: 0

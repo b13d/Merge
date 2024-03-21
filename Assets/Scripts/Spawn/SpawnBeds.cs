@@ -1,7 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 public class SpawnBeds : MonoBehaviour
 {
@@ -18,10 +20,21 @@ public class SpawnBeds : MonoBehaviour
     // показывает сколько скрыто, чтобы ориентироваться только на видимые
     // грядки
 
+    private void Update()
+    {
+        Debug.Log("isFull: " + GameManager.instance.GetFull);
+    }
+
     public List<GameObject> PlaceBeds
     {
         get { return _placeBeds; }
     }
+
+    public int SetPlaceBusy
+    {
+        set { _placeBusy[value] = 1; }
+    }
+    
     
     public void ClearBeds()
     {
@@ -115,5 +128,7 @@ public class SpawnBeds : MonoBehaviour
         var newBox = Instantiate(_box, transform.position, Quaternion.identity, _placeBeds[_clearPlace[rnd]].transform);
         newBox.transform.localPosition = new Vector3(0, 0, 2f);
         newBox.GetComponent<Box>().SetIndex = _clearPlace[rnd];
+        
+        GameManager.instance.SavePositionElement();
     }
 }

@@ -2,7 +2,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
+using YG;
 
 public class CoinManager : MonoBehaviour
 {
@@ -13,6 +15,13 @@ public class CoinManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _txtIncome;
 
     private float _second = 1f;
+    private int sum;
+
+    private void Awake()
+    {
+        _txtBalance.text = YandexGame.savesData.money.ToString();
+        _txtCountMoney.text = YandexGame.savesData.money.ToString();
+    }
 
     private void Update()
     {
@@ -27,7 +36,7 @@ public class CoinManager : MonoBehaviour
 
     void CollectionOfMoney()
     {
-        int sum = int.Parse(_txtCountMoney.text);
+        sum = int.Parse(_txtCountMoney.text);
 
 
         sum += GameManager.instance.ElementsManager.GetIncome;
@@ -39,7 +48,10 @@ public class CoinManager : MonoBehaviour
         _txtBalance.text = sum.ToString();
     }
 
-
+    public int GetMoney
+    {
+        get { return sum; }
+    }
     public void UpdateUI()
     {
         _txtBalance.text = GameManager.instance.AmountOfMoney.ToString();

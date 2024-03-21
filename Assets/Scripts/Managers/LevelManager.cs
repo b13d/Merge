@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using YG;
 
 public class LevelManager : MonoBehaviour
 {
@@ -14,13 +15,29 @@ public class LevelManager : MonoBehaviour
 
     private int _exp;
     private int _level;
+    private int _countActiveBeds = 3;
     private bool _allActiveBeds;
 
-    private void Start()
+
+    private void Awake()
     {
-        _txtLevel.text = _level.ToString();
+        _level = YandexGame.savesData.levelPlayer;
+        _exp = YandexGame.savesData.countExp;
+        _sliderExp.maxValue = YandexGame.savesData.maxValueSlider;
+        _sliderExp.value = _exp;
+        _countActiveBeds = YandexGame.savesData.countActiveBeds;
+
         _txtExp.text = $"{_exp} / {_sliderExp.maxValue}";
+        _txtLevel.text = _level.ToString();
+
+        for (int i = 0; i < _countActiveBeds; i++)
+        {
+            _spawnBeds.PlaceBeds[i].transform.parent.gameObject.SetActive(true);
+        }
+        
+        _spawnBeds.CheckBedsOnVoid();
     }
+
 
     #region Properties
 
@@ -32,7 +49,7 @@ public class LevelManager : MonoBehaviour
     #endregion
 
     #region Methods
-    
+
     public void ActiveBed()
     {
         for (int i = 0; i < _spawnBeds.PlaceBeds.Count; i++)
@@ -43,16 +60,27 @@ public class LevelManager : MonoBehaviour
 
                 _spawnBeds.CheckBedsOnVoid();
 
+                _countActiveBeds += 1;
+                
+                YandexGame.savesData.countActiveBeds = _countActiveBeds;
+                
+                YandexGame.SaveProgress();
+
                 return;
             }
         }
+    }
+
+    public int GetCountActiveBeds
+    {
+        get { return _countActiveBeds; }
     }
 
     public void AddExp()
     {
         _exp += 1;
         _sliderExp.value = _exp;
-        
+
         if (_exp >= _sliderExp.maxValue)
         {
             _exp = 0;
@@ -66,21 +94,24 @@ public class LevelManager : MonoBehaviour
                 ActiveBed();
             }
         }
-        
+
         _txtExp.text = $"{_exp} / {_sliderExp.maxValue}";
+
+        YandexGame.savesData.countExp = _exp;
+        YandexGame.savesData.maxValueSlider = _sliderExp.maxValue;
+
+        YandexGame.SaveProgress();
     }
 
     public void AddLevel()
     {
         _level += 1;
         _txtLevel.text = _level.ToString();
+
+        YandexGame.savesData.levelPlayer = _level;
+
+        YandexGame.SaveProgress();
     }
-    
 
     #endregion
-    
-
-    
-    
-
 }

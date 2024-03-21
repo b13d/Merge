@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using YG;
 
 public class ElementManager : MonoBehaviour
 {
@@ -18,6 +19,11 @@ public class ElementManager : MonoBehaviour
     }
 
     [SerializeField] private ElementsLevelStruct[] _elementsLevel;
+
+    // private void Awake()
+    // {
+    //    _currentIncrementPerSecond = YandexGame.savesData.incomeMoney;
+    // }
 
     public int GetIncome
     {

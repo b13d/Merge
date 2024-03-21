@@ -1,0 +1,40 @@
+{
+    "idSave": 8,
+    "isFirstSession": false,
+    "language": "ru",
+    "promptDone": false,
+    "_elementsList": [
+        {
+            "instanceID": 24924
+        },
+        {
+            "instanceID": 24970
+        },
+        {
+            "instanceID": 24928
+        },
+        {
+            "instanceID": 0
+        },
+        {
+            "instanceID": 0
+        },
+        {
+            "instanceID": 0
+        },
+        {
+            "instanceID": 0
+        },
+        {
+            "instanceID": 0
+        },
+        {
+            "instanceID": 0
+        }
+    ],
+    "money": 0,
+    "levelPlayer": 0,
+    "countExp": 3,
+    "maxValueSlider": 10.0,
+    "countActiveBeds": 3
+}
