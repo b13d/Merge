@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 using YG;
 
 public class GameManager : MonoBehaviour
@@ -27,10 +28,9 @@ public class GameManager : MonoBehaviour
 
     private void FixedUpdate()
     {
-        
         // Debug.Log("amountOfMoney: " + amountOfMoney);
         // Debug.Log("YandexGame.saveData.money: " + YandexGame.savesData.money);
-        
+
         _seconds -= Time.deltaTime;
 
         if (_seconds < 0)
@@ -118,20 +118,19 @@ public class GameManager : MonoBehaviour
         {
             if (_placeBeds[i] != null)
             {
-                if (_placeBeds[i].transform.parent.gameObject.activeSelf)
+
+
+                if (_placeBeds[i].transform.childCount > 0)
                 {
-                    if (_placeBeds[i].transform.childCount > 0)
+                    if (_placeBeds[i].transform.GetChild(0).GetComponent<InfoObject>() != null)
                     {
-                        if (_placeBeds[i].transform.GetChild(0).GetComponent<InfoObject>() != null)
-                        {
-                            dictionaryElements[i] =
-                                GetPrefabs.GetElements[
-                                    _placeBeds[i].transform.GetChild(0).GetComponent<InfoObject>().GetLevel];
-                        }
-                        else
-                        {
-                            dictionaryElements[i] = GetPrefabs.GetBox;
-                        }
+                        dictionaryElements[i] =
+                            GetPrefabs.GetElements[
+                                _placeBeds[i].transform.GetChild(0).GetComponent<InfoObject>().GetLevel];
+                    }
+                    else
+                    {
+                        dictionaryElements[i] = GetPrefabs.GetBox;
                     }
                 }
             }
@@ -140,10 +139,7 @@ public class GameManager : MonoBehaviour
         YandexGame.savesData._elementsList = dictionaryElements;
 
 
-        // foreach (var value in dictionaryElements.Values)
-        // {
-        //     Debug.LogError(value);
-        // }
+
 
         YandexGame.SaveProgress();
     }
@@ -156,13 +152,11 @@ public class GameManager : MonoBehaviour
         // YandexGame.SaveProgress();
 
         amountOfMoney = YandexGame.savesData.money;
-        
+
         if (YandexGame.savesData._elementsList.Count > 0)
         {
             int i = 0;
 
-            // Debug.LogError("YandexGame.savesData.levelPlayer: " + YandexGame.savesData.levelPlayer);
-            
             foreach (var value in YandexGame.savesData._elementsList)
             {
                 if (value != null)
@@ -170,7 +164,7 @@ public class GameManager : MonoBehaviour
                     value.transform.localPosition = new Vector3(0, 0, -2f);
 
                     Instantiate(value, _spawnBeds.PlaceBeds[i].transform, false);
-                    
+
                     // Instantiate(newElement, transform.position, Quaternion.identity, );
 
                     _spawnBeds.SetPlaceBusy = i;
@@ -178,8 +172,6 @@ public class GameManager : MonoBehaviour
 
                 i++;
             }
-
-            // _spawnBeds.PlaceBeds = YandexGame.savesData._elementsList;
         }
     }
 
@@ -200,6 +192,4 @@ public class GameManager : MonoBehaviour
             DontDestroyOnLoad(gameObject);
         }
     }
-
-
 }

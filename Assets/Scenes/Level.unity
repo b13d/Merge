@@ -318,6 +318,7 @@ MonoBehaviour:
   _placeElements: {fileID: 452514284}
   _defaultSpriteBed: {fileID: 21300000, guid: 2676c5a60605e7645bb0665435ad3492, type: 3}
   _box: {fileID: 1942018143656597089, guid: f5279d9600dd97e429fb31d8e6d74162, type: 3}
+  _bedCloseSprite: {fileID: 21300000, guid: 035277b6f549ee745be3c6045b4cf466, type: 3}
 --- !u!1 &45376340
 GameObject:
   m_ObjectHideFlags: 0
@@ -459,7 +460,7 @@ MonoBehaviour:
   m_StartCorner: 0
   m_StartAxis: 0
   m_CellSize: {x: 100, y: 100}
-  m_Spacing: {x: 237.8, y: 194.43}
+  m_Spacing: {x: 237.7, y: 245.3}
   m_Constraint: 1
   m_ConstraintCount: 3
 --- !u!1 &70801487
@@ -1390,7 +1391,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: -338.62}
+  m_AnchoredPosition: {x: 0, y: -381}
   m_SizeDelta: {x: 168.5, y: -916.76}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &379388823
@@ -1680,7 +1681,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _beds: {fileID: 56533546}
-  _prefabLevelOne: {fileID: 6556687730284863553, guid: 8eb159299eec7604fb716f1596d27393, type: 3}
+  _prefabLevelOne: {fileID: 1042493585112267018, guid: 3b5b64686e3c6b542acfc49750db2379, type: 3}
   _currentIncrementPerSecond: 0
   _elementsLevel:
   - level: level_1
@@ -3247,10 +3248,10 @@ RectTransform:
   m_Father: {fileID: 1402175557}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 1}
-  m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: -132, y: -1031}
-  m_SizeDelta: {x: 319.41, y: 72.72}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 172, y: 49}
+  m_SizeDelta: {x: 319.41, y: 72.71997}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &824049620
 MonoBehaviour:

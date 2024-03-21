@@ -54,9 +54,9 @@ public class LevelManager : MonoBehaviour
     {
         for (int i = 0; i < _spawnBeds.PlaceBeds.Count; i++)
         {
-            if (!_spawnBeds.PlaceBeds[i].transform.parent.gameObject.activeSelf)
+            if (_spawnBeds.PlaceBeds[i].transform.parent.GetComponent<Bed>().GetIsCloseBed)
             {
-                _spawnBeds.PlaceBeds[i].transform.parent.gameObject.SetActive(true);
+                _spawnBeds.PlaceBeds[i].transform.parent.GetComponent<Bed>().GetIsCloseBed = false;
 
                 _spawnBeds.CheckBedsOnVoid();
 

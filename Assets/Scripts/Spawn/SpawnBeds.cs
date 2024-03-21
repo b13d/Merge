@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using YG;
 using Random = UnityEngine.Random;
 
 public class SpawnBeds : MonoBehaviour
@@ -14,11 +15,37 @@ public class SpawnBeds : MonoBehaviour
     [SerializeField] private Sprite _defaultSpriteBed;
     [SerializeField] private GameObject _box;
 
+    [SerializeField] private Sprite _bedCloseSprite;
+
     private int _countElements = 0;
 
     // Тут еще надо добавить лист который или что-то типо того, который
     // показывает сколько скрыто, чтобы ориентироваться только на видимые
     // грядки
+
+    private void Start()
+    {
+        InitialBeds();
+    }
+
+    public void InitialBeds()
+    {
+        for (int i = 0; i < _placeBeds.Count; i++)
+        {
+            if (i < YandexGame.savesData.levelPlayer + 3)
+            {
+                // делаю грядку активной
+            }
+            else
+            {
+                // делаю грядку НЕ активной
+        
+                _placeBeds[i].transform.parent.GetComponent<Image>().sprite = _bedCloseSprite;
+                _placeBeds[i].transform.parent.GetComponent<Bed>().GetIsCloseBed = true;
+            }
+        }
+
+    }
 
     public List<GameObject> PlaceBeds
     {
@@ -35,7 +62,16 @@ public class SpawnBeds : MonoBehaviour
     {
         for (int i = 0; i < _placeBeds.Count; i++)
         {
-            _placeBeds[i].transform.parent.GetComponent<Image>().sprite = _defaultSpriteBed;
+            if (_placeBeds[i].transform.parent.GetComponent<Bed>().GetIsCloseBed)
+            {
+                _placeBeds[i].transform.parent.GetComponent<Image>().sprite = _bedCloseSprite;
+            }
+            else
+            {
+                _placeBeds[i].transform.parent.GetComponent<Image>().sprite = _defaultSpriteBed;
+            }
+
+            
         }
 
         StopCoroutine(WaitClearBeds());
@@ -51,17 +87,17 @@ public class SpawnBeds : MonoBehaviour
 
     public void CheckBedsOnVoid()
     {
+        _countElements = 0;
+        
         List<int> _activeBeds = new List<int>();
 
         for (int j = 0; j < _placeBeds.Count; j++)
         {
-            if (_placeBeds[j].transform.parent.gameObject.activeSelf)
+            if (!_placeBeds[j].transform.parent.GetComponent<Bed>().GetIsCloseBed)
             {
                 _activeBeds.Add(j);
             }
         }
-        
-        
         
         for (int i = 0; i < _activeBeds.Count; i++)
         {
@@ -69,7 +105,10 @@ public class SpawnBeds : MonoBehaviour
             {
                 _placeBusy[i] = 0;
 
-                GameManager.instance.GetFull = false;
+                if (GameManager.instance != null)
+                {
+                    GameManager.instance.GetFull = false;
+                }
             }
             else
             {
@@ -77,6 +116,9 @@ public class SpawnBeds : MonoBehaviour
                 _placeBusy[i] = 1;
             }
         }
+        
+        
+        Debug.Log("countElement: " + _countElements);
 
         if (_countElements == _activeBeds.Count)
         {
@@ -91,7 +133,7 @@ public class SpawnBeds : MonoBehaviour
 
         for (int j = 0; j < _placeBeds.Count; j++)
         {
-            if (_placeBeds[j].transform.parent.gameObject.activeSelf)
+            if (!_placeBeds[j].transform.parent.GetComponent<Bed>().GetIsCloseBed)
             {
                 _activeBeds.Add(j);
             }

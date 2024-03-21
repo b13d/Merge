@@ -11,7 +11,7 @@ public class SpawnProducts : MonoBehaviour
 
     [SerializeField] private List<Sprite> _spritesElement; 
     
-    private int _countProducts = 8;    
+    private int _countProducts = 6;    
     
     void Start()
     {

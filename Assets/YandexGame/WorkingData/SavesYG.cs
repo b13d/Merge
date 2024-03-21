@@ -22,7 +22,7 @@ namespace YG
 
         public List<GameObject> _elementsList = new List<GameObject>(9) {null,null,null,null,null,null,null,null,null };
         
-        public Dictionary<int, GameObject> elements = new Dictionary<int, GameObject>(7);
+        public Dictionary<int, GameObject> elements = new Dictionary<int, GameObject>(9);
         
         public int money;
 

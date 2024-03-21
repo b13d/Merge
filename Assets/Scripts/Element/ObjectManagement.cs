@@ -65,6 +65,11 @@ public class ObjectManagement : MonoBehaviour
 
         if (col.tag == "Bed")
         {
+            if (col.GetComponent<Bed>().GetIsCloseBed)
+            {
+                return;
+            }
+            
             var place = col.transform.GetChild(0);
 
             if (place.childCount > 0)
@@ -106,6 +111,11 @@ public class ObjectManagement : MonoBehaviour
     {
         if (other.tag == "Bed")
         {
+            if (other.GetComponent<Bed>().GetIsCloseBed)
+            {
+                return;
+            }
+            
             if (other.transform == _switchTo)
             {
                 _switchTo = null;
