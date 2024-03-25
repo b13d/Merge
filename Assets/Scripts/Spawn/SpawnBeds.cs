@@ -128,8 +128,6 @@ public class SpawnBeds : MonoBehaviour
 
     public void SpawnBox()
     {
-        Debug.Log("Спавн коробки!");
-        
         List<int> _clearPlace = new List<int>();
         List<int> _activeBeds = new List<int>();
 

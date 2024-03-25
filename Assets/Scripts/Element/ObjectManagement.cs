@@ -25,9 +25,12 @@ public class ObjectManagement : MonoBehaviour
     private bool _returnElementOnPlace = false;
     private bool _canSwitch = false;
     private Transform _switchTo;
-    private Vector3 newPosElement = new Vector3(0, 4.7f, -2);
+    private Vector3 _newPosElement = new Vector3(0, 4.7f, -2);
     private GameObject _secondDeletedElement;
 
+    public int interpolationFramesCount = 90; // Number of frames to completely interpolate between the 2 positions
+    int elapsedFrames = 0;
+    
     private void Start()
     {
         _bedHoverSprite = GameManager.instance.BedHoverSprite;
@@ -38,12 +41,17 @@ public class ObjectManagement : MonoBehaviour
     {
         if (_returnElementOnPlace)
         {
-            transform.localPosition = Vector3.Lerp(transform.localPosition, _lastPos, .4f);
+            float interpolationRatio = (float)elapsedFrames / interpolationFramesCount;
+            
+            transform.localPosition = Vector3.Lerp(transform.localPosition, _newPosElement, interpolationRatio);
 
-            if (transform.localPosition == _lastPos)
+            elapsedFrames = (elapsedFrames + 1) % (interpolationFramesCount + 1); 
+            
+            if (transform.localPosition == _newPosElement)
             {
-                _lastPos = Vector3.zero;
+                // _lastPos = Vector3.zero;
                 _returnElementOnPlace = false;
+                elapsedFrames = 0;
             }
         }
 
@@ -164,6 +172,8 @@ public class ObjectManagement : MonoBehaviour
 
     private void OnMouseDown()
     {
+        elapsedFrames = 0;
+        _returnElementOnPlace = false;
         _lastPos = transform.localPosition;
         _isTouched = true;
     }
@@ -234,10 +244,10 @@ public class ObjectManagement : MonoBehaviour
                 
                 var secondElement = _switchTo.GetChild(0).GetChild(0);
                 secondElement.parent = transform.parent;
-                secondElement.localPosition = newPosElement;
+                secondElement.localPosition = _newPosElement;
 
                 transform.parent = _switchTo.GetChild(0);
-                transform.localPosition = newPosElement;
+                transform.localPosition = _newPosElement;
             }
             else if (_switchTo.gameObject.tag == "Element")
             {
@@ -250,19 +260,19 @@ public class ObjectManagement : MonoBehaviour
                 
                 var secondElement = _switchTo;
                 secondElement.parent = transform.parent;
-                secondElement.localPosition = newPosElement;
+                secondElement.localPosition = _newPosElement;
 
                 Debug.Log($"После {_switchTo.parent}");
                 
                 transform.parent = oldParent;
-                transform.localPosition = newPosElement;
+                transform.localPosition = _newPosElement;
             }
             else if (_switchTo.gameObject.tag == "Bed")
             {
                 Debug.Log("Обычное перемещение");
                 
                 transform.parent = _switchTo.GetChild(0);
-                transform.localPosition = newPosElement;
+                transform.localPosition = _newPosElement;
             }
         }
     }
@@ -281,7 +291,7 @@ public class ObjectManagement : MonoBehaviour
                 // newObject.transform.localScale = new Vector3(9f, 9f, 9f);
                 var newElement = Instantiate(newObject, Vector3.zero, Quaternion.identity,
                     _secondObject.transform.parent.transform);
-                newElement.transform.localPosition = newPosElement;
+                newElement.transform.localPosition = _newPosElement;
 
                 var newParticle = Instantiate(_particle, transform.position, quaternion.identity);
                 newParticle.GetComponent<JoinParticle>().PlayParticle();
