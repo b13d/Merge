@@ -58,6 +58,10 @@ public class LevelManager : MonoBehaviour
             {
                 _spawnBeds.PlaceBeds[i].transform.parent.GetComponent<Bed>().GetIsCloseBed = false;
 
+                _spawnBeds.PlaceBeds[i].transform.parent.gameObject.layer = 0;
+
+                _spawnBeds.PlaceBeds[i].transform.parent.GetComponent<Image>().sprite = GameManager.instance.BedSprite;
+                
                 _spawnBeds.CheckBedsOnVoid();
 
                 _countActiveBeds += 1;
@@ -84,7 +88,9 @@ public class LevelManager : MonoBehaviour
         if (_exp >= _sliderExp.maxValue)
         {
             _exp = 0;
-            _sliderExp.maxValue += 10;
+
+            // тут вернуть надо будет
+            // _sliderExp.maxValue += 10;
             _sliderExp.value = 0;
 
             AddLevel();

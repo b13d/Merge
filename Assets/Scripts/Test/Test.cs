@@ -5,18 +5,13 @@ using UnityEngine;
 
 public class Test : MonoBehaviour
 {
+    [SerializeField] private Test2 _test2;
    
     void Start()
     {
-        Debug.LogError("Script before Test");
-
-        Debug.LogError("Script after Test");
-
-
-        for (int i = 0; i < 10000; i++)
-        {
-            Debug.LogError(i);
-        }
+        StartCoroutine(_test2.CoroutineStart());
+        
+        Destroy(this, 1f);
     }
 
 }

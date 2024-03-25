@@ -37,8 +37,6 @@ public class ElementManager : MonoBehaviour
 
     public void CheckElements(int destroyElementLevel = 999, GameObject elementDelete = null, GameObject secondsElement = null, bool isLast = false)
     {
-        Debug.LogError("Проверяю элементы: " + elementDelete);
-
         ResetLevels();
         
         _currentIncrementPerSecond = 0;

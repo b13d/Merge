@@ -12,7 +12,7 @@ public class ClickBed : MonoBehaviour, IPointerClickHandler
     private int _count = 10;
     private bool _stopClick;
     private float _oneSecond = 1f;
-    
+
     [SerializeField] private TextMeshProUGUI _txtCount;
 
     private void Start()
@@ -23,6 +23,8 @@ public class ClickBed : MonoBehaviour, IPointerClickHandler
 
     private void Update()
     {
+        // Debug.Log("_stopClick: " + _stopClick);
+
         if (_stopClick || GameManager.instance.GetFull)
         {
             return;
@@ -32,15 +34,18 @@ public class ClickBed : MonoBehaviour, IPointerClickHandler
         {
             _stopClick = true;
             GameManager.instance.ElementsManager.CheckElements();
+
+            // Выключил спавн коробки!
             GameManager.instance.SpawnBedsClear.SpawnBox();
+
             StartCoroutine(Reset());
             return;
         }
-        
+
         _image.fillAmount += Time.deltaTime / 8;
-        
+
         _count = 10 - (int)(_image.fillAmount / 0.1);
-        
+
         _txtCount.text = _count.ToString();
     }
 
@@ -50,8 +55,6 @@ public class ClickBed : MonoBehaviour, IPointerClickHandler
         {
             return;
         }
-        
-        Debug.Log("Кликнул на подарок");
 
         _image.fillAmount += .1f;
 
@@ -61,18 +64,45 @@ public class ClickBed : MonoBehaviour, IPointerClickHandler
 
         if (_count == 0)
         {
+            Debug.Log("При нажати!!! Спавнится коробка");
+            
             GameManager.instance.SpawnBedsClear.SpawnBox();
             _stopClick = true;
             StartCoroutine(Reset());
         }
     }
 
+    public void StopSpawn()
+    {
+        StartCoroutine(StopSpawnBox());
+    }
+
+    public IEnumerator StopSpawnBox()
+    {
+        Debug.Log("Корутина StopSpawnBox");
+        Debug.Log("count: " + _count);
+        
+        _stopClick = true;
+
+        if (_count == 10)
+        {
+            _image.fillAmount = 0;
+        }
+
+        yield return new WaitForSeconds(.5f);
+
+        Debug.Log("Возобновляем stopClick = false");
+
+        _stopClick = false;
+    }
+
     IEnumerator Reset()
     {
+        _count = 10;
+        
         yield return new WaitForSeconds(1f);
 
         _stopClick = false;
-        _count = 10;
         _txtCount.text = _count.ToString();
         _image.fillAmount = 0;
     }

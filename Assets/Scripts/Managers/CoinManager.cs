@@ -45,8 +45,6 @@ public class CoinManager : MonoBehaviour
         GameManager.instance.AmountOfMoney = sum;
         _txtCountMoney.text = sum.ToString();
         _txtBalance.text = sum.ToString();
-        
-        // Debug.LogError("money: " + sum);
     }
 
     public int GetMoney

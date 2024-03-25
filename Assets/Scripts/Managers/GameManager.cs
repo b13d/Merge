@@ -16,7 +16,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private CoinManager _coinManager;
     [SerializeField] private LevelManager _levelManager;
     [SerializeField] private Prefabs _prefabs;
-
+    [SerializeField] private ClickBed _clickBed;
+    
     private bool _isFull;
     private int amountOfMoney = 0;
 
@@ -28,9 +29,6 @@ public class GameManager : MonoBehaviour
 
     private void FixedUpdate()
     {
-        // Debug.Log("amountOfMoney: " + amountOfMoney);
-        // Debug.Log("YandexGame.saveData.money: " + YandexGame.savesData.money);
-
         _seconds -= Time.deltaTime;
 
         if (_seconds < 0)
@@ -43,6 +41,11 @@ public class GameManager : MonoBehaviour
 
     #region Properties
 
+    public ClickBed GetBox
+    {
+        get { return _clickBed; }
+    }
+    
     public Prefabs GetPrefabs
     {
         get { return _prefabs; }
@@ -177,10 +180,7 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        Debug.Log("count elements: " + YandexGame.savesData._elementsList.Count);
-
-
-        Time.timeScale = 4f;
+        // Time.timeScale = 5f;
 
         if (instance != null)
         {
@@ -191,5 +191,18 @@ public class GameManager : MonoBehaviour
             instance = this;
             DontDestroyOnLoad(gameObject);
         }
+    }
+
+    public void ChangeSpeedGame(Toggle _toggle)
+    {
+        if (_toggle.isOn)
+        {
+            Time.timeScale = 5f;
+        }
+        else
+        {
+            Time.timeScale = 1f;
+        }
+        
     }
 }

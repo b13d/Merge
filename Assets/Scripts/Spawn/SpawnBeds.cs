@@ -11,7 +11,6 @@ public class SpawnBeds : MonoBehaviour
     [SerializeField] private List<GameObject> _placeBeds = new List<GameObject>();
     [SerializeField] private List<int> _placeBusy = new List<int>();
     [SerializeField] private List<GameObject> _elemets = new List<GameObject>();
-    [SerializeField] private GameObject _placeElements;
     [SerializeField] private Sprite _defaultSpriteBed;
     [SerializeField] private GameObject _box;
 
@@ -35,6 +34,9 @@ public class SpawnBeds : MonoBehaviour
             if (i < YandexGame.savesData.levelPlayer + 3)
             {
                 // делаю грядку активной
+
+                _placeBeds[i].transform.parent.gameObject.layer = 0;
+                _placeBeds[i].transform.parent.GetComponent<Bed>().GetIsCloseBed = false;
             }
             else
             {
@@ -42,6 +44,7 @@ public class SpawnBeds : MonoBehaviour
         
                 _placeBeds[i].transform.parent.GetComponent<Image>().sprite = _bedCloseSprite;
                 _placeBeds[i].transform.parent.GetComponent<Bed>().GetIsCloseBed = true;
+                _placeBeds[i].transform.parent.gameObject.layer = 7;
             }
         }
 
@@ -117,9 +120,6 @@ public class SpawnBeds : MonoBehaviour
             }
         }
         
-        
-        Debug.Log("countElement: " + _countElements);
-
         if (_countElements == _activeBeds.Count)
         {
             GameManager.instance.GetFull = true;
@@ -128,6 +128,8 @@ public class SpawnBeds : MonoBehaviour
 
     public void SpawnBox()
     {
+        Debug.Log("Спавн коробки!");
+        
         List<int> _clearPlace = new List<int>();
         List<int> _activeBeds = new List<int>();
 
@@ -147,8 +149,6 @@ public class SpawnBeds : MonoBehaviour
             }
         }
 
-        // Debug.Log("_clearPlace.count: " + _clearPlace.Count);
-        
         if (_clearPlace.Count == 1)
         {
             GameManager.instance.GetFull = true;
