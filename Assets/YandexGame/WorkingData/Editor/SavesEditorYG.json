@@ -1,41 +1,41 @@
 {
-    "idSave": 4,
+    "idSave": 105,
     "isFirstSession": false,
     "language": "ru",
     "promptDone": false,
     "_elementsList": [
         {
-            "instanceID": 25028
+            "instanceID": 25024
         },
         {
-            "instanceID": 25028
+            "instanceID": 25094
         },
         {
-            "instanceID": 25028
-        },
-        {
-            "instanceID": 0
+            "instanceID": 25020
         },
         {
             "instanceID": 0
         },
         {
-            "instanceID": 0
+            "instanceID": 25092
+        },
+        {
+            "instanceID": 25092
         },
         {
             "instanceID": 0
         },
         {
-            "instanceID": 0
+            "instanceID": 25024
         },
         {
             "instanceID": 0
         }
     ],
     "money": 0,
-    "levelPlayer": 0,
-    "countExp": 0,
+    "levelPlayer": 6,
+    "countExp": 1,
     "maxValueSlider": 2.0,
-    "countActiveBeds": 3,
+    "countActiveBeds": 9,
     "recordMoney": 0
 }

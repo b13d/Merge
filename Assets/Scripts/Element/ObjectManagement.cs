@@ -128,6 +128,8 @@ public class ObjectManagement : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D other)
     {
+        Debug.Log(other);
+        
         if (other.tag == "Bed" && !other.GetComponent<Bed>().GetIsCloseBed)
         {
             other.GetComponent<Image>().sprite = _bedSprite;
@@ -152,6 +154,12 @@ public class ObjectManagement : MonoBehaviour
                 _canJoin = false;
             }
         }
+
+        if (other.transform == _switchTo)
+        {
+            _switchTo = null;
+            _canSwitch = false;
+        } 
     }
 
     private void OnMouseDown()
