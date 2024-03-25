@@ -30,7 +30,7 @@ namespace YG
 
         public int countExp = 0;
 
-        public float maxValueSlider = 10;
+        public float maxValueSlider = 2;
 
         public int countActiveBeds = 3;
 

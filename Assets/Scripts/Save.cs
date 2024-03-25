@@ -8,6 +8,7 @@ public class Save : MonoBehaviour
     public void SaveProgressPlayer()
     {
         YandexGame.savesData.money = GameManager.instance.AmountOfMoney;
+        GameManager.instance.SavePositionElement();
         
         YandexGame.SaveProgress();
     }

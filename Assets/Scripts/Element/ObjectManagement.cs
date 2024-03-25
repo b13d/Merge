@@ -19,6 +19,7 @@ public class ObjectManagement : MonoBehaviour
 
     private Sprite _bedHoverSprite;
     private Sprite _bedSprite;
+    private GameObject _lastBed;
 
     private Vector3 _lastPos;
     private bool _returnElementOnPlace = false;
@@ -56,18 +57,33 @@ public class ObjectManagement : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D col)
     {
+        if (!_isTouched)
+        {
+            // возможно тут надо расскоментировать
+            
+            // _canSwitch = false;
+            // _switchTo = null;
+            return;
+        }
+        
+        Debug.Log($"Данный элемент был задет триггером: {col.gameObject} & isTouched {_isTouched}");
+        
         if (col.tag == "Box")
         {
             _switchTo = null;
             _canSwitch = false;
+            
             return;
         }
 
-        if (col.tag == "Bed")
+        if (col.tag == "Bed" && !col.GetComponent<Bed>().GetIsCloseBed)
         {
-            if (col.GetComponent<Bed>().GetIsCloseBed)
+            if (_lastBed != null)
             {
-                return;
+                if (!_lastBed.GetComponent<Bed>().GetIsCloseBed)
+                {
+                    _lastBed.GetComponent<Image>().sprite = _bedSprite;
+                }
             }
             
             var place = col.transform.GetChild(0);
@@ -76,32 +92,35 @@ public class ObjectManagement : MonoBehaviour
             {
                 if (place.GetChild(0).tag == "Box")
                 {
+                    _canSwitch = false;
+                    _switchTo = null;
                     return;
                 }
             }
 
-            if (!_isTouched)
-            {
-                return;
-            }
 
-            _canSwitch = true;
+
             col.GetComponent<Image>().sprite = _bedHoverSprite;
+            
+            _canSwitch = true;
             _switchTo = col.transform;
-        }
-
-        if (col.tag == "Element")
+        } else if (col.tag == "Element")
         {
-            if (col.tag == "Box")
-            {
-                return;
-            }
-
             if (col.gameObject.GetComponent<InfoObject>().GetLevel == gameObject.GetComponent<InfoObject>().GetLevel)
             {
                 _canSwitch = false;
                 _secondObject = col.gameObject;
                 _canJoin = true;
+                _switchTo = col.transform;
+            }
+            else
+            {
+                Debug.Log("Смена местами у элементов");
+                
+                _canSwitch = true;
+                _secondObject = col.gameObject;
+                _switchTo = col.transform;
+                _canJoin = false;
             }
         }
     }
@@ -109,25 +128,23 @@ public class ObjectManagement : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D other)
     {
-        if (other.tag == "Bed")
+        if (other.tag == "Bed" && !other.GetComponent<Bed>().GetIsCloseBed)
         {
-            if (other.GetComponent<Bed>().GetIsCloseBed)
-            {
-                return;
-            }
+            other.GetComponent<Image>().sprite = _bedSprite;
             
-            if (other.transform == _switchTo)
-            {
-                _switchTo = null;
-                other.GetComponent<Image>().sprite = _bedSprite;
-            }
+            // if (other.transform == _switchTo)
+            // {
+            //
+            // }
+            
+            // _switchTo = null;
+            // _canSwitch = false; // под вопросом
+            // return; 
         }
 
 
         if (other.tag == "Element")
         {
-            // Debug.LogError("Триггер вышел из зоны");
-
             if (other.gameObject.GetComponent<InfoObject>().GetLevel ==
                 gameObject.GetComponent<InfoObject>().GetLevel && _isTouched)
             {
@@ -145,10 +162,17 @@ public class ObjectManagement : MonoBehaviour
 
     private void OnMouseUp()
     {
-        if (!_isTouched)
+        if (_isTouched)
         {
-            return;
+            GameManager.instance.GetBox.StopSpawn();
         }
+        
+        // возможно нужно расскоментировать
+        
+        // if (!_isTouched)
+        // {
+        //     return;
+        // }
 
         _isTouched = false;
 
@@ -163,6 +187,8 @@ public class ObjectManagement : MonoBehaviour
 
         if (_canSwitch)
         {
+            Debug.Log("Смена!");
+            
             Switch();
         }
 
@@ -190,10 +216,14 @@ public class ObjectManagement : MonoBehaviour
 
     void Switch()
     {
+        Debug.Log($"_switchTO {_switchTo}");
+        
         if (_switchTo != null)
         {
             if (_switchTo.GetChild(0).transform.childCount > 0)
             {
+                Debug.Log("Тута");
+                
                 var secondElement = _switchTo.GetChild(0).GetChild(0);
                 secondElement.parent = transform.parent;
                 secondElement.localPosition = newPosElement;
@@ -201,8 +231,28 @@ public class ObjectManagement : MonoBehaviour
                 transform.parent = _switchTo.GetChild(0);
                 transform.localPosition = newPosElement;
             }
-            else
+            else if (_switchTo.gameObject.tag == "Element")
             {
+                Debug.Log("Значит Тута");
+                
+                // ОЧЕНЬ ВЕРОЯТНО ЧТО ТУТ Я НАМУДРИЛ!
+                var oldParent = _switchTo.parent;
+                
+                Debug.Log($"До {_switchTo.parent}");
+                
+                var secondElement = _switchTo;
+                secondElement.parent = transform.parent;
+                secondElement.localPosition = newPosElement;
+
+                Debug.Log($"После {_switchTo.parent}");
+                
+                transform.parent = oldParent;
+                transform.localPosition = newPosElement;
+            }
+            else if (_switchTo.gameObject.tag == "Bed")
+            {
+                Debug.Log("Обычное перемещение");
+                
                 transform.parent = _switchTo.GetChild(0);
                 transform.localPosition = newPosElement;
             }
@@ -214,17 +264,20 @@ public class ObjectManagement : MonoBehaviour
         GameManager.instance.GetLevelManager.AddExp();
 
         // тестовый код, на проверку последнего элемента зависящего от текущего уровня игрока
-        // !gameObject.GetComponent<InfoObject>().IsLastElement
+        
         if (GameManager.instance.GetLevelManager.GetLevelPlayer >= gameObject.GetComponent<InfoObject>().GetLevel)
         {
-            GameObject newObject = GameManager.instance.Objects[gameObject.GetComponent<InfoObject>().GetLevel + 1];
-            // newObject.transform.localScale = new Vector3(9f, 9f, 9f);
-            var newElement = Instantiate(newObject, Vector3.zero, Quaternion.identity,
-                _secondObject.transform.parent.transform);
-            newElement.transform.localPosition = newPosElement;
+            if (GameManager.instance.Objects.Count > gameObject.GetComponent<InfoObject>().GetLevel + 1)
+            {
+                GameObject newObject = GameManager.instance.Objects[gameObject.GetComponent<InfoObject>().GetLevel + 1];
+                // newObject.transform.localScale = new Vector3(9f, 9f, 9f);
+                var newElement = Instantiate(newObject, Vector3.zero, Quaternion.identity,
+                    _secondObject.transform.parent.transform);
+                newElement.transform.localPosition = newPosElement;
 
-            var newParticle = Instantiate(_particle, transform.position, quaternion.identity);
-            newParticle.GetComponent<JoinParticle>().PlayParticle();
+                var newParticle = Instantiate(_particle, transform.position, quaternion.identity);
+                newParticle.GetComponent<JoinParticle>().PlayParticle();
+            }
         }
         else
         {
