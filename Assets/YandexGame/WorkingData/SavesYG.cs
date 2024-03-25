@@ -36,6 +36,8 @@ namespace YG
 
         public int recordMoney;
 
+        public int oldRecordMoney;
+
         // public int incomeMoney;
 
         // Поля (сохранения) можно удалять и создавать новые. При обновлении игры сохранения ломаться не должны

@@ -45,6 +45,11 @@ public class CoinManager : MonoBehaviour
         GameManager.instance.AmountOfMoney = sum;
         _txtCountMoney.text = sum.ToString();
         _txtBalance.text = sum.ToString();
+
+        if (sum > YandexGame.savesData.recordMoney)
+        {
+            YandexGame.savesData.recordMoney = sum;
+        }
     }
 
     public int GetMoney

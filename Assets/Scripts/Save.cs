@@ -10,11 +10,10 @@ public class Save : MonoBehaviour
         YandexGame.savesData.money = GameManager.instance.AmountOfMoney;
         GameManager.instance.SavePositionElement();
 
-        if (GameManager.instance.GetCoinManager.GetMoney > YandexGame.savesData.recordMoney)
+        if (YandexGame.savesData.oldRecordMoney < YandexGame.savesData.recordMoney)
         {
-            YandexGame.savesData.recordMoney = GameManager.instance.GetCoinManager.GetMoney;
-            
-            YandexGame.NewLeaderboardScores("recordMoney", GameManager.instance.GetCoinManager.GetMoney);
+            YandexGame.savesData.oldRecordMoney = YandexGame.savesData.recordMoney;
+            YandexGame.NewLeaderboardScores("recordMoney", YandexGame.savesData.recordMoney);
         }
         
         YandexGame.SaveProgress();
