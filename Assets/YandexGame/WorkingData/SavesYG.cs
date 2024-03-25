@@ -34,6 +34,8 @@ namespace YG
 
         public int countActiveBeds = 3;
 
+        public int recordMoney;
+
         // public int incomeMoney;
 
         // Поля (сохранения) можно удалять и создавать новые. При обновлении игры сохранения ломаться не должны

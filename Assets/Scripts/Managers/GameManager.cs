@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using YG;
 
@@ -17,7 +18,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private LevelManager _levelManager;
     [SerializeField] private Prefabs _prefabs;
     [SerializeField] private ClickBed _clickBed;
-    
+
     private bool _isFull;
     private int amountOfMoney = 0;
 
@@ -45,7 +46,7 @@ public class GameManager : MonoBehaviour
     {
         get { return _clickBed; }
     }
-    
+
     public Prefabs GetPrefabs
     {
         get { return _prefabs; }
@@ -121,8 +122,6 @@ public class GameManager : MonoBehaviour
         {
             if (_placeBeds[i] != null)
             {
-
-
                 if (_placeBeds[i].transform.childCount > 0)
                 {
                     if (_placeBeds[i].transform.GetChild(0).GetComponent<InfoObject>() != null)
@@ -142,8 +141,6 @@ public class GameManager : MonoBehaviour
         YandexGame.savesData._elementsList = dictionaryElements;
 
 
-
-
         YandexGame.SaveProgress();
     }
 
@@ -153,6 +150,7 @@ public class GameManager : MonoBehaviour
     {
         // YandexGame.ResetSaveProgress();
         // YandexGame.SaveProgress();
+
 
         amountOfMoney = YandexGame.savesData.money;
 
@@ -203,6 +201,13 @@ public class GameManager : MonoBehaviour
         {
             Time.timeScale = 1f;
         }
-        
+    }
+
+    public void ResetData()
+    {
+        YandexGame.ResetSaveProgress();
+        YandexGame.SaveProgress();
+
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 }
