@@ -1786,7 +1786,6 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 27854ec8b1578d04eb632b7dfe0e6a08, type: 3}
   - {fileID: 21300000, guid: 83867691554aad049b240bbf07d40bcc, type: 3}
   - {fileID: 21300000, guid: 6fdb325b26b82074e802f523d7e3d4fe, type: 3}
-  - {fileID: 21300000, guid: 1144a94247640984098d9371667f94e1, type: 3}
 --- !u!1 &406084208
 GameObject:
   m_ObjectHideFlags: 0
@@ -5547,7 +5546,6 @@ MonoBehaviour:
   - {fileID: 1942018143656597089, guid: bb3dc2d8b3390204c9198e7316f0be7e, type: 3}
   - {fileID: 1942018143656597089, guid: 208e3743df2a7b04889964c80d9f2af8, type: 3}
   - {fileID: 1942018143656597089, guid: 317810a7e6f483a4a9c37c6ab733db58, type: 3}
-  - {fileID: 1942018143656597089, guid: b5360345f588c1341a4f29d604e6d741, type: 3}
   _bedSprite: {fileID: 21300000, guid: 40a7714c12858ee4a958b5ec0a62769f, type: 3}
   _bedHoverSprite: {fileID: 21300000, guid: 7477e4642dea997478eb537e2e4aacf8, type: 3}
   _spawnBeds: {fileID: 35131496}
@@ -6672,7 +6670,6 @@ MonoBehaviour:
   - {fileID: 1942018143656597089, guid: bb3dc2d8b3390204c9198e7316f0be7e, type: 3}
   - {fileID: 1942018143656597089, guid: 208e3743df2a7b04889964c80d9f2af8, type: 3}
   - {fileID: 1942018143656597089, guid: 317810a7e6f483a4a9c37c6ab733db58, type: 3}
-  - {fileID: 1942018143656597089, guid: b5360345f588c1341a4f29d604e6d741, type: 3}
   _box: {fileID: 1942018143656597089, guid: f5279d9600dd97e429fb31d8e6d74162, type: 3}
 --- !u!1001 &1609754165
 PrefabInstance:

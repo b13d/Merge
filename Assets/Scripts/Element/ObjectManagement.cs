@@ -25,7 +25,7 @@ public class ObjectManagement : MonoBehaviour
     private bool _returnElementOnPlace = false;
     private bool _canSwitch = false;
     private Transform _switchTo;
-    private Vector3 newPosElement = new Vector3(0, 0, -2);
+    private Vector3 newPosElement = new Vector3(0, 4.7f, -2);
     private GameObject _secondDeletedElement;
 
     private void Start()

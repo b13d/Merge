@@ -11,10 +11,11 @@ public class SpawnProducts : MonoBehaviour
 
     [SerializeField] private List<Sprite> _spritesElement; 
     
-    private int _countProducts = 10;    
+    private int _countProducts = 9;    
     
     void Start()
     {
+        _countProducts = _spritesElement.Count;
         InitialProducts();
     }
 
