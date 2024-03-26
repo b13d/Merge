@@ -111,7 +111,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5739b871da8f57a409bd5252e551b6c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _audioList: {fileID: 0}
   _particle: {fileID: 8200928033471626935, guid: f5dbc0a3fd0d41b4fbd247e8001f4f95, type: 3}
+  _audioMove: {fileID: 5858289322508687271, guid: 1f4e880b7532c894eaab7ba4369f1461, type: 3}
+  interpolationFramesCount: 90
 --- !u!212 &968598837192259824
 SpriteRenderer:
   m_ObjectHideFlags: 0

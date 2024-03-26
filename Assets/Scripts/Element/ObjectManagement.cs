@@ -15,7 +15,9 @@ public class ObjectManagement : MonoBehaviour
     private GameObject _secondObject = null;
 
 
+    [SerializeField] private AudioList _audioList;
     [SerializeField] private GameObject _particle;
+    [SerializeField] private AudioMove _audioMove;
 
     private Sprite _bedHoverSprite;
     private Sprite _bedSprite;
@@ -35,6 +37,7 @@ public class ObjectManagement : MonoBehaviour
     {
         _bedHoverSprite = GameManager.instance.BedHoverSprite;
         _bedSprite = GameManager.instance.BedSprite;
+        _audioList = FindObjectOfType<AudioList>();
     }
 
     private void FixedUpdate()
@@ -240,6 +243,10 @@ public class ObjectManagement : MonoBehaviour
         {
             if (_switchTo.GetChild(0).transform.childCount > 0)
             {
+                var newAudio = _audioMove;
+                newAudio.GetComponent<AudioMove>().Audio = _audioList.AudioClips[0];
+                Instantiate(newAudio, transform.position, Quaternion.identity,_audioList.transform);
+
                 Debug.Log("Тута");
                 
                 var secondElement = _switchTo.GetChild(0).GetChild(0);
@@ -251,6 +258,10 @@ public class ObjectManagement : MonoBehaviour
             }
             else if (_switchTo.gameObject.tag == "Element")
             {
+                var newAudio = _audioMove;
+                newAudio.GetComponent<AudioMove>().Audio = _audioList.AudioClips[0];
+                Instantiate(newAudio, transform.position, Quaternion.identity,_audioList.transform);
+                
                 Debug.Log("Значит Тута");
                 
                 // ОЧЕНЬ ВЕРОЯТНО ЧТО ТУТ Я НАМУДРИЛ!
@@ -269,6 +280,10 @@ public class ObjectManagement : MonoBehaviour
             }
             else if (_switchTo.gameObject.tag == "Bed")
             {
+                var newAudio = _audioMove;
+                newAudio.GetComponent<AudioMove>().Audio = _audioList.AudioClips[1];
+                Instantiate(newAudio, transform.position, Quaternion.identity,_audioList.transform);
+                
                 Debug.Log("Обычное перемещение");
                 
                 transform.parent = _switchTo.GetChild(0);
@@ -281,6 +296,10 @@ public class ObjectManagement : MonoBehaviour
     {
         GameManager.instance.GetLevelManager.AddExp();
 
+        var newAudio = _audioMove;
+        newAudio.GetComponent<AudioMove>().Audio = _audioList.AudioClips[2];
+        Instantiate(newAudio, transform.position, Quaternion.identity,_audioList.transform);
+        
         // тестовый код, на проверку последнего элемента зависящего от текущего уровня игрока
         
         if (GameManager.instance.GetLevelManager.GetLevelPlayer >= gameObject.GetComponent<InfoObject>().GetLevel)
