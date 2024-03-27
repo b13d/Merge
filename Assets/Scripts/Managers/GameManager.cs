@@ -19,6 +19,12 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Prefabs _prefabs;
     [SerializeField] private ClickBed _clickBed;
 
+    [SerializeField] private AudioSource _music;
+    [SerializeField] private AudioSource _audio;
+    [SerializeField] private Slider _audioSlider;
+    [SerializeField] private Slider _musicSlider;
+    
+    
     private bool _isFull;
     private int amountOfMoney = 0;
 
@@ -162,7 +168,7 @@ public class GameManager : MonoBehaviour
             {
                 if (value != null)
                 {
-                    value.transform.localPosition = new Vector3(0, 0, -2f);
+                    value.transform.localPosition = new Vector3(0, 4.7f, -2f);
 
                     Instantiate(value, _spawnBeds.PlaceBeds[i].transform, false);
 
@@ -178,14 +184,15 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        // Time.timeScale = 5f;
-
         if (instance != null)
         {
             Destroy(gameObject);
         }
         else
         {
+            _audio.volume = _audioSlider.value;
+            _music.volume = _musicSlider.value;
+            
             instance = this;
             DontDestroyOnLoad(gameObject);
         }

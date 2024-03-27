@@ -40,7 +40,9 @@ public class CoinManager : MonoBehaviour
         sum = int.Parse(_txtCountMoney.text);
         sum += GameManager.instance.ElementsManager.GetIncome;
 
-        _txtIncome.text = $"{GameManager.instance.ElementsManager.GetIncome} мон/сек";
+        _txtIncome.text = $"<sprite=\"MoneyInSecond\" name=\"MoneyInSecond\"> {GameManager.instance.ElementsManager.GetIncome}";
+            
+        
 
         GameManager.instance.AmountOfMoney = sum;
         _txtCountMoney.text = sum.ToString();
