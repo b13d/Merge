@@ -23,8 +23,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private AudioSource _audio;
     [SerializeField] private Slider _audioSlider;
     [SerializeField] private Slider _musicSlider;
-    
-    
+
+
     private bool _isFull;
     private int amountOfMoney = 0;
 
@@ -117,10 +117,10 @@ public class GameManager : MonoBehaviour
 
     public void SavePositionElement()
     {
-        YandexGame.savesData.elements.Clear();
+        // YandexGame.savesData.elements.Clear();
 
-        List<GameObject> dictionaryElements = new List<GameObject>()
-            { null, null, null, null, null, null, null, null, null };
+        List<int> dictionaryElements = new List<int>()
+            { 999, 999, 999, 999, 999, 999, 999, 999, 999 };
 
         List<GameObject> _placeBeds = SpawnBedsClear.PlaceBeds;
 
@@ -133,19 +133,17 @@ public class GameManager : MonoBehaviour
                     if (_placeBeds[i].transform.GetChild(0).GetComponent<InfoObject>() != null)
                     {
                         dictionaryElements[i] =
-                            GetPrefabs.GetElements[
-                                _placeBeds[i].transform.GetChild(0).GetComponent<InfoObject>().GetLevel];
+                            _placeBeds[i].transform.GetChild(0).GetComponent<InfoObject>().GetLevel + 1;
                     }
                     else
                     {
-                        dictionaryElements[i] = GetPrefabs.GetBox;
+                        dictionaryElements[i] = 0;
                     }
                 }
             }
         }
 
         YandexGame.savesData._elementsList = dictionaryElements;
-
 
         YandexGame.SaveProgress();
     }
@@ -154,9 +152,8 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
-        // YandexGame.ResetSaveProgress();
-        // YandexGame.SaveProgress();
-
+        YandexGame.ResetSaveProgress();
+        YandexGame.SaveProgress();
 
         amountOfMoney = YandexGame.savesData.money;
 
@@ -166,11 +163,22 @@ public class GameManager : MonoBehaviour
 
             foreach (var value in YandexGame.savesData._elementsList)
             {
-                if (value != null)
+                if (value != 999)
                 {
-                    value.transform.localPosition = new Vector3(0, 4.7f, -2f);
+                    GameObject newElement;
+                    
+                    if (value == 0)
+                    {
+                        newElement = GetPrefabs.GetBox.gameObject;
+                    }
+                    else
+                    {
+                        newElement = GetPrefabs.GetElements[value - 1].gameObject;
+                    }
+                    
+                    newElement.transform.localPosition = new Vector3(0, 4.7f, -2f);
 
-                    Instantiate(value, _spawnBeds.PlaceBeds[i].transform, false);
+                    Instantiate(newElement, _spawnBeds.PlaceBeds[i].transform, false);
 
                     // Instantiate(newElement, transform.position, Quaternion.identity, );
 
@@ -192,7 +200,7 @@ public class GameManager : MonoBehaviour
         {
             _audio.volume = _audioSlider.value;
             _music.volume = _musicSlider.value;
-            
+
             instance = this;
             DontDestroyOnLoad(gameObject);
         }

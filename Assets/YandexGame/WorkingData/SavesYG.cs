@@ -20,9 +20,11 @@ namespace YG
 
         // Ваши сохранения
 
-        public List<GameObject> _elementsList = new List<GameObject>(9) {null,null,null,null,null,null,null,null,null };
+        // public List<GameObject> _elementsList = new List<GameObject>(9) {null,null,null,null,null,null,null,null,null };
         
-        public Dictionary<int, GameObject> elements = new Dictionary<int, GameObject>(9);
+        public List<int> _elementsList = new List<int>(9) {999,999,999,999,999,999,999,999,999 };
+        
+        // public Dictionary<int, GameObject> elements = new Dictionary<int, GameObject>(9);
         
         public int money;
 
@@ -46,10 +48,10 @@ namespace YG
         // Вы можете выполнить какие то действия при загрузке сохранений
         public SavesYG()
         {
-            for (int i = 0; i < _elementsList.Count; i++)
-            {
-                elements.Add(i, _elementsList[i]);
-            }
+            // for (int i = 0; i < _elementsList.Count; i++)
+            // {
+            //     elements.Add(i, _elementsList[i]);
+            // }
             
             // Допустим, задать значения по умолчанию для отдельных элементов массива
 
