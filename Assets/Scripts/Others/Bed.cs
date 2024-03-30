@@ -7,7 +7,19 @@ public class Bed : MonoBehaviour
 {
     [SerializeField] private bool _isCloseBed = false;
     [SerializeField] private GameObject _bush;
+    [SerializeField] private GameObject _highlighting;
+    [SerializeField] private GameObject _placeElement;
+    
+    public GameObject GetHighlighting
+    {
+        get { return _highlighting; }
+    }
 
+    public GameObject GetPlaceElement
+    {
+        get { return _placeElement; }
+    }
+    
     private void Start()
     {
         if (_isCloseBed)

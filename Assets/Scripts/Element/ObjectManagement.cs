@@ -175,6 +175,9 @@ public class ObjectManagement : MonoBehaviour
 
     private void OnMouseDown()
     {
+        GameManager.instance.GetCurrentLevelElementTaked = GetComponent<InfoObject>().GetLevel;
+        GameManager.instance.GetHighlighting.MatchSearch(gameObject);
+        
         // if (tween != null)
         // {
         //     tween.Complete();
@@ -189,7 +192,9 @@ public class ObjectManagement : MonoBehaviour
 
     private void OnMouseUp()
     {
-        
+        GameManager.instance.GetCurrentLevelElementTaked = 0;
+        GameManager.instance.GetHighlighting.Reset();
+
         
         if (_isTouched)
         {

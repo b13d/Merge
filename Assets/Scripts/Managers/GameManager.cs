@@ -32,11 +32,10 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Prefabs _prefabs;
     [SerializeField] private ClickBed _clickBed;
     [SerializeField] private List<GameObject> _objects = new List<GameObject>();
+    [SerializeField] private AllocationOfBeds _allocationOfBeds;
+    
 
-
-
-
-
+    private int _currentLevelElementFocus = 0;
     private bool _isFull;
     private int amountOfMoney = 0;
 
@@ -88,6 +87,17 @@ public class GameManager : MonoBehaviour
     
     #region Properties
 
+    public int GetCurrentLevelElementTaked
+    {
+        set { _currentLevelElementFocus = value; }
+        get { return _currentLevelElementFocus; }
+    }
+
+    public AllocationOfBeds GetHighlighting
+    {
+        get { return _allocationOfBeds; }
+    }
+    
     public ClickBed GetBox
     {
         get { return _clickBed; }
