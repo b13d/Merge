@@ -71,10 +71,6 @@ public class ObjectManagement : MonoBehaviour
     {
         if (!_isTouched)
         {
-            // возможно тут надо расскоментировать
-
-            // _canSwitch = false;
-            // _switchTo = null;
             return;
         }
 
@@ -82,8 +78,13 @@ public class ObjectManagement : MonoBehaviour
         {
             _switchTo = null;
             _canSwitch = false;
-
             return;
+        }
+        
+        if (col.CompareTag("Element"))
+        {
+            var place = col.transform.parent;
+            ElementTarget(place);
         }
 
         if (col.CompareTag("Bed") && !col.GetComponent<Bed>().GetIsCloseBed)
@@ -100,14 +101,13 @@ public class ObjectManagement : MonoBehaviour
 
             if (place.childCount > 0)
             {
-                if (place.GetChild(0).tag == "Box")
+                if (place.GetChild(0).CompareTag("Box"))
                 {
                     _canSwitch = false;
                     _switchTo = null;
                     return;
                 }
             }
-
 
             col.GetComponent<Image>().sprite = _bedHoverSprite;
 
@@ -117,34 +117,41 @@ public class ObjectManagement : MonoBehaviour
 
             if (place.childCount > 0)
             {
-                if (place.GetChild(0).CompareTag("Element"))
-                {
-                    if (place.GetChild(0).gameObject == gameObject)
-                    {
-                        return;
-                    }
-                    
-                    Debug.Log("Нашел элемент!!");
+                ElementTarget(place);
+            }
+        }
 
 
-                    if (place.GetChild(0).gameObject.GetComponent<InfoObject>().GetLevel ==
-                        gameObject.GetComponent<InfoObject>().GetLevel)
-                    {
-                        _canSwitch = false;
-                        _secondObject = place.GetChild(0).gameObject;
-                        _canJoin = true;
-                        _switchTo = place.GetChild(0);
-                    }
-                    else
-                    {
-                        Debug.Log("Смена местами у элементов");
+    }
 
-                        _canSwitch = true;
-                        _secondObject = place.GetChild(0).gameObject;
-                        _switchTo = place.GetChild(0);
-                        _canJoin = false;
-                    }
-                }
+    void ElementTarget(Transform place)
+    {
+        if (place.GetChild(0).CompareTag("Element"))
+        {
+            if (place.GetChild(0).gameObject == gameObject)
+            {
+                return;
+            }
+
+            Debug.Log("Нашел элемент!!");
+
+
+            if (place.GetChild(0).gameObject.GetComponent<InfoObject>().GetLevel ==
+                gameObject.GetComponent<InfoObject>().GetLevel)
+            {
+                _canSwitch = false;
+                _secondObject = place.GetChild(0).gameObject;
+                _canJoin = true;
+                _switchTo = place.GetChild(0);
+            }
+            else
+            {
+                Debug.Log("Смена местами у элементов");
+
+                _canSwitch = true;
+                _secondObject = place.GetChild(0).gameObject;
+                _switchTo = place.GetChild(0);
+                _canJoin = false;
             }
         }
     }
