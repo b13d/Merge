@@ -163,7 +163,7 @@ public class SpawnBeds : MonoBehaviour
 
         _placeBusy[_clearPlace[rnd]] = 1;
         var newBox = Instantiate(_box, transform.position, Quaternion.identity, _placeBeds[_clearPlace[rnd]].transform);
-        newBox.transform.localPosition = new Vector3(0, 0, 2f);
+        newBox.transform.localPosition = new Vector3(0, 4.7f, 2f);
         newBox.GetComponent<Box>().SetIndex = _clearPlace[rnd];
         
         GameManager.instance.SavePositionElement();

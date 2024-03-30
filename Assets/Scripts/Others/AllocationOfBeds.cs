@@ -1,7 +1,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class AllocationOfBeds : MonoBehaviour
 {
@@ -28,6 +30,34 @@ public class AllocationOfBeds : MonoBehaviour
         {
             highlighting.SetActive(false);
         }
+
+        var elements = GetElements();
+
+        foreach (var element in elements)
+        {
+            element.transform.DOLocalMoveY(4.7f, .2f);
+            element.GetComponent<SpriteRenderer>().material.DisableKeyword("_EMISSION");
+        }
+    }
+
+    List<GameObject> GetElements()
+    {
+        List<GameObject> elements = new List<GameObject>();
+
+        for (int i = 0; i < _parentBeds.transform.childCount; i++)
+        {
+            var place = _parentBeds.transform.GetChild(i).GetComponent<Bed>().GetPlaceElement;
+
+            if (place.transform.childCount > 0)
+            {
+                if (place.transform.GetChild(0).tag == "Element")
+                {
+                    elements.Add(place.transform.GetChild(0).gameObject);
+                }
+            }
+        }
+
+        return elements;
     }
 
     public void MatchSearch(GameObject targetElement)
@@ -35,7 +65,7 @@ public class AllocationOfBeds : MonoBehaviour
         for (int i = 0; i < _parentBeds.transform.childCount; i++)
         {
             var place = _parentBeds.transform.GetChild(i).GetComponent<Bed>().GetPlaceElement;
-            
+
             if (place.transform.childCount > 0)
             {
                 if (place.transform.GetChild(0).tag == "Element")
@@ -46,9 +76,12 @@ public class AllocationOfBeds : MonoBehaviour
                     {
                         continue;
                     }
-                    
+
                     if (GameManager.instance.GetCurrentLevelElementTaked == element.GetComponent<InfoObject>().GetLevel)
                     {
+                        element.DOLocalMoveY(6.5f, .2f);
+                        element.GetComponent<SpriteRenderer>().material.EnableKeyword("_EMISSION");
+
                         _highlightingElements[i].SetActive(true);
                     }
                     else

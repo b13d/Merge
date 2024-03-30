@@ -34,7 +34,7 @@ public class ObjectManagement : MonoBehaviour
 
     public int interpolationFramesCount = 90; // Number of frames to completely interpolate between the 2 positions
     int elapsedFrames = 0;
-    
+
     private void Start()
     {
         _bedHoverSprite = GameManager.instance.BedHoverSprite;
@@ -49,7 +49,7 @@ public class ObjectManagement : MonoBehaviour
             if (transform.localPosition == _newPosElement)
             {
                 Debug.Log("Равны, снимаю возврат элемента");
-                
+
                 _returnElementOnPlace = false;
                 elapsedFrames = 0;
             }
@@ -59,10 +59,11 @@ public class ObjectManagement : MonoBehaviour
         {
             Vector3 targetPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             targetPos.z = -2f;
-            
+
             // Debug.Log(targetPos);
-            
-            transform.position = Vector3.Lerp(transform.position, targetPos, .2f);
+
+            transform.DOMove(targetPos, .2f);
+            // transform.position = Vector3.Lerp(transform.position, targetPos, .2f);
         }
     }
 
@@ -71,23 +72,21 @@ public class ObjectManagement : MonoBehaviour
         if (!_isTouched)
         {
             // возможно тут надо расскоментировать
-            
+
             // _canSwitch = false;
             // _switchTo = null;
             return;
         }
-        
-        Debug.Log($"Данный элемент был задет триггером: {col.gameObject} & isTouched {_isTouched}");
-        
-        if (col.tag == "Box")
+
+        if (col.CompareTag("Box"))
         {
             _switchTo = null;
             _canSwitch = false;
-            
+
             return;
         }
 
-        if (col.tag == "Bed" && !col.GetComponent<Bed>().GetIsCloseBed)
+        if (col.CompareTag("Bed") && !col.GetComponent<Bed>().GetIsCloseBed)
         {
             if (_lastBed != null)
             {
@@ -96,7 +95,7 @@ public class ObjectManagement : MonoBehaviour
                     _lastBed.GetComponent<Image>().sprite = _bedSprite;
                 }
             }
-            
+
             var place = col.transform.GetChild(0);
 
             if (place.childCount > 0)
@@ -110,28 +109,37 @@ public class ObjectManagement : MonoBehaviour
             }
 
 
-
             col.GetComponent<Image>().sprite = _bedHoverSprite;
-            
+
             _canSwitch = true;
             _switchTo = col.transform;
-        } else if (col.tag == "Element")
-        {
-            if (col.gameObject.GetComponent<InfoObject>().GetLevel == gameObject.GetComponent<InfoObject>().GetLevel)
+
+
+            if (place.childCount > 0)
             {
-                _canSwitch = false;
-                _secondObject = col.gameObject;
-                _canJoin = true;
-                _switchTo = col.transform;
-            }
-            else
-            {
-                Debug.Log("Смена местами у элементов");
-                
-                _canSwitch = true;
-                _secondObject = col.gameObject;
-                _switchTo = col.transform;
-                _canJoin = false;
+                if (place.GetChild(0).CompareTag("Element"))
+                {
+                    Debug.Log("Нашел элемент!!");
+
+
+                    if (place.GetChild(0).gameObject.GetComponent<InfoObject>().GetLevel ==
+                        gameObject.GetComponent<InfoObject>().GetLevel)
+                    {
+                        _canSwitch = false;
+                        _secondObject = place.GetChild(0).gameObject;
+                        _canJoin = true;
+                        _switchTo = place.GetChild(0);
+                    }
+                    else
+                    {
+                        Debug.Log("Смена местами у элементов");
+
+                        _canSwitch = true;
+                        _secondObject = place.GetChild(0).gameObject;
+                        _switchTo = place.GetChild(0);
+                        _canJoin = false;
+                    }
+                }
             }
         }
     }
@@ -140,19 +148,10 @@ public class ObjectManagement : MonoBehaviour
     private void OnTriggerExit2D(Collider2D other)
     {
         Debug.Log(other);
-        
+
         if (other.tag == "Bed" && !other.GetComponent<Bed>().GetIsCloseBed)
         {
             other.GetComponent<Image>().sprite = _bedSprite;
-            
-            // if (other.transform == _switchTo)
-            // {
-            //
-            // }
-            
-            // _switchTo = null;
-            // _canSwitch = false; // под вопросом
-            // return; 
         }
 
 
@@ -170,20 +169,14 @@ public class ObjectManagement : MonoBehaviour
         {
             _switchTo = null;
             _canSwitch = false;
-        } 
+        }
     }
 
     private void OnMouseDown()
     {
         GameManager.instance.GetCurrentLevelElementTaked = GetComponent<InfoObject>().GetLevel;
         GameManager.instance.GetHighlighting.MatchSearch(gameObject);
-        
-        // if (tween != null)
-        // {
-        //     tween.Complete();
-        // }
-        
-        // transform.DOComplete();
+
         elapsedFrames = 0;
         _returnElementOnPlace = false;
         _lastPos = transform.localPosition;
@@ -195,18 +188,11 @@ public class ObjectManagement : MonoBehaviour
         GameManager.instance.GetCurrentLevelElementTaked = 0;
         GameManager.instance.GetHighlighting.Reset();
 
-        
+
         if (_isTouched)
         {
             GameManager.instance.GetBox.StopSpawn();
         }
-        
-        // возможно нужно расскоментировать
-        
-        // if (!_isTouched)
-        // {
-        //     return;
-        // }
 
         _isTouched = false;
 
@@ -222,7 +208,7 @@ public class ObjectManagement : MonoBehaviour
         if (_canSwitch)
         {
             Debug.Log("Смена!");
-            
+
             Switch();
         }
 
@@ -240,27 +226,27 @@ public class ObjectManagement : MonoBehaviour
         }
 
         _canJoin = false;
-        
+
         GameManager.instance.SpawnBedsClear.ClearBeds();
 
         _returnElementOnPlace = true;
-        
+
         tween = transform.DOLocalMove(_newPosElement, .5f);
-        
+
         GameManager.instance.SavePositionElement();
     }
 
     void Switch()
     {
         Debug.Log($"_switchTO {_switchTo}");
-        
+
         if (_switchTo != null)
         {
             if (_switchTo.GetChild(0).transform.childCount > 0)
             {
                 var newAudio = _audioMove;
                 newAudio.GetComponent<AudioMove>().Audio = _audioList.AudioClips[0];
-                Instantiate(newAudio, transform.position, Quaternion.identity,_audioList.transform);
+                Instantiate(newAudio, transform.position, Quaternion.identity, _audioList.transform);
 
                 var secondElement = _switchTo.GetChild(0).GetChild(0);
                 secondElement.parent = transform.parent;
@@ -270,11 +256,9 @@ public class ObjectManagement : MonoBehaviour
                 // {
                 //     tween.Complete();
                 // }
-                
+
                 tween = secondElement.DOLocalMove(_newPosElement, .5f);
-                var myTween = DOTween.instance;
-                
-                
+
                 transform.parent = _switchTo.GetChild(0);
                 transform.localPosition = _newPosElement;
             }
@@ -282,19 +266,19 @@ public class ObjectManagement : MonoBehaviour
             {
                 var newAudio = _audioMove;
                 newAudio.GetComponent<AudioMove>().Audio = _audioList.AudioClips[0];
-                Instantiate(newAudio, transform.position, Quaternion.identity,_audioList.transform);
-                
+                Instantiate(newAudio, transform.position, Quaternion.identity, _audioList.transform);
+
                 var oldParent = _switchTo.parent;
-                
+
                 var secondElement = _switchTo;
                 secondElement.parent = transform.parent;
                 // _secondObject.transform.DOKill();
-                
+
                 // if (tween != null)
                 // {
                 //     tween.Complete();
                 // }
-                
+
                 tween = secondElement.DOLocalMove(_newPosElement, .5f);
 
                 transform.parent = oldParent;
@@ -304,10 +288,10 @@ public class ObjectManagement : MonoBehaviour
             {
                 var newAudio = _audioMove;
                 newAudio.GetComponent<AudioMove>().Audio = _audioList.AudioClips[1];
-                Instantiate(newAudio, transform.position, Quaternion.identity,_audioList.transform);
-                
+                Instantiate(newAudio, transform.position, Quaternion.identity, _audioList.transform);
+
                 Debug.Log("Обычное перемещение");
-                
+
                 transform.parent = _switchTo.GetChild(0);
                 transform.localPosition = _newPosElement;
             }
@@ -320,20 +304,18 @@ public class ObjectManagement : MonoBehaviour
 
         var newAudio = _audioMove;
         newAudio.GetComponent<AudioMove>().Audio = _audioList.AudioClips[2];
-        Instantiate(newAudio, transform.position, Quaternion.identity,_audioList.transform);
-        
+        Instantiate(newAudio, transform.position, Quaternion.identity, _audioList.transform);
+
         if (GameManager.instance.GetLevelManager.GetLevelPlayer >= gameObject.GetComponent<InfoObject>().GetLevel)
         {
             if (GameManager.instance.Objects.Count > gameObject.GetComponent<InfoObject>().GetLevel + 1)
             {
                 GameObject newObject = GameManager.instance.Objects[gameObject.GetComponent<InfoObject>().GetLevel + 1];
-                // newObject.transform.localScale = new Vector3(9f, 9f, 9f);
                 var newElement = Instantiate(newObject, Vector3.zero, Quaternion.identity,
                     _secondObject.transform.parent.transform);
                 newElement.transform.localPosition = _newPosElement;
 
-                // newElement.transform.GetChild(0).GetComponent<ParticleSystem>().Play();
-                var newParticle = Instantiate(_particle, transform.position, quaternion.identity);
+                var newParticle = Instantiate(_particle, transform.position, Quaternion.identity);
                 newParticle.GetComponent<JoinParticle>().PlayParticle();
             }
         }
@@ -347,10 +329,8 @@ public class ObjectManagement : MonoBehaviour
             _secondObject, true);
 
 
-        
         Destroy(_secondObject);
         Destroy(gameObject);
-        // Reset();
         return;
     }
 }

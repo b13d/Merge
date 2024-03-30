@@ -11,6 +11,9 @@ public class Box : MonoBehaviour, IPointerClickHandler
     
     [SerializeField] private AudioSource _boxDown;
     [SerializeField] private AudioSource _boxOpen;
+    [SerializeField] private ParticleSystem _particle;
+    
+    private float _volumeDefault = .1f;
     
     public int SetIndex
     {
@@ -20,14 +23,36 @@ public class Box : MonoBehaviour, IPointerClickHandler
 
     private void Start()
     {
-        _boxDown.volume = GameManager.instance.GetVolumeAudio;
-        _boxOpen.volume = GameManager.instance.GetVolumeAudio;
+        if (GameManager.instance.GetVolumeAudio == 0)
+        {
+            _boxDown.volume = 0;
+            _boxOpen.volume = 0;
+        }
+        else
+        {
+            _boxDown.volume = _volumeDefault;
+            _boxOpen.volume = _volumeDefault;
+        }
+
+        // _boxDown.volume = GameManager.instance.GetVolumeAudio;
+        // _boxOpen.volume = GameManager.instance.GetVolumeAudio;
     }
 
     public void OnPointerClick(PointerEventData pointerEventData)
     {
-        _boxDown.volume = GameManager.instance.GetVolumeAudio;
-        _boxOpen.volume = GameManager.instance.GetVolumeAudio;
+        if (GameManager.instance.GetVolumeAudio == 0)
+        {
+            _boxDown.volume = 0;
+            _boxOpen.volume = 0;
+        }
+        else
+        {
+            _boxDown.volume = _volumeDefault;
+            _boxOpen.volume = _volumeDefault;
+        }
+        
+        // _boxDown.volume = GameManager.instance.GetVolumeAudio;
+        // _boxOpen.volume = GameManager.instance.GetVolumeAudio;
         
         // GameManager.instance.SpawnBedsClear.ClearPlace(_placeIndex);
         GetComponent<Animator>().Play("openBox");
@@ -41,6 +66,9 @@ public class Box : MonoBehaviour, IPointerClickHandler
     public void BoxOpen()
     {
         _boxOpen.Play();
+        
+        // var newParticle = Instantiate(_particle, transform.position, Quaternion.identity);
+        _particle.GetComponent<JoinParticle>().PlayParticle();
     }
 
     public void SpawnFirstElement()

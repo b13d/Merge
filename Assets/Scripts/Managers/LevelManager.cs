@@ -118,8 +118,8 @@ public class LevelManager : MonoBehaviour
 
         if (_spritesElement.Count > _level + 1)
         {
-            _imageNewElement.sprite = _spritesElement[_level + 1];
-            _canvasNewElement.SetActive(true); 
+            // _imageNewElement.sprite = _spritesElement[_level + 1];
+            // _canvasNewElement.SetActive(true);
         }
 
 
