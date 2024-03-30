@@ -57,10 +57,13 @@ public class GameManager : MonoBehaviour
         {
             foreach (var touch in Input.touches)
             {
-                var newTouch = Instantiate(_touchAudio, transform.position, Quaternion.identity);
-                newTouch.Play();
+                if (touch.phase == TouchPhase.Began)
+                {
+                    var newTouch = Instantiate(_touchAudio, transform.position, Quaternion.identity);
+                    newTouch.Play();
 
-                Destroy(newTouch.gameObject, 1);
+                    Destroy(newTouch.gameObject, 1);
+                }
             }
         }
     }

@@ -119,6 +119,11 @@ public class ObjectManagement : MonoBehaviour
             {
                 if (place.GetChild(0).CompareTag("Element"))
                 {
+                    if (place.GetChild(0).gameObject == gameObject)
+                    {
+                        return;
+                    }
+                    
                     Debug.Log("Нашел элемент!!");
 
 
@@ -151,6 +156,8 @@ public class ObjectManagement : MonoBehaviour
 
         if (other.tag == "Bed" && !other.GetComponent<Bed>().GetIsCloseBed)
         {
+            _canJoin = false;
+            _secondObject = null;
             other.GetComponent<Image>().sprite = _bedSprite;
         }
 
@@ -189,10 +196,10 @@ public class ObjectManagement : MonoBehaviour
         GameManager.instance.GetHighlighting.Reset();
 
 
-        if (_isTouched)
-        {
-            GameManager.instance.GetBox.StopSpawn();
-        }
+        // if (_isTouched)
+        // {
+        //     GameManager.instance.GetBox.StopSpawn();
+        // }
 
         _isTouched = false;
 

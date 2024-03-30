@@ -131,6 +131,9 @@ public class SpawnBeds : MonoBehaviour
         List<int> _clearPlace = new List<int>();
         List<int> _activeBeds = new List<int>();
 
+
+        CheckBedsOnVoid();
+        
         for (int j = 0; j < _placeBeds.Count; j++)
         {
             if (!_placeBeds[j].transform.parent.GetComponent<Bed>().GetIsCloseBed)

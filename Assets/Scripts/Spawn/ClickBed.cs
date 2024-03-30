@@ -62,37 +62,37 @@ public class ClickBed : MonoBehaviour, IPointerClickHandler
 
         if (_count == 0)
         {
+            _stopClick = true;
             Debug.Log("При нажати!!! Спавнится коробка");
             
             GameManager.instance.SpawnBedsClear.SpawnBox();
-            _stopClick = true;
             StartCoroutine(Reset());
         }
     }
 
-    public void StopSpawn()
-    {
-        StartCoroutine(StopSpawnBox());
-    }
+    // public void StopSpawn()
+    // {
+    //     StartCoroutine(StopSpawnBox());
+    // }
 
-    public IEnumerator StopSpawnBox()
-    {
-        Debug.Log("Корутина StopSpawnBox");
-        Debug.Log("count: " + _count);
-        
-        _stopClick = true;
-
-        if (_count == 10)
-        {
-            _image.fillAmount = 0;
-        }
-
-        yield return new WaitForSeconds(.5f);
-
-        Debug.Log("Возобновляем stopClick = false");
-
-        _stopClick = false;
-    }
+    // public IEnumerator StopSpawnBox()
+    // {
+    //     Debug.Log("Корутина StopSpawnBox");
+    //     Debug.Log("count: " + _count);
+    //     
+    //     _stopClick = true;
+    //
+    //     if (_count == 10)
+    //     {
+    //         _image.fillAmount = 0;
+    //     }
+    //
+    //     yield return new WaitForSeconds(.5f);
+    //
+    //     Debug.Log("Возобновляем stopClick = false");
+    //
+    //     _stopClick = false;
+    // }
 
     IEnumerator Reset()
     {
