@@ -180,15 +180,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7300467344770799031, guid: f5dbc0a3fd0d41b4fbd247e8001f4f95, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.18
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7300467344770799031, guid: f5dbc0a3fd0d41b4fbd247e8001f4f95, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.044367973
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7300467344770799031, guid: f5dbc0a3fd0d41b4fbd247e8001f4f95, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.036899365
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7300467344770799031, guid: f5dbc0a3fd0d41b4fbd247e8001f4f95, type: 3}
       propertyPath: m_LocalRotation.w
@@ -221,10 +221,6 @@ PrefabInstance:
     - target: {fileID: 8200928033471626935, guid: f5dbc0a3fd0d41b4fbd247e8001f4f95, type: 3}
       propertyPath: m_Name
       value: JoinParticle
-      objectReference: {fileID: 0}
-    - target: {fileID: 8200928033471626935, guid: f5dbc0a3fd0d41b4fbd247e8001f4f95, type: 3}
-      propertyPath: m_Layer
-      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f5dbc0a3fd0d41b4fbd247e8001f4f95, type: 3}

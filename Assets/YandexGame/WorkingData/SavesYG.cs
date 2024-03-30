@@ -1,9 +1,17 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
+
+[Serializable]
+public class Price
+{
+    public List<int> price = new List<int>();
+    public List<int> bonusElement = new List<int>();
+}
 
 namespace YG
 {
-    [System.Serializable]
+    [Serializable]
     public class SavesYG
     {
         // "Технические сохранения" для работы плагина (Не удалять)
@@ -40,6 +48,8 @@ namespace YG
 
         public int oldRecordMoney;
 
+        public Price priceList = new Price();
+        
         // public int incomeMoney;
 
         // Поля (сохранения) можно удалять и создавать новые. При обновлении игры сохранения ломаться не должны

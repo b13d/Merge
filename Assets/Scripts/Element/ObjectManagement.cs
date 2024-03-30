@@ -7,12 +7,14 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using YG;
 using System.Linq;
+using DG.Tweening;
 
 public class ObjectManagement : MonoBehaviour
 {
     private bool _isTouched = false;
     private bool _canJoin = false;
     private GameObject _secondObject = null;
+    private Tween tween;
 
 
     [SerializeField] private AudioList _audioList;
@@ -44,15 +46,10 @@ public class ObjectManagement : MonoBehaviour
     {
         if (_returnElementOnPlace)
         {
-            float interpolationRatio = (float)elapsedFrames / interpolationFramesCount;
-            
-            transform.localPosition = Vector3.Lerp(transform.localPosition, _newPosElement, interpolationRatio);
-
-            elapsedFrames = (elapsedFrames + 1) % (interpolationFramesCount + 1); 
-            
             if (transform.localPosition == _newPosElement)
             {
-                // _lastPos = Vector3.zero;
+                Debug.Log("Равны, снимаю возврат элемента");
+                
                 _returnElementOnPlace = false;
                 elapsedFrames = 0;
             }
@@ -61,7 +58,10 @@ public class ObjectManagement : MonoBehaviour
         if (_isTouched)
         {
             Vector3 targetPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            targetPos.z = 0;
+            targetPos.z = -2f;
+            
+            // Debug.Log(targetPos);
+            
             transform.position = Vector3.Lerp(transform.position, targetPos, .2f);
         }
     }
@@ -175,6 +175,12 @@ public class ObjectManagement : MonoBehaviour
 
     private void OnMouseDown()
     {
+        // if (tween != null)
+        // {
+        //     tween.Complete();
+        // }
+        
+        // transform.DOComplete();
         elapsedFrames = 0;
         _returnElementOnPlace = false;
         _lastPos = transform.localPosition;
@@ -183,6 +189,8 @@ public class ObjectManagement : MonoBehaviour
 
     private void OnMouseUp()
     {
+        
+        
         if (_isTouched)
         {
             GameManager.instance.GetBox.StopSpawn();
@@ -232,6 +240,8 @@ public class ObjectManagement : MonoBehaviour
 
         _returnElementOnPlace = true;
         
+        tween = transform.DOLocalMove(_newPosElement, .5f);
+        
         GameManager.instance.SavePositionElement();
     }
 
@@ -247,12 +257,19 @@ public class ObjectManagement : MonoBehaviour
                 newAudio.GetComponent<AudioMove>().Audio = _audioList.AudioClips[0];
                 Instantiate(newAudio, transform.position, Quaternion.identity,_audioList.transform);
 
-                Debug.Log("Тута");
-                
                 var secondElement = _switchTo.GetChild(0).GetChild(0);
                 secondElement.parent = transform.parent;
-                secondElement.localPosition = _newPosElement;
 
+                // _secondObject.transform.DOKill();
+                // if (tween != null)
+                // {
+                //     tween.Complete();
+                // }
+                
+                tween = secondElement.DOLocalMove(_newPosElement, .5f);
+                var myTween = DOTween.instance;
+                
+                
                 transform.parent = _switchTo.GetChild(0);
                 transform.localPosition = _newPosElement;
             }
@@ -262,19 +279,19 @@ public class ObjectManagement : MonoBehaviour
                 newAudio.GetComponent<AudioMove>().Audio = _audioList.AudioClips[0];
                 Instantiate(newAudio, transform.position, Quaternion.identity,_audioList.transform);
                 
-                Debug.Log("Значит Тута");
-                
-                // ОЧЕНЬ ВЕРОЯТНО ЧТО ТУТ Я НАМУДРИЛ!
                 var oldParent = _switchTo.parent;
-                
-                Debug.Log($"До {_switchTo.parent}");
                 
                 var secondElement = _switchTo;
                 secondElement.parent = transform.parent;
-                secondElement.localPosition = _newPosElement;
-
-                Debug.Log($"После {_switchTo.parent}");
+                // _secondObject.transform.DOKill();
                 
+                // if (tween != null)
+                // {
+                //     tween.Complete();
+                // }
+                
+                tween = secondElement.DOLocalMove(_newPosElement, .5f);
+
                 transform.parent = oldParent;
                 transform.localPosition = _newPosElement;
             }
@@ -300,8 +317,6 @@ public class ObjectManagement : MonoBehaviour
         newAudio.GetComponent<AudioMove>().Audio = _audioList.AudioClips[2];
         Instantiate(newAudio, transform.position, Quaternion.identity,_audioList.transform);
         
-        // тестовый код, на проверку последнего элемента зависящего от текущего уровня игрока
-        
         if (GameManager.instance.GetLevelManager.GetLevelPlayer >= gameObject.GetComponent<InfoObject>().GetLevel)
         {
             if (GameManager.instance.Objects.Count > gameObject.GetComponent<InfoObject>().GetLevel + 1)
@@ -312,6 +327,7 @@ public class ObjectManagement : MonoBehaviour
                     _secondObject.transform.parent.transform);
                 newElement.transform.localPosition = _newPosElement;
 
+                // newElement.transform.GetChild(0).GetComponent<ParticleSystem>().Play();
                 var newParticle = Instantiate(_particle, transform.position, quaternion.identity);
                 newParticle.GetComponent<JoinParticle>().PlayParticle();
             }

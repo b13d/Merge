@@ -9,20 +9,32 @@ using YG;
 
 public class GameManager : MonoBehaviour
 {
-    [SerializeField] private List<GameObject> _objects = new List<GameObject>();
+    [Header("Sprites")]
     [SerializeField] private Sprite _bedSprite;
     [SerializeField] private Sprite _bedHoverSprite;
-    [SerializeField] private SpawnBeds _spawnBeds;
+    
+    [Header("Managers")]
     [SerializeField] private ElementManager _elementManager;
     [SerializeField] private CoinManager _coinManager;
     [SerializeField] private LevelManager _levelManager;
-    [SerializeField] private Prefabs _prefabs;
-    [SerializeField] private ClickBed _clickBed;
-
+    
+    [Header("Audio")]
     [SerializeField] private AudioSource _music;
     [SerializeField] private AudioSource _audio;
+    [SerializeField] private AudioSource _touchAudio;
+    
+    [Header("Sliders")]
     [SerializeField] private Slider _audioSlider;
     [SerializeField] private Slider _musicSlider;
+   
+    [Header("Others")]
+    [SerializeField] private SpawnBeds _spawnBeds;
+    [SerializeField] private Prefabs _prefabs;
+    [SerializeField] private ClickBed _clickBed;
+    [SerializeField] private List<GameObject> _objects = new List<GameObject>();
+
+
+
 
 
     private bool _isFull;
@@ -34,8 +46,35 @@ public class GameManager : MonoBehaviour
 
     private float _seconds = 1f;
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Mouse0))
+        {
+            var newTouch = Instantiate(_touchAudio, transform.position, Quaternion.identity);
+            newTouch.Play();
+            
+            Destroy(newTouch.gameObject, 1);
+        } else if (Input.touchCount > 0)
+        {
+            foreach (var touch in Input.touches)
+            {
+                var newTouch = Instantiate(_touchAudio, transform.position, Quaternion.identity);
+                newTouch.Play();
+
+                Destroy(newTouch.gameObject, 1);
+            }
+        }
+    }
+
     private void FixedUpdate()
     {
+        // RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), -Vector2.up);
+        //
+        // if (hit)
+        // {
+        //     Debug.Log(hit.collider);
+        // }
+        
         _seconds -= Time.deltaTime;
 
         if (_seconds < 0)
@@ -46,6 +85,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    
     #region Properties
 
     public ClickBed GetBox
@@ -74,6 +114,16 @@ public class GameManager : MonoBehaviour
         set { amountOfMoney = value; }
     }
 
+    public float GetVolumeAudio
+    {
+        get { return _audioSlider.value; }
+    }
+    
+    public float GetVolumeMusic
+    {
+        get { return _musicSlider.value; }
+    }
+    
     public bool GetFull
     {
         get { return _isFull; }
@@ -152,9 +202,20 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
-        YandexGame.ResetSaveProgress();
-        YandexGame.SaveProgress();
+        // YandexGame.ResetSaveProgress();
+        // YandexGame.SaveProgress();
 
+        Debug.Log("price: " + YandexGame.savesData.priceList.price.Count);
+        Debug.Log("bonusElement: " + YandexGame.savesData.priceList.bonusElement.Count);
+        
+        // List<int> testPrice = new List<int>() { 1, 2, 3, 4, 5 };
+        // List<int> testBonus = new List<int>() { 10, 20, 30 };
+        //
+        // YandexGame.savesData.priceList.bonusElement = testBonus;
+        // YandexGame.savesData.priceList.price = testPrice;
+        
+        // YandexGame.SaveProgress();
+        
         amountOfMoney = YandexGame.savesData.money;
 
         if (YandexGame.savesData._elementsList.Count > 0)
@@ -200,7 +261,7 @@ public class GameManager : MonoBehaviour
         {
             _audio.volume = _audioSlider.value;
             _music.volume = _musicSlider.value;
-
+            
             instance = this;
             DontDestroyOnLoad(gameObject);
         }

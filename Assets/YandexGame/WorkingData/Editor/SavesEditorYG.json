@@ -1,24 +1,28 @@
 {
-    "idSave": 32,
+    "idSave": 1891,
     "isFirstSession": false,
     "language": "ru",
     "promptDone": false,
     "_elementsList": [
-        999,
         1,
+        7,
+        2,
+        4,
         999,
-        999,
-        3,
-        999,
-        999,
-        999,
-        999
+        6,
+        0,
+        4,
+        0
     ],
     "money": 0,
-    "levelPlayer": 2,
-    "countExp": 0,
+    "levelPlayer": 82,
+    "countExp": 1,
     "maxValueSlider": 2.0,
-    "countActiveBeds": 5,
-    "recordMoney": 480,
-    "oldRecordMoney": 0
+    "countActiveBeds": 9,
+    "recordMoney": 42600,
+    "oldRecordMoney": 0,
+    "priceList": {
+        "price": [],
+        "bonusElement": []
+    }
 }
