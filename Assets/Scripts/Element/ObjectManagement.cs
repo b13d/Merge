@@ -164,6 +164,7 @@ public class ObjectManagement : MonoBehaviour
         if (other.tag == "Bed" && !other.GetComponent<Bed>().GetIsCloseBed)
         {
             _canJoin = false;
+            _canSwitch = false;
             _secondObject = null;
             other.GetComponent<Image>().sprite = _bedSprite;
         }

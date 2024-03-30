@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -73,8 +74,16 @@ public class Box : MonoBehaviour, IPointerClickHandler
 
     public void SpawnFirstElement()
     {
+        Sequence firstElementSpawn = DOTween.Sequence();
+
+        
         var newElement = Instantiate(_element, transform.position, Quaternion.identity, transform.parent);
-        newElement.transform.localPosition = new Vector3(0, 4.7f, -2f);
+        // newElement.transform.DOLocalMove(new Vector3(0, 7, -2f), .3f);        
+        
+        firstElementSpawn.Append(newElement.transform.DOLocalMove(new Vector3(0, 7, -2f), .2f));
+        firstElementSpawn.Append(newElement.transform.DOLocalMove(new Vector3(0, 2, -2f), .1f));
+        firstElementSpawn.Append(newElement.transform.DOLocalMove(new Vector3(0, 4.7f, -2f), .1f));
+        // newElement.transform.localPosition = new Vector3(0, 4.7f, -2f);
 
         GameManager.instance.ElementsManager.CheckElements();
         
