@@ -11,7 +11,6 @@ using DG.Tweening;
 
 public class ObjectManagement : MonoBehaviour
 {
-    private bool _isTouched = false;
     private bool _canJoin = false;
     private GameObject _secondObject = null;
     private Tween tween;
@@ -20,7 +19,9 @@ public class ObjectManagement : MonoBehaviour
     [SerializeField] private AudioList _audioList;
     [SerializeField] private GameObject _particle;
     [SerializeField] private AudioMove _audioMove;
+    [SerializeField] private ElementMovement _elementMovement;
 
+    
     private Sprite _bedHoverSprite;
     private Sprite _bedSprite;
     private GameObject _lastBed;
@@ -54,22 +55,11 @@ public class ObjectManagement : MonoBehaviour
                 elapsedFrames = 0;
             }
         }
-
-        if (_isTouched)
-        {
-            Vector3 targetPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            targetPos.z = -2f;
-
-            // Debug.Log(targetPos);
-
-            transform.DOMove(targetPos, .2f);
-            // transform.position = Vector3.Lerp(transform.position, targetPos, .2f);
-        }
     }
 
     private void OnTriggerEnter2D(Collider2D col)
     {
-        if (!_isTouched)
+        if (!_elementMovement.IsTouched)
         {
             return;
         }
@@ -80,7 +70,7 @@ public class ObjectManagement : MonoBehaviour
             _canSwitch = false;
             return;
         }
-        
+
         if (col.CompareTag("Element"))
         {
             var place = col.transform.parent;
@@ -120,8 +110,6 @@ public class ObjectManagement : MonoBehaviour
                 ElementTarget(place);
             }
         }
-
-
     }
 
     void ElementTarget(Transform place)
@@ -163,8 +151,14 @@ public class ObjectManagement : MonoBehaviour
 
         if (other.tag == "Bed" && !other.GetComponent<Bed>().GetIsCloseBed)
         {
-            _canJoin = false;
-            _canSwitch = false;
+            var bed = gameObject.transform.parent.transform.parent;
+            if (bed.gameObject != other.gameObject)
+            {
+                _canJoin = false;
+                _canSwitch = false;
+            }
+
+            // second под вопросом
             _secondObject = null;
             other.GetComponent<Image>().sprite = _bedSprite;
         }
@@ -173,7 +167,7 @@ public class ObjectManagement : MonoBehaviour
         if (other.tag == "Element")
         {
             if (other.gameObject.GetComponent<InfoObject>().GetLevel ==
-                gameObject.GetComponent<InfoObject>().GetLevel && _isTouched)
+                gameObject.GetComponent<InfoObject>().GetLevel && _elementMovement.IsTouched)
             {
                 _secondObject = null;
                 _canJoin = false;
@@ -187,30 +181,17 @@ public class ObjectManagement : MonoBehaviour
         }
     }
 
-    private void OnMouseDown()
+    public void MouseDown()
     {
-        GameManager.instance.GetCurrentLevelElementTaked = GetComponent<InfoObject>().GetLevel;
-        GameManager.instance.GetHighlighting.MatchSearch(gameObject);
-
         elapsedFrames = 0;
         _returnElementOnPlace = false;
         _lastPos = transform.localPosition;
-        _isTouched = true;
+        _elementMovement.IsTouched = true;
     }
 
-    private void OnMouseUp()
+    public void MouseUp()
     {
-        GameManager.instance.GetCurrentLevelElementTaked = 0;
-        GameManager.instance.GetHighlighting.Reset();
-
-
-        // if (_isTouched)
-        // {
-        //     GameManager.instance.GetBox.StopSpawn();
-        // }
-
-        _isTouched = false;
-
+        _elementMovement.IsTouched = false;
 
         if (_canJoin)
         {
@@ -222,18 +203,17 @@ public class ObjectManagement : MonoBehaviour
 
         if (_canSwitch)
         {
-            Debug.Log("Смена!");
-
             Switch();
         }
 
         Reset();
     }
 
+
     private void Reset()
     {
         _canSwitch = false;
-        _isTouched = false;
+        _elementMovement.IsTouched = false;
 
         if (!_canJoin)
         {
