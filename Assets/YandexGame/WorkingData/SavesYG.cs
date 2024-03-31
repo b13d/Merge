@@ -49,6 +49,8 @@ namespace YG
         public int oldRecordMoney;
 
         public Price priceList = new Price();
+
+        public int lastNewElementLevel = 0;
         
         // public int incomeMoney;
 

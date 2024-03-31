@@ -28,6 +28,7 @@ public class ElementMovement : MonoBehaviour
         GameManager.instance.GetCurrentLevelElementTaked = transform.parent.GetComponent<InfoObject>().GetLevel;
         GameManager.instance.GetHighlighting.MatchSearch(transform.parent.gameObject);
 
+        _isTouched = true;
         transform.parent.GetComponent<ObjectManagement>().MouseDown();
     }
     
@@ -36,6 +37,7 @@ public class ElementMovement : MonoBehaviour
         GameManager.instance.GetCurrentLevelElementTaked = 0;
         GameManager.instance.GetHighlighting.Reset();
         
+        _isTouched = false;
         transform.parent.GetComponent<ObjectManagement>().MouseUp();
     }
 }

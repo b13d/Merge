@@ -21,7 +21,7 @@ public class ObjectManagement : MonoBehaviour
     [SerializeField] private AudioMove _audioMove;
     [SerializeField] private ElementMovement _elementMovement;
 
-    
+
     private Sprite _bedHoverSprite;
     private Sprite _bedSprite;
     private GameObject _lastBed;
@@ -310,6 +310,18 @@ public class ObjectManagement : MonoBehaviour
                     _secondObject.transform.parent.transform);
                 newElement.transform.localPosition = _newPosElement;
 
+                if (YandexGame.savesData.lastNewElementLevel < gameObject.GetComponent<InfoObject>().GetLevel + 1)
+                {
+                    GameManager.instance.GetImageNewElement.sprite =
+                        GameManager.instance.GetSpritesElement[gameObject.GetComponent<InfoObject>().GetLevel + 1];
+                    GameManager.instance.GetCanvasNewElement.SetActive(true);
+
+                    YandexGame.savesData.lastNewElementLevel = gameObject.GetComponent<InfoObject>().GetLevel + 1;
+                    
+                    YandexGame.SaveProgress();
+                }
+
+
                 var newParticle = Instantiate(_particle, transform.position, Quaternion.identity);
                 newParticle.GetComponent<JoinParticle>().PlayParticle();
             }
@@ -326,6 +338,5 @@ public class ObjectManagement : MonoBehaviour
 
         Destroy(_secondObject);
         Destroy(gameObject);
-        return;
     }
 }

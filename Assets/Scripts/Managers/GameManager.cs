@@ -31,10 +31,12 @@ public class GameManager : MonoBehaviour
     [SerializeField] private SpawnBeds _spawnBeds;
     [SerializeField] private Prefabs _prefabs;
     [SerializeField] private ClickBed _clickBed;
-    [SerializeField] private List<GameObject> _objects = new List<GameObject>();
     [SerializeField] private AllocationOfBeds _allocationOfBeds;
+    [SerializeField] private List<GameObject> _objects = new List<GameObject>();
+    [SerializeField] private List<Sprite> _spritesElements = new List<Sprite>();
+    [SerializeField] private GameObject _canvasNewElement;
+    [SerializeField] private Image _imageNewElement;
     
-
     private int _currentLevelElementFocus = 0;
     private bool _isFull;
     private int amountOfMoney = 0;
@@ -70,12 +72,12 @@ public class GameManager : MonoBehaviour
 
     private void FixedUpdate()
     {
-        // RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), -Vector2.up);
-        //
-        // if (hit)
-        // {
-        //     Debug.Log(hit.collider);
-        // }
+        RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), -Vector2.up);
+        
+        if (hit)
+        {
+            Debug.Log(hit.collider);
+        }
         
         _seconds -= Time.deltaTime;
 
@@ -90,6 +92,21 @@ public class GameManager : MonoBehaviour
     
     #region Properties
 
+    public List<Sprite> GetSpritesElement
+    {
+        get { return _spritesElements; }
+    }
+    
+    public GameObject GetCanvasNewElement
+    {
+        get { return _canvasNewElement; }
+    }
+
+    public Image GetImageNewElement
+    {
+        get { return _imageNewElement; }
+    }
+    
     public int GetCurrentLevelElementTaked
     {
         set { _currentLevelElementFocus = value; }

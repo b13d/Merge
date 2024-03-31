@@ -12,9 +12,7 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _txtExp;
     [SerializeField] private TextMeshProUGUI _txtLevel;
     [SerializeField] private SpawnBeds _spawnBeds;
-    [SerializeField] private GameObject _canvasNewElement;
-    [SerializeField] private List<Sprite> _spritesElement;
-    [SerializeField] private Image _imageNewElement;
+
     
     private int _exp;
     private int _level;
@@ -116,14 +114,6 @@ public class LevelManager : MonoBehaviour
     {
         _level += 1;
 
-        if (_spritesElement.Count > _level + 1)
-        {
-            // _imageNewElement.sprite = _spritesElement[_level + 1];
-            // _canvasNewElement.SetActive(true);
-        }
-
-
-        
         _txtLevel.text = _level.ToString();
 
         YandexGame.savesData.levelPlayer = _level;
