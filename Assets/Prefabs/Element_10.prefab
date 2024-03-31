@@ -100,6 +100,7 @@ MonoBehaviour:
   _level: 9
   _currentPrice: 20
   _isLastElement: 1
+  _incomeTime: 1.1
 --- !u!114 &948813175938783561
 MonoBehaviour:
   m_ObjectHideFlags: 0

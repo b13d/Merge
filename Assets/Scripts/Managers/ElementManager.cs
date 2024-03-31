@@ -20,6 +20,11 @@ public class ElementManager : MonoBehaviour
 
     [SerializeField] private ElementsLevelStruct[] _elementsLevel;
 
+    private void Start()
+    {
+        CheckElements();
+    }
+
     // private void Awake()
     // {
     //    _currentIncrementPerSecond = YandexGame.savesData.incomeMoney;
@@ -28,17 +33,18 @@ public class ElementManager : MonoBehaviour
     public int GetIncome
     {
         get { return _currentIncrementPerSecond; }
-    }    
-    
+    }
+
     public ElementsLevelStruct[] ElementsLevels
     {
         get { return _elementsLevel; }
     }
 
-    public void CheckElements(int destroyElementLevel = 999, GameObject elementDelete = null, GameObject secondsElement = null, bool isLast = false)
+    public void CheckElements(int destroyElementLevel = 999, GameObject elementDelete = null,
+        GameObject secondsElement = null, bool isLast = false)
     {
         ResetLevels();
-        
+
         _currentIncrementPerSecond = 0;
 
         for (int i = 0; i < _beds.transform.childCount; i++)
@@ -49,11 +55,13 @@ public class ElementManager : MonoBehaviour
 
                 if (place.transform.childCount > 0)
                 {
-                    if (place.GetChild(place.transform.childCount - 1).tag == "Element")
+                    if (place.GetChild(place.transform.childCount - 1).CompareTag("Element"))
                     {
+                        var element = place.GetChild(place.transform.childCount - 1);
+
                         if (elementDelete != null)
                         {
-                            if (elementDelete == place.GetChild(place.transform.childCount - 1).gameObject)
+                            if (elementDelete == element.gameObject)
                             {
                                 continue;
                             }
@@ -61,14 +69,15 @@ public class ElementManager : MonoBehaviour
 
                         if (secondsElement != null)
                         {
-                            if (secondsElement == place.GetChild(place.transform.childCount - 1).gameObject && isLast)
+                            if (secondsElement == element.gameObject && isLast)
                             {
                                 continue;
                             }
                         }
 
-                        var currentLevel = place.GetChild(place.transform.childCount - 1).GetComponent<InfoObject>()
-                            .GetLevel;
+                        var currentLevel = element.GetComponent<InfoObject>().GetLevel;
+                        element.GetComponent<InfoObject>().SetPrice = _elementsLevel[currentLevel].income;
+                        
                         _elementsLevel[currentLevel].count += 1;
                         _currentIncrementPerSecond += _elementsLevel[currentLevel].income;
                     }

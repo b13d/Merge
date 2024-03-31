@@ -5,16 +5,15 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class DotweenTest : MonoBehaviour
+public class NewElement : MonoBehaviour
 {
     [SerializeField] private Transform _transformText;
     [SerializeField] private Transform _imageNewElement;
+    [SerializeField] private Transform _bgLight;
 
     void Start()
     {
         Sequence panelDO = DOTween.Sequence();
-        // s.SetLoops(-1, LoopType.Yoyo);
-        // s.Append(transform.DOLocalMoveY(transform.localPosition.y + 100, 1.5f));
         panelDO.Append(GetComponent<Image>().DOColor(new Color32(0, 0, 0, 0), 0));
         panelDO.Append(GetComponent<Image>().DOColor(new Color32(0, 0, 0, 100), 1));
 
@@ -24,17 +23,21 @@ public class DotweenTest : MonoBehaviour
 
 
         ImageNewElement();
-        // imageDO.Append(_imageNewElement.transform.DOLocalRotate(new Vector3(0, 0, 45), 1));
-        
-        Debug.Log("localScale: " + _imageNewElement.localScale);
     }
 
     private void ImageNewElement()
     {
         Sequence imageDO = DOTween.Sequence();
         imageDO.SetLoops(-1, LoopType.Yoyo);
-        imageDO.Append(_imageNewElement.transform.DOLocalRotate(new Vector3(0, 0, -45), 2f));
-        imageDO.Append(_imageNewElement.DOScale( new Vector3(1.6f, 1.6f, 1.6f), 1));
-        imageDO.Append(_imageNewElement.transform.DOLocalRotate(new Vector3(0, 0, 45), 2f));
-    } 
+        imageDO.Append(_imageNewElement.transform.DOLocalMove(new Vector3(0, 25, 0), 1.4f));
+
+        Sequence bgDORotate = DOTween.Sequence();
+        bgDORotate.SetLoops(-1, LoopType.Incremental);
+        bgDORotate.Append(_bgLight.transform.DORotate(new Vector3(0, 0, 1), .1f));
+
+
+        Sequence bgDOScale = DOTween.Sequence();
+        bgDOScale.SetLoops(-1, LoopType.Yoyo);
+        bgDOScale.Append(_bgLight.transform.DOScale(Vector3.one * 1.5f, 1.2f));
+    }
 }

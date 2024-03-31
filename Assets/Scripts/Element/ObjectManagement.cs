@@ -19,6 +19,7 @@ public class ObjectManagement : MonoBehaviour
     [SerializeField] private AudioList _audioList;
     [SerializeField] private GameObject _particle;
     [SerializeField] private AudioMove _audioMove;
+    [SerializeField] private AudioMove _audioJoin;
     [SerializeField] private ElementMovement _elementMovement;
 
 
@@ -240,7 +241,7 @@ public class ObjectManagement : MonoBehaviour
             if (_switchTo.GetChild(0).transform.childCount > 0)
             {
                 var newAudio = _audioMove;
-                newAudio.GetComponent<AudioMove>().Audio = _audioList.AudioClips[0];
+                newAudio.GetComponent<AudioMove>().Audio = _audioList.GetMoveElementsAudio();
                 Instantiate(newAudio, transform.position, Quaternion.identity, _audioList.transform);
 
                 var secondElement = _switchTo.GetChild(0).GetChild(0);
@@ -260,7 +261,7 @@ public class ObjectManagement : MonoBehaviour
             else if (_switchTo.gameObject.tag == "Element")
             {
                 var newAudio = _audioMove;
-                newAudio.GetComponent<AudioMove>().Audio = _audioList.AudioClips[0];
+                newAudio.GetComponent<AudioMove>().Audio = _audioList.GetSwitchedElementsAudio();
                 Instantiate(newAudio, transform.position, Quaternion.identity, _audioList.transform);
 
                 var oldParent = _switchTo.parent;
@@ -282,7 +283,7 @@ public class ObjectManagement : MonoBehaviour
             else if (_switchTo.gameObject.tag == "Bed")
             {
                 var newAudio = _audioMove;
-                newAudio.GetComponent<AudioMove>().Audio = _audioList.AudioClips[1];
+                newAudio.GetComponent<AudioMove>().Audio = _audioList.GetMoveElementsAudio();
                 Instantiate(newAudio, transform.position, Quaternion.identity, _audioList.transform);
 
                 Debug.Log("Обычное перемещение");
@@ -297,8 +298,17 @@ public class ObjectManagement : MonoBehaviour
     {
         GameManager.instance.GetLevelManager.AddExp();
 
+
+                
+        
+        
         var newAudio = _audioMove;
-        newAudio.GetComponent<AudioMove>().Audio = _audioList.AudioClips[2];
+        float percentSpeed = _audioList.GetCountSpeed * 10f / 100f;
+                
+        Debug.Log($"percentSpeed: " + percentSpeed);
+
+        newAudio.GetComponent<AudioSource>().pitch = 1 + percentSpeed;
+        newAudio.GetComponent<AudioMove>().Audio = _audioList.GetJoinElementsAudio();
         Instantiate(newAudio, transform.position, Quaternion.identity, _audioList.transform);
 
         if (GameManager.instance.GetLevelManager.GetLevelPlayer >= gameObject.GetComponent<InfoObject>().GetLevel)
@@ -314,6 +324,11 @@ public class ObjectManagement : MonoBehaviour
                 {
                     GameManager.instance.GetImageNewElement.sprite =
                         GameManager.instance.GetSpritesElement[gameObject.GetComponent<InfoObject>().GetLevel + 1];
+                    
+                    newAudio = _audioMove;
+                    newAudio.GetComponent<AudioMove>().Audio = _audioList.GetOtherSound(0);
+                    Instantiate(newAudio, transform.position, Quaternion.identity, _audioList.transform);
+                    
                     GameManager.instance.GetCanvasNewElement.SetActive(true);
 
                     YandexGame.savesData.lastNewElementLevel = gameObject.GetComponent<InfoObject>().GetLevel + 1;

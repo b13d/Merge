@@ -20,7 +20,8 @@ public class GameManager : MonoBehaviour
     
     [Header("Audio")]
     [SerializeField] private AudioSource _music;
-    [SerializeField] private AudioSource _audio;
+    [SerializeField] private AudioSource _audioMoveElement;
+    [SerializeField] private AudioSource _audioJoinElement;
     [SerializeField] private AudioSource _touchAudio;
     
     [Header("Sliders")]
@@ -72,12 +73,12 @@ public class GameManager : MonoBehaviour
 
     private void FixedUpdate()
     {
-        RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), -Vector2.up);
-        
-        if (hit)
-        {
-            Debug.Log(hit.collider);
-        }
+        // RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), -Vector2.up);
+        //
+        // if (hit)
+        // {
+        //     Debug.Log(hit.collider);
+        // }
         
         _seconds -= Time.deltaTime;
 
@@ -99,7 +100,10 @@ public class GameManager : MonoBehaviour
     
     public GameObject GetCanvasNewElement
     {
-        get { return _canvasNewElement; }
+        get
+        {
+            return _canvasNewElement;
+        }
     }
 
     public Image GetImageNewElement
@@ -289,7 +293,8 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            _audio.volume = _audioSlider.value;
+            _audioMoveElement.volume = _audioSlider.value;
+            _audioJoinElement.volume = _audioSlider.value;
             _music.volume = _musicSlider.value;
             
             instance = this;

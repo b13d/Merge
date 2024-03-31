@@ -24,26 +24,25 @@ public class CoinManager : MonoBehaviour
         sum = YandexGame.savesData.money;
     }
 
-    private void Update()
-    {
-        _second -= Time.deltaTime;
+    // private void Update()
+    // {
+    //     _second -= Time.deltaTime;
+    //
+    //     if (_second < 0)
+    //     {
+    //         _second = 1f;
+    //         CollectionOfMoney();
+    //     }
+    // }
 
-        if (_second < 0)
-        {
-            _second = 1f;
-            CollectionOfMoney();
-        }
-    }
-
-    void CollectionOfMoney()
+    public void CollectionOfMoney(int money)
     {
         sum = int.Parse(_txtCountMoney.text);
-        sum += GameManager.instance.ElementsManager.GetIncome;
-
+        // sum += GameManager.instance.ElementsManager.GetIncome;
+        sum += money;
+        
         _txtIncome.text = $"<sprite=\"MoneyInSecond\" name=\"MoneyInSecond\"> {GameManager.instance.ElementsManager.GetIncome}";
             
-        
-
         GameManager.instance.AmountOfMoney = sum;
         _txtCountMoney.text = sum.ToString();
         _txtBalance.text = sum.ToString();
