@@ -253,6 +253,7 @@ public class ObjectManagement : MonoBehaviour
                 //     tween.Complete();
                 // }
 
+                secondElement.DOKill();
                 tween = secondElement.DOLocalMove(_newPosElement, .5f);
 
                 transform.parent = _switchTo.GetChild(0);
@@ -275,6 +276,7 @@ public class ObjectManagement : MonoBehaviour
                 //     tween.Complete();
                 // }
 
+                secondElement.DOKill();
                 tween = secondElement.DOLocalMove(_newPosElement, .5f);
 
                 transform.parent = oldParent;

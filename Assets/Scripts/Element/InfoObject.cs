@@ -10,6 +10,10 @@ public class InfoObject : MonoBehaviour
 
     [SerializeField] private bool _isLastElement;
     [SerializeField] private float _incomeTime;
+    [SerializeField] private CanvasUIElement _canvasUI;
+
+    private int _showUIVia = 0;
+    
     private float _startIncomeTime;
     
     private void Start()
@@ -35,6 +39,18 @@ public class InfoObject : MonoBehaviour
         Debug.Log($"Прошло {_startIncomeTime} времени и принес {_currentPrice} денежек");
         
         GameManager.instance.GetCoinManager.CollectionOfMoney(_currentPrice);
+
+        if (_showUIVia <= 0)
+        {
+            var ui = _canvasUI;
+            ui.SetIncomeCurrent = _currentPrice;
+        
+            Instantiate(ui, transform.position, Quaternion.identity);
+
+            _showUIVia = 3;
+        }
+
+        _showUIVia -= 1;
     }
 
     public bool IsLastElement
