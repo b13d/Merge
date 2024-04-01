@@ -28,7 +28,7 @@ public class Product : MonoBehaviour
     {
         set { _levelIndex = value; }
     }
-    
+
     public Sprite SetImage
     {
         set { _image.sprite = value; }
@@ -38,7 +38,7 @@ public class Product : MonoBehaviour
     {
         set { _bonus = value; }
     }
-    
+
 
     [Serializable]
     public struct ProductStruct
@@ -55,16 +55,19 @@ public class Product : MonoBehaviour
         {
             GameManager.instance.AmountOfMoney -= _price;
 
-            _price += Mathf.FloorToInt( (float)_price / 100 * 50);
+            _price += Mathf.FloorToInt((float)_price / 100 * 50);
 
             _txtPrice.text = $"{_price} $";
 
+            GameManager.instance.ElementsManager.ElementsLevels[_levelIndex].price = _price;
+
             GameManager.instance.ElementsManager.ElementsLevels[_levelIndex].income += _bonus;
-            
-            _txtCurrentIncome.text = $"{GameManager.instance.ElementsManager.ElementsLevels[_levelIndex].income} в секунду";
+
+            _txtCurrentIncome.text =
+                $"{GameManager.instance.ElementsManager.ElementsLevels[_levelIndex].income} в {GameManager.instance.ElementsManager.ElementsLevels[_levelIndex].incomeTime} секунды";
 
             GameManager.instance.ElementsManager.CheckElements();
-            
+
             GameManager.instance.GetCoinManager.UpdateUI();
         }
         else
@@ -73,7 +76,7 @@ public class Product : MonoBehaviour
         }
     }
 
-    
+
     public ProductStruct ProductProperty
     {
         get { return test; }

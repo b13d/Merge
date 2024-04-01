@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [Serializable]
-public class Price
+public class ShopData
 {
     public List<int> price = new List<int>();
     public List<int> bonusElement = new List<int>();
@@ -48,9 +48,11 @@ namespace YG
 
         public int oldRecordMoney;
 
-        public Price priceList = new Price();
+        public ShopData shopData = new ShopData();
 
         public int lastNewElementLevel = 0;
+
+        public int lastAchievementID;
         
         // public int incomeMoney;
 
@@ -60,6 +62,15 @@ namespace YG
         // Вы можете выполнить какие то действия при загрузке сохранений
         public SavesYG()
         {
+
+            if (shopData.price.Count == 0)
+            {
+                for (int i = 0; i < _elementsList.Count; i++)
+                {
+                    shopData.price.Add(0);
+                    shopData.bonusElement.Add(0);
+                }
+            }
             // for (int i = 0; i < _elementsList.Count; i++)
             // {
             //     elements.Add(i, _elementsList[i]);

@@ -2,11 +2,14 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using YG;
 
 public class InfoObject : MonoBehaviour
 {
     [SerializeField] private int _level = 0;
-    [SerializeField] private int _currentPrice;
+    [SerializeField] private int _revenue;
+    // revenue - это доход от элемента
+    // incomeTime - кол-во секунд до того как монеты капнут
 
     [SerializeField] private bool _isLastElement;
     [SerializeField] private float _incomeTime;
@@ -18,7 +21,7 @@ public class InfoObject : MonoBehaviour
     
     private void Start()
     {
-        _currentPrice = GameManager.instance.ElementsManager.ElementsLevels[_level].income;
+        _revenue = YandexGame.savesData.shopData.bonusElement[_level];
         _startIncomeTime = _incomeTime;
     }
 
@@ -36,15 +39,15 @@ public class InfoObject : MonoBehaviour
 
     void Profit()
     {
-        Debug.Log($"Прошло {_startIncomeTime} времени и принес {_currentPrice} денежек");
+        Debug.Log($"Прошло {_startIncomeTime} времени и принес {_revenue} денежек");
         
-        GameManager.instance.GetCoinManager.CollectionOfMoney(_currentPrice);
+        GameManager.instance.GetCoinManager.CollectionOfMoney(_revenue);
 
         if (_showUIVia <= 0)
         {
             var ui = _canvasUI;
-            ui.SetIncomeCurrent = _currentPrice;
-        
+            ui.SetIncomeCurrent = _revenue;
+            
             Instantiate(ui, transform.position, Quaternion.identity);
 
             _showUIVia = 3;
@@ -60,9 +63,14 @@ public class InfoObject : MonoBehaviour
 
     public float GetPrice()
     {
-        return _currentPrice;
+        return _revenue;
     }
 
+    public float GetIncomeTime
+    {
+        get { return _incomeTime; }
+    }
+    
     public int GetLevel
     {
         get { return _level; }
@@ -70,6 +78,6 @@ public class InfoObject : MonoBehaviour
 
     public int SetPrice
     {
-        set { _currentPrice = value; }
+        set { _revenue = value; }
     }
 }

@@ -37,6 +37,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private List<Sprite> _spritesElements = new List<Sprite>();
     [SerializeField] private GameObject _canvasNewElement;
     [SerializeField] private Image _imageNewElement;
+    [SerializeField] private Achievements _achievements;
     
     private int _currentLevelElementFocus = 0;
     private bool _isFull;
@@ -92,6 +93,11 @@ public class GameManager : MonoBehaviour
 
     
     #region Properties
+
+    public Achievements GetAchievements
+    {
+        get { return _achievements; }
+    }
 
     public List<Sprite> GetSpritesElement
     {
@@ -239,9 +245,6 @@ public class GameManager : MonoBehaviour
         // YandexGame.ResetSaveProgress();
         // YandexGame.SaveProgress();
 
-        Debug.Log("price: " + YandexGame.savesData.priceList.price.Count);
-        Debug.Log("bonusElement: " + YandexGame.savesData.priceList.bonusElement.Count);
-        
         // List<int> testPrice = new List<int>() { 1, 2, 3, 4, 5 };
         // List<int> testBonus = new List<int>() { 10, 20, 30 };
         //

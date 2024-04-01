@@ -300,10 +300,6 @@ public class ObjectManagement : MonoBehaviour
     {
         GameManager.instance.GetLevelManager.AddExp();
 
-
-                
-        
-        
         var newAudio = _audioMove;
         float percentSpeed = _audioList.GetCountSpeed * 10f / 100f;
                 
@@ -332,6 +328,7 @@ public class ObjectManagement : MonoBehaviour
                     Instantiate(newAudio, transform.position, Quaternion.identity, _audioList.transform);
                     
                     GameManager.instance.GetCanvasNewElement.SetActive(true);
+                    GameManager.instance.GetAchievements.ActiveAchievements(gameObject.GetComponent<InfoObject>().GetLevel + 1);
 
                     YandexGame.savesData.lastNewElementLevel = gameObject.GetComponent<InfoObject>().GetLevel + 1;
                     

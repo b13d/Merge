@@ -15,6 +15,17 @@ public class Save : MonoBehaviour
             YandexGame.savesData.oldRecordMoney = YandexGame.savesData.recordMoney;
             YandexGame.NewLeaderboardScores("recordMoney", YandexGame.savesData.recordMoney);
         }
+
+        var elementLevel = GameManager.instance.ElementsManager.ElementsLevels;
+        var newShopData = YandexGame.savesData.shopData;
+        
+        for (int i = 0; i < elementLevel.Length; i++)
+        {
+            newShopData.price[i] = elementLevel[i].price;
+            newShopData.bonusElement[i] = elementLevel[i].income;
+        }
+
+        YandexGame.savesData.shopData = newShopData;
         
         YandexGame.SaveProgress();
     }

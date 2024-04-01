@@ -16,6 +16,8 @@ public class ElementManager : MonoBehaviour
         public string level;
         public int count;
         public int income;
+        public float incomeTime;
+        public int price;
     }
 
     [SerializeField] private ElementsLevelStruct[] _elementsLevel;
@@ -23,6 +25,21 @@ public class ElementManager : MonoBehaviour
     private void Start()
     {
         CheckElements();
+        InitialElementsData();
+    }
+
+    void InitialElementsData()
+    {
+        if (YandexGame.savesData.shopData.price.Count > 0 && YandexGame.savesData.shopData.price[0] > 0)
+        {
+            for (int i = 0; i < _elementsLevel.Length; i++)
+            {
+                _elementsLevel[i].price = YandexGame.savesData.shopData.price[i];
+                _elementsLevel[i].income = YandexGame.savesData.shopData.bonusElement[i];
+            }
+            
+            CheckElements();
+        }
     }
 
     // private void Awake()
