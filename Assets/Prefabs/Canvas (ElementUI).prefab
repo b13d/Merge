@@ -68,8 +68,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 65 <sprite="coin" name="coin">
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 63f52546004335848a69feeb5f4c0450, type: 2}
-  m_sharedMaterial: {fileID: 1510734581374136485, guid: 63f52546004335848a69feeb5f4c0450, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: adf779f6242757b44b288d76c7f45344, type: 2}
+  m_sharedMaterial: {fileID: -6290168619573412597, guid: adf779f6242757b44b288d76c7f45344, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -220,7 +220,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 1
+  m_PresetInfoIsWorld: 0
 --- !u!114 &4666437569333525367
 MonoBehaviour:
   m_ObjectHideFlags: 0
