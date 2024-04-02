@@ -21,7 +21,8 @@ public class InfoObject : MonoBehaviour
     
     private void Start()
     {
-        _revenue = YandexGame.savesData.shopData.bonusElement[_level];
+        _revenue = GameManager.instance.ElementsManager.ElementsLevels[_level].income;
+        // _revenue = YandexGame.savesData.shopData.bonusElement[_level];
         _startIncomeTime = _incomeTime;
     }
 

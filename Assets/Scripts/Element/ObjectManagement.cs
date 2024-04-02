@@ -338,6 +338,8 @@ public class ObjectManagement : MonoBehaviour
 
                 var newParticle = Instantiate(_particle, transform.position, Quaternion.identity);
                 newParticle.GetComponent<JoinParticle>().PlayParticle();
+                
+                
             }
         }
         else
