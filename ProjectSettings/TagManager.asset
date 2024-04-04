@@ -7,6 +7,7 @@ TagManager:
   - Element
   - Bed
   - Box
+  - Gift
   layers:
   - Default
   - TransparentFX

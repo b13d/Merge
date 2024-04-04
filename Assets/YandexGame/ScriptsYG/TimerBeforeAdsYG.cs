@@ -5,22 +5,21 @@ using YG;
 
 public class TimerBeforeAdsYG : MonoBehaviour
 {
-    [SerializeField, 
-        Tooltip("Объект таймера перед показом рекламы. Он будет активироваться и деактивироваться в нужное время.")]
-    private GameObject secondsPanelObject;
     [SerializeField,
-        Tooltip("Массив объектов, которые будут показываться по очереди через секунду. Сколько объектов вы поместите в массив, столько секунд будет отчитываться перед показом рекламы.\n\nНапример, поместите в массив три объекта: певый с текстом '3', второй с текстом '2', третий с текстом '1'.\nВ таком случае произойдёт отчет трёх секунд с показом объектов с цифрами перед рекламой.")]
+     Tooltip("Объект таймера перед показом рекламы. Он будет активироваться и деактивироваться в нужное время.")]
+    private GameObject secondsPanelObject;
+
+    [SerializeField,
+     Tooltip(
+         "Массив объектов, которые будут показываться по очереди через секунду. Сколько объектов вы поместите в массив, столько секунд будет отчитываться перед показом рекламы.\n\nНапример, поместите в массив три объекта: певый с текстом '3', второй с текстом '2', третий с текстом '1'.\nВ таком случае произойдёт отчет трёх секунд с показом объектов с цифрами перед рекламой.")]
     private GameObject[] secondObjects;
 
     [SerializeField,
-        Tooltip("Работа таймера в реальном времени, независимо от time scale.")]
+     Tooltip("Работа таймера в реальном времени, независимо от time scale.")]
     private bool realtimeSeconds;
 
-    [Space(20)]
-    [SerializeField]
-    private UnityEvent onShowTimer; 
-    [SerializeField]
-    private UnityEvent onHideTimer;
+    [Space(20)] [SerializeField] private UnityEvent onShowTimer;
+    [SerializeField] private UnityEvent onHideTimer;
 
     private void Start()
     {
@@ -34,6 +33,16 @@ public class TimerBeforeAdsYG : MonoBehaviour
             StartCoroutine(CheckTimerAd());
         else
             Debug.LogError("Fill in the array 'secondObjects'");
+    }
+
+    public void ShowTimer()
+    {
+        Time.timeScale = 0;
+    }
+
+    public void HideTimer()
+    {
+        Time.timeScale = 1;
     }
 
     IEnumerator CheckTimerAd()

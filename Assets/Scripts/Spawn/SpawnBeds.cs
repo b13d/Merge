@@ -10,17 +10,13 @@ public class SpawnBeds : MonoBehaviour
 {
     [SerializeField] private List<GameObject> _placeBeds = new List<GameObject>();
     [SerializeField] private List<int> _placeBusy = new List<int>();
-    [SerializeField] private List<GameObject> _elemets = new List<GameObject>();
+    [SerializeField] private GameObject _gift;
     [SerializeField] private Sprite _defaultSpriteBed;
     [SerializeField] private GameObject _box;
 
     [SerializeField] private Sprite _bedCloseSprite;
 
     private int _countElements = 0;
-
-    // Тут еще надо добавить лист который или что-то типо того, который
-    // показывает сколько скрыто, чтобы ориентироваться только на видимые
-    // грядки
 
     private void Start()
     {
@@ -41,13 +37,12 @@ public class SpawnBeds : MonoBehaviour
             else
             {
                 // делаю грядку НЕ активной
-        
+
                 _placeBeds[i].transform.parent.GetComponent<Image>().sprite = _bedCloseSprite;
                 _placeBeds[i].transform.parent.GetComponent<Bed>().GetIsCloseBed = true;
                 _placeBeds[i].transform.parent.gameObject.layer = 7;
             }
         }
-
     }
 
     public List<GameObject> PlaceBeds
@@ -59,8 +54,12 @@ public class SpawnBeds : MonoBehaviour
     {
         set { _placeBusy[value] = 1; }
     }
-    
-    
+
+    public List<int> PlaceBusy
+    {
+        get {return _placeBusy;}
+    }
+
     public void ClearBeds()
     {
         for (int i = 0; i < _placeBeds.Count; i++)
@@ -73,8 +72,6 @@ public class SpawnBeds : MonoBehaviour
             {
                 _placeBeds[i].transform.parent.GetComponent<Image>().sprite = _defaultSpriteBed;
             }
-
-            
         }
 
         StopCoroutine(WaitClearBeds());
@@ -91,7 +88,7 @@ public class SpawnBeds : MonoBehaviour
     public void CheckBedsOnVoid()
     {
         _countElements = 0;
-        
+
         List<int> _activeBeds = new List<int>();
 
         for (int j = 0; j < _placeBeds.Count; j++)
@@ -101,7 +98,7 @@ public class SpawnBeds : MonoBehaviour
                 _activeBeds.Add(j);
             }
         }
-        
+
         for (int i = 0; i < _activeBeds.Count; i++)
         {
             if (_placeBeds[_activeBeds[i]].transform.childCount == 0)
@@ -119,7 +116,7 @@ public class SpawnBeds : MonoBehaviour
                 _placeBusy[i] = 1;
             }
         }
-        
+
         if (_countElements == _activeBeds.Count)
         {
             GameManager.instance.GetFull = true;
@@ -133,7 +130,7 @@ public class SpawnBeds : MonoBehaviour
 
 
         CheckBedsOnVoid();
-        
+
         for (int j = 0; j < _placeBeds.Count; j++)
         {
             if (!_placeBeds[j].transform.parent.GetComponent<Bed>().GetIsCloseBed)
@@ -165,10 +162,24 @@ public class SpawnBeds : MonoBehaviour
         int rnd = Random.Range(0, _clearPlace.Count);
 
         _placeBusy[_clearPlace[rnd]] = 1;
-        var newBox = Instantiate(_box, transform.position, Quaternion.identity, _placeBeds[_clearPlace[rnd]].transform);
-        newBox.transform.localPosition = new Vector3(0, 4.7f, 2f);
-        newBox.GetComponent<Box>().SetIndex = _clearPlace[rnd];
+
+        float chanceGift = Random.Range(0.0f, 1.0f);
+        GameObject newBox;
         
+        Debug.Log($"chanceGift: {chanceGift}");
+        
+        if (chanceGift < 0.2f)
+        {
+            newBox = Instantiate(_gift, transform.position, Quaternion.identity, _placeBeds[_clearPlace[rnd]].transform);
+        }
+        else
+        {
+            newBox = Instantiate(_box, transform.position, Quaternion.identity, _placeBeds[_clearPlace[rnd]].transform);
+        }
+
+        newBox.transform.localPosition = new Vector3(0, 4.7f, -2f);
+        // newBox.GetComponent<Box>().SetIndex = _clearPlace[rnd];
+
         GameManager.instance.SavePositionElement();
     }
 }

@@ -6,7 +6,13 @@ public class Prefabs : MonoBehaviour
 {
     [SerializeField] private List<GameObject> _elements;
     [SerializeField] private GameObject _box;
+    [SerializeField] private GameObject _gift;
 
+
+    public GameObject GetGift
+    {
+        get { return _gift; }
+    }
 
     public List<GameObject> GetElements
     {

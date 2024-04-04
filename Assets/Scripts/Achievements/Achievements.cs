@@ -56,6 +56,8 @@ public class Achievements : MonoBehaviour
     {
         Initial();
         
+        Debug.Log("idElementAchievements: " + idElement);
+        
         _imagesAchievements[idElement].color = Color.white;
         Destroy(_gameObjectAchievements[idElement].transform.GetChild(0).gameObject);
 

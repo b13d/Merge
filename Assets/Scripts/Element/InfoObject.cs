@@ -40,8 +40,6 @@ public class InfoObject : MonoBehaviour
 
     void Profit()
     {
-        Debug.Log($"Прошло {_startIncomeTime} времени и принес {_revenue} денежек");
-        
         GameManager.instance.GetCoinManager.CollectionOfMoney(_revenue);
 
         if (_showUIVia <= 0)
