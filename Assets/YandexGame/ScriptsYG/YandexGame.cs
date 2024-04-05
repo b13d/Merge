@@ -592,12 +592,20 @@ namespace YG
         }
 
         public static Action CloseFullAdEvent;
+
+        public void ContinueGame()
+        {
+            timerShowAd = 0;
+            nowFullAd = false;
+            // CloseFullscreenAd.Invoke();
+            // CloseFullAdEvent?.Invoke();
+        }
+        
         public void CloseFullAd(string wasShown)
         {
-            nowFullAd = false;
+            timerShowAd = -3600;
             CloseFullscreenAd.Invoke();
             CloseFullAdEvent?.Invoke();
-            timerShowAd = 0;
 #if !UNITY_EDITOR
             if (wasShown == "true")
             {
@@ -844,7 +852,11 @@ namespace YG
         private void Update()
         {
             // Таймер для обработки показа Fillscreen рекламы
-            timerShowAd += Time.unscaledDeltaTime;
+
+            if (!nowFullAd)
+            {
+                timerShowAd += Time.unscaledDeltaTime;
+            }
 
             // Таймер для облачных сохранений
 #if !UNITY_EDITOR

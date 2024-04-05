@@ -13,10 +13,11 @@ public class Gift : MonoBehaviour
     [SerializeField] private AudioSource _giftDown;
     [SerializeField] private AudioSource _giftOpen;
     [SerializeField] private ParticleSystem _particle;
-    
-    
+
+
     private readonly int _maxLevelElement = 3;
     private readonly float _volumeDefault = .1f;
+
     private void Start()
     {
         if (GameManager.instance.GetVolumeAudio == 0)
@@ -76,10 +77,7 @@ public class Gift : MonoBehaviour
 
         List<int> rndIDElements = new List<int>();
 
-        if (_levelElementsOnGrid.Contains(0))
-        {
-            rndIDElements.Add(0);
-        }
+        rndIDElements.Add(0);
 
         if (_levelElementsOnGrid.Contains(1) && YandexGame.savesData.lastAchievementID > 1)
         {
@@ -89,11 +87,6 @@ public class Gift : MonoBehaviour
         if (_levelElementsOnGrid.Contains(2) && YandexGame.savesData.lastAchievementID > 2)
         {
             rndIDElements.Add(2);
-        }
-
-        if (rndIDElements.Count == 0)
-        {
-            rndIDElements.Add(0);
         }
 
         var rndID = rndIDElements[Random.Range(0, rndIDElements.Count)];
@@ -117,8 +110,8 @@ public class Gift : MonoBehaviour
 
         Destroy(gameObject);
     }
-    
-    
+
+
     public void BoxDown()
     {
         _giftDown.Play();

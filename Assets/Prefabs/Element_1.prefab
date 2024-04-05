@@ -98,7 +98,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _level: 0
-  _currentPrice: 20
+  _revenue: 0
   _isLastElement: 0
   _incomeTime: 2
   _canvasUI: {fileID: -6636043314795079981, guid: 0ae4c612546bf0543a46c15f77ef0a57, type: 3}

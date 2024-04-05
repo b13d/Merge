@@ -27,7 +27,9 @@ public class SpawnBeds : MonoBehaviour
     {
         for (int i = 0; i < _placeBeds.Count; i++)
         {
-            if (i < YandexGame.savesData.levelPlayer + 3)
+            // if (i < YandexGame.savesData.levelPlayer + 3)
+
+            if (i < YandexGame.savesData.countActiveBeds)
             {
                 // делаю грядку активной
 

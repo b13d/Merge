@@ -29,7 +29,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1942018143656597089}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -2}
+  m_LocalPosition: {x: 0, y: 4.7, z: -2}
   m_LocalScale: {x: 7.9999995, y: 7.9999995, z: 7.9999995}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -98,7 +98,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _level: 8
-  _currentPrice: 20
+  _revenue: 0
   _isLastElement: 1
   _incomeTime: 1.2
   _canvasUI: {fileID: -6636043314795079981, guid: 0ae4c612546bf0543a46c15f77ef0a57, type: 3}

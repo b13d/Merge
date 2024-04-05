@@ -16,7 +16,7 @@ public class LevelManager : MonoBehaviour
     
     private int _exp;
     private int _level;
-    private int _countActiveBeds = 3;
+    private int _countActiveBeds = 6;
     private bool _allActiveBeds;
 
 
@@ -90,9 +90,8 @@ public class LevelManager : MonoBehaviour
         {
             _exp = 0;
 
-            // тут вернуть надо будет
-            // _sliderExp.maxValue += 10;
             _sliderExp.value = 0;
+            _sliderExp.maxValue += 15;
 
             AddLevel();
 
@@ -106,7 +105,7 @@ public class LevelManager : MonoBehaviour
 
         YandexGame.savesData.countExp = _exp;
         YandexGame.savesData.maxValueSlider = _sliderExp.maxValue;
-
+        // YandexGame.savesData.maxValueSlider = _sliderExp.maxValue;
         YandexGame.SaveProgress();
     }
 

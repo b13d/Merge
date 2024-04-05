@@ -37,12 +37,17 @@ public class TimerBeforeAdsYG : MonoBehaviour
 
     public void ShowTimer()
     {
+        AudioListener.pause = true;
         Time.timeScale = 0;
     }
 
-    public void HideTimer()
+    public void ContinueGame(GameObject canvasContinue)
     {
         Time.timeScale = 1;
+        canvasContinue.SetActive(false);
+        AudioListener.pause = false;
+
+        YandexGame.Instance.ContinueGame();
     }
 
     IEnumerator CheckTimerAd()

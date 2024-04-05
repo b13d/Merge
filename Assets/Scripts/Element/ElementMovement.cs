@@ -22,21 +22,26 @@ public class ElementMovement : MonoBehaviour
         get { return _isTouched; }
         set { _isTouched = value; }
     }
-    
+
     private void OnMouseDown()
     {
+        if (Time.timeScale == 0)
+        {
+            return;
+        }
+
         GameManager.instance.GetCurrentLevelElementTaked = transform.parent.GetComponent<InfoObject>().GetLevel;
         GameManager.instance.GetHighlighting.MatchSearch(transform.parent.gameObject);
 
         _isTouched = true;
         transform.parent.GetComponent<ObjectManagement>().MouseDown();
     }
-    
+
     private void OnMouseUp()
     {
         GameManager.instance.GetCurrentLevelElementTaked = 0;
         GameManager.instance.GetHighlighting.Reset();
-        
+
         _isTouched = false;
         transform.parent.GetComponent<ObjectManagement>().MouseUp();
     }

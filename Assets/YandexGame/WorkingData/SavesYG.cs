@@ -40,9 +40,9 @@ namespace YG
 
         public int countExp = 0;
 
-        public float maxValueSlider = 2;
+        public float maxValueSlider = 15;
 
-        public int countActiveBeds = 3;
+        public int countActiveBeds = 6;
 
         public int recordMoney;
 

@@ -302,50 +302,44 @@ public class ObjectManagement : MonoBehaviour
 
         var newAudio = _audioMove;
         float percentSpeed = _audioList.GetCountSpeed * 10f / 100f;
-                
+
         Debug.Log($"percentSpeed: " + percentSpeed);
 
         newAudio.GetComponent<AudioSource>().pitch = 1 + percentSpeed;
         newAudio.GetComponent<AudioMove>().Audio = _audioList.GetJoinElementsAudio();
         Instantiate(newAudio, transform.position, Quaternion.identity, _audioList.transform);
 
-        if (GameManager.instance.GetLevelManager.GetLevelPlayer >= gameObject.GetComponent<InfoObject>().GetLevel)
+        if (GameManager.instance.Objects.Count > gameObject.GetComponent<InfoObject>().GetLevel + 1 &&
+            gameObject.GetComponent<InfoObject>().GetLevel + 1 != 9)
         {
-            if (GameManager.instance.Objects.Count > gameObject.GetComponent<InfoObject>().GetLevel + 1)
+            GameObject newObject = GameManager.instance.Objects[gameObject.GetComponent<InfoObject>().GetLevel + 1];
+            var newElement = Instantiate(newObject, Vector3.zero, Quaternion.identity,
+                _secondObject.transform.parent.transform);
+            newElement.transform.localPosition = _newPosElement;
+
+            if (YandexGame.savesData.lastNewElementLevel < gameObject.GetComponent<InfoObject>().GetLevel + 1)
             {
-                GameObject newObject = GameManager.instance.Objects[gameObject.GetComponent<InfoObject>().GetLevel + 1];
-                var newElement = Instantiate(newObject, Vector3.zero, Quaternion.identity,
-                    _secondObject.transform.parent.transform);
-                newElement.transform.localPosition = _newPosElement;
+                GameManager.instance.GetImageNewElement.sprite =
+                    GameManager.instance.GetSpritesElement[gameObject.GetComponent<InfoObject>().GetLevel + 1];
 
-                if (YandexGame.savesData.lastNewElementLevel < gameObject.GetComponent<InfoObject>().GetLevel + 1)
-                {
-                    GameManager.instance.GetImageNewElement.sprite =
-                        GameManager.instance.GetSpritesElement[gameObject.GetComponent<InfoObject>().GetLevel + 1];
-                    
-                    newAudio = _audioMove;
-                    newAudio.GetComponent<AudioMove>().Audio = _audioList.GetOtherSound(0);
-                    Instantiate(newAudio, transform.position, Quaternion.identity, _audioList.transform);
-                    
-                    GameManager.instance.GetCanvasNewElement.SetActive(true);
-                    GameManager.instance.GetAchievements.ActiveAchievements(gameObject.GetComponent<InfoObject>().GetLevel + 1);
+                newAudio = _audioMove;
+                newAudio.GetComponent<AudioMove>().Audio = _audioList.GetOtherSound(0);
+                Instantiate(newAudio, transform.position, Quaternion.identity, _audioList.transform);
 
-                    YandexGame.savesData.lastNewElementLevel = gameObject.GetComponent<InfoObject>().GetLevel + 1;
-                    
-                    YandexGame.SaveProgress();
-                }
+                GameManager.instance.GetCanvasNewElement.SetActive(true);
+                GameManager.instance.GetAchievements.ActiveAchievements(gameObject.GetComponent<InfoObject>().GetLevel +
+                                                                        1);
 
+                YandexGame.savesData.lastNewElementLevel = gameObject.GetComponent<InfoObject>().GetLevel + 1;
 
-                var newParticle = Instantiate(_particle, transform.position, Quaternion.identity);
-                newParticle.GetComponent<JoinParticle>().PlayParticle();
-                
-                
+                YandexGame.SaveProgress();
             }
+
+
+            var newParticle = Instantiate(_particle, transform.position, Quaternion.identity);
+            newParticle.GetComponent<JoinParticle>().PlayParticle();
         }
-        else
-        {
-            Debug.LogError("Последний элемент!!");
-        }
+
 
         GameManager.instance.SpawnBedsClear.ClearBeds();
         GameManager.instance.ElementsManager.CheckElements(GetComponent<InfoObject>().GetLevel, gameObject,

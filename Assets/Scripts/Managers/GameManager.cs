@@ -47,23 +47,28 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Mouse0))
+        Debug.Log("TimeScale: " + Time.timeScale);
+        
+        if (Time.timeScale > 0)
         {
-            var newTouch = Instantiate(_touchAudio, transform.position, Quaternion.identity);
-            newTouch.Play();
-
-            Destroy(newTouch.gameObject, 1);
-        }
-        else if (Input.touchCount > 0)
-        {
-            foreach (var touch in Input.touches)
+            if (Input.GetKeyDown(KeyCode.Mouse0))
             {
-                if (touch.phase == TouchPhase.Began)
-                {
-                    var newTouch = Instantiate(_touchAudio, transform.position, Quaternion.identity);
-                    newTouch.Play();
+                var newTouch = Instantiate(_touchAudio, transform.position, Quaternion.identity);
+                newTouch.Play();
 
-                    Destroy(newTouch.gameObject, 1);
+                Destroy(newTouch.gameObject, 1);
+            }
+            else if (Input.touchCount > 0)
+            {
+                foreach (var touch in Input.touches)
+                {
+                    if (touch.phase == TouchPhase.Began)
+                    {
+                        var newTouch = Instantiate(_touchAudio, transform.position, Quaternion.identity);
+                        newTouch.Play();
+
+                        Destroy(newTouch.gameObject, 1);
+                    }
                 }
             }
         }
