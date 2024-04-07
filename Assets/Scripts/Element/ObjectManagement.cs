@@ -31,7 +31,7 @@ public class ObjectManagement : MonoBehaviour
     private bool _returnElementOnPlace = false;
     private bool _canSwitch = false;
     private Transform _switchTo;
-    private Vector3 _newPosElement = new Vector3(0, 4.7f, -2);
+    private Vector3 _newPosElement = new Vector3(0, 0f, -2);
     private GameObject _secondDeletedElement;
 
     public int interpolationFramesCount = 90; // Number of frames to completely interpolate between the 2 positions
@@ -84,7 +84,7 @@ public class ObjectManagement : MonoBehaviour
             {
                 if (!_lastBed.GetComponent<Bed>().GetIsCloseBed)
                 {
-                    _lastBed.GetComponent<Image>().sprite = _bedSprite;
+                    _lastBed.GetComponent<SpriteRenderer>().sprite = _bedSprite;
                 }
             }
 
@@ -100,7 +100,7 @@ public class ObjectManagement : MonoBehaviour
                 }
             }
 
-            col.GetComponent<Image>().sprite = _bedHoverSprite;
+            col.GetComponent<SpriteRenderer>().sprite = _bedHoverSprite;
 
             _canSwitch = true;
             _switchTo = col.transform;
@@ -161,7 +161,7 @@ public class ObjectManagement : MonoBehaviour
 
             // second под вопросом
             _secondObject = null;
-            other.GetComponent<Image>().sprite = _bedSprite;
+            other.GetComponent<SpriteRenderer>().sprite = _bedSprite;
         }
 
 
@@ -184,30 +184,36 @@ public class ObjectManagement : MonoBehaviour
 
     public void MouseDown()
     {
-        elapsedFrames = 0;
-        _returnElementOnPlace = false;
-        _lastPos = transform.localPosition;
-        _elementMovement.IsTouched = true;
+        if (!EventSystem.current.IsPointerOverGameObject())
+        {
+            elapsedFrames = 0;
+            _returnElementOnPlace = false;
+            _lastPos = transform.localPosition;
+            _elementMovement.IsTouched = true;
+        }
     }
 
     public void MouseUp()
     {
-        _elementMovement.IsTouched = false;
-
-        if (_canJoin)
+        if (!EventSystem.current.IsPointerOverGameObject())
         {
-            Join();
+            _elementMovement.IsTouched = false;
 
-            return;
+            if (_canJoin)
+            {
+                Join();
+
+                return;
+            }
+
+
+            if (_canSwitch)
+            {
+                Switch();
+            }
+
+            Reset();
         }
-
-
-        if (_canSwitch)
-        {
-            Switch();
-        }
-
-        Reset();
     }
 
 

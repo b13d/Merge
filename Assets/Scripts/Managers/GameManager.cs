@@ -47,7 +47,7 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        Debug.Log("TimeScale: " + Time.timeScale);
+        // Debug.Log("TimeScale: " + Time.timeScale);
         
         if (Time.timeScale > 0)
         {
@@ -284,7 +284,7 @@ public class GameManager : MonoBehaviour
                         newElement = GetPrefabs.GetElements[value - 1].gameObject;
                     }
 
-                    newElement.transform.localPosition = new Vector3(0, 4.7f, -2f);
+                    newElement.transform.localPosition = new Vector3(0, 0f, -2f);
 
                     Instantiate(newElement, _spawnBeds.PlaceBeds[i].transform, false);
 

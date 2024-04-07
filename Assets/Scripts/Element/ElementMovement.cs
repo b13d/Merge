@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class ElementMovement : MonoBehaviour
 {
@@ -25,24 +26,30 @@ public class ElementMovement : MonoBehaviour
 
     private void OnMouseDown()
     {
-        if (Time.timeScale == 0)
+        if (!EventSystem.current.IsPointerOverGameObject())
         {
-            return;
+            if (Time.timeScale == 0)
+            {
+                return;
+            }
+
+            GameManager.instance.GetCurrentLevelElementTaked = transform.parent.GetComponent<InfoObject>().GetLevel;
+            GameManager.instance.GetHighlighting.MatchSearch(transform.parent.gameObject);
+
+            _isTouched = true;
+            transform.parent.GetComponent<ObjectManagement>().MouseDown();
         }
-
-        GameManager.instance.GetCurrentLevelElementTaked = transform.parent.GetComponent<InfoObject>().GetLevel;
-        GameManager.instance.GetHighlighting.MatchSearch(transform.parent.gameObject);
-
-        _isTouched = true;
-        transform.parent.GetComponent<ObjectManagement>().MouseDown();
     }
 
     private void OnMouseUp()
     {
-        GameManager.instance.GetCurrentLevelElementTaked = 0;
-        GameManager.instance.GetHighlighting.Reset();
+        if (!EventSystem.current.IsPointerOverGameObject())
+        {
+            GameManager.instance.GetCurrentLevelElementTaked = 0;
+            GameManager.instance.GetHighlighting.Reset();
 
-        _isTouched = false;
-        transform.parent.GetComponent<ObjectManagement>().MouseUp();
+            _isTouched = false;
+            transform.parent.GetComponent<ObjectManagement>().MouseUp();
+        }
     }
 }

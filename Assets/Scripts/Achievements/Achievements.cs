@@ -9,10 +9,13 @@ public class Achievements : MonoBehaviour
 {
     [SerializeField] private List<GameObject> _gameObjectAchievements;
     [SerializeField] private List<Image> _imagesAchievements;
+    private int _countActiveAchievements = 0;
+    private SpawnProducts _spawnProducts;
     
     void Start()
     {
         Initial();
+
     }
 
     void Initial()
@@ -32,17 +35,14 @@ public class Achievements : MonoBehaviour
         {
             AlreadyCompletedAchievements(YandexGame.savesData.lastAchievementID);
         }
-
-        // for (int i = 0; i < _imagesAchievements.Count; i++)
-        // {
-        //     _imagesAchievements[i].color = Color.white;
-        // }
     }
 
     public void AlreadyCompletedAchievements(int id)
     {
         for (int i = 1; i <= id; i++)
         {
+            _countActiveAchievements++;
+            
             _imagesAchievements[i].color = Color.white;
 
             if (_gameObjectAchievements[i].transform.childCount > 0)
@@ -61,7 +61,14 @@ public class Achievements : MonoBehaviour
         _imagesAchievements[idElement].color = Color.white;
         Destroy(_gameObjectAchievements[idElement].transform.GetChild(0).gameObject);
 
+        _countActiveAchievements++;
+        
         YandexGame.savesData.lastAchievementID = idElement;
+        
+        _spawnProducts = GameObject.FindObjectOfType<SpawnProducts>();
+
+        
+        _spawnProducts.ActiveNewProduct(idElement);
         
         YandexGame.SaveProgress();
     }

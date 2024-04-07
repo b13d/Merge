@@ -61,7 +61,7 @@ public class LevelManager : MonoBehaviour
 
                 _spawnBeds.PlaceBeds[i].transform.parent.gameObject.layer = 0;
 
-                _spawnBeds.PlaceBeds[i].transform.parent.GetComponent<Image>().sprite = GameManager.instance.BedSprite;
+                _spawnBeds.PlaceBeds[i].transform.parent.GetComponent<SpriteRenderer>().sprite = GameManager.instance.BedSprite;
                 
                 _spawnBeds.CheckBedsOnVoid();
 
