@@ -35,7 +35,7 @@ public class AllocationOfBeds : MonoBehaviour
 
         foreach (var element in elements)
         {
-            element.transform.DOLocalMoveY(4.7f, .2f);
+            element.transform.DOLocalMoveY(0, .2f);
             element.GetComponent<SpriteRenderer>().material.DisableKeyword("_EMISSION");
         }
     }
@@ -79,7 +79,7 @@ public class AllocationOfBeds : MonoBehaviour
 
                     if (GameManager.instance.GetCurrentLevelElementTaked == element.GetComponent<InfoObject>().GetLevel)
                     {
-                        element.DOLocalMoveY(6.5f, .2f);
+                        element.DOLocalMoveY(.5f, .2f);
                         element.GetComponent<SpriteRenderer>().material.EnableKeyword("_EMISSION");
 
                         _highlightingElements[i].SetActive(true);

@@ -35,12 +35,13 @@ public class SpawnBeds : MonoBehaviour
 
                 _placeBeds[i].transform.parent.gameObject.layer = 0;
                 _placeBeds[i].transform.parent.GetComponent<Bed>().GetIsCloseBed = false;
+                _placeBeds[i].transform.parent.GetComponent<SpriteRenderer>().sprite = _defaultSpriteBed;
             }
             else
             {
                 // делаю грядку НЕ активной
 
-                _placeBeds[i].transform.parent.GetComponent<Image>().sprite = _bedCloseSprite;
+                _placeBeds[i].transform.parent.GetComponent<SpriteRenderer>().sprite = _bedCloseSprite;
                 _placeBeds[i].transform.parent.GetComponent<Bed>().GetIsCloseBed = true;
                 _placeBeds[i].transform.parent.gameObject.layer = 7;
             }
@@ -68,11 +69,11 @@ public class SpawnBeds : MonoBehaviour
         {
             if (_placeBeds[i].transform.parent.GetComponent<Bed>().GetIsCloseBed)
             {
-                _placeBeds[i].transform.parent.GetComponent<Image>().sprite = _bedCloseSprite;
+                _placeBeds[i].transform.parent.GetComponent<SpriteRenderer>().sprite = _bedCloseSprite;
             }
             else
             {
-                _placeBeds[i].transform.parent.GetComponent<Image>().sprite = _defaultSpriteBed;
+                _placeBeds[i].transform.parent.GetComponent<SpriteRenderer>().sprite = _defaultSpriteBed;
             }
         }
 
@@ -179,7 +180,7 @@ public class SpawnBeds : MonoBehaviour
             newBox = Instantiate(_box, transform.position, Quaternion.identity, _placeBeds[_clearPlace[rnd]].transform);
         }
 
-        newBox.transform.localPosition = new Vector3(0, 4.7f, -2f);
+        newBox.transform.localPosition = new Vector3(0, 0f, -2f);
         // newBox.GetComponent<Box>().SetIndex = _clearPlace[rnd];
 
         GameManager.instance.SavePositionElement();

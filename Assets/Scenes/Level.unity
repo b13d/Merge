@@ -732,8 +732,24 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1701189045811837018, guid: 35fa95bde1a56744eb9b514cef2e0af8, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 4617.56
+      objectReference: {fileID: 0}
+    - target: {fileID: 1701189045811837018, guid: 35fa95bde1a56744eb9b514cef2e0af8, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1701189045811837018, guid: 35fa95bde1a56744eb9b514cef2e0af8, type: 3}
       propertyPath: m_LocalPosition.z
       value: -10000
+      objectReference: {fileID: 0}
+    - target: {fileID: 1701189045811837018, guid: 35fa95bde1a56744eb9b514cef2e0af8, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1701189045811837018, guid: 35fa95bde1a56744eb9b514cef2e0af8, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8275278890582271463, guid: 35fa95bde1a56744eb9b514cef2e0af8, type: 3}
       propertyPath: m_Camera
@@ -4719,7 +4735,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 1679.95}
+  m_SizeDelta: {x: 0, y: 886.36}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &569307327
 MonoBehaviour:
@@ -4743,7 +4759,7 @@ MonoBehaviour:
   m_StartAxis: 1
   m_CellSize: {x: 400, y: 160}
   m_Spacing: {x: 0, y: 0}
-  m_Constraint: 1
+  m_Constraint: 0
   m_ConstraintCount: 1
 --- !u!1 &583412858
 GameObject:
@@ -11342,7 +11358,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: -775.1929, y: -840}
+  m_SizeDelta: {x: 8181.48, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!50 &1306557803
 Rigidbody2D:

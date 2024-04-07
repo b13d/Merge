@@ -57,14 +57,14 @@ public class Product : MonoBehaviour
 
             _price += Mathf.FloorToInt((float)_price / 100 * 50);
 
-            _txtPrice.text = $"{_price} $";
+            _txtPrice.text = $"{_price} <sprite=\"coin\" name=\"coin\"> ";
 
             GameManager.instance.ElementsManager.ElementsLevels[_levelIndex].price = _price;
 
             GameManager.instance.ElementsManager.ElementsLevels[_levelIndex].income += _bonus;
 
             _txtCurrentIncome.text =
-                $"{GameManager.instance.ElementsManager.ElementsLevels[_levelIndex].income} в {GameManager.instance.ElementsManager.ElementsLevels[_levelIndex].incomeTime} секунды";
+                $"{GameManager.instance.ElementsManager.ElementsLevels[_levelIndex].income} <sprite=\"coin\" name=\"coin\"> в {GameManager.instance.ElementsManager.ElementsLevels[_levelIndex].incomeTime} секунды";
 
             GameManager.instance.ElementsManager.CheckElements();
 
@@ -82,7 +82,7 @@ public class Product : MonoBehaviour
         get { return test; }
         set
         {
-            _txtPrice.text = value.price + " $";
+            _txtPrice.text = value.price + " <sprite=\"coin\" name=\"coin\">";
             _txtCurrentIncome.text = value.currentIncome;
             _txtTitle.text = value.title;
 

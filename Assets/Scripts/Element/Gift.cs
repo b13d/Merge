@@ -102,9 +102,9 @@ public class Gift : MonoBehaviour
 
         var newElement = Instantiate(element, transform.position, Quaternion.identity, transform.parent);
 
-        firstElementSpawn.Append(newElement.transform.DOLocalMove(new Vector3(0, 7, -2f), .2f));
-        firstElementSpawn.Append(newElement.transform.DOLocalMove(new Vector3(0, 2, -2f), .1f));
-        firstElementSpawn.Append(newElement.transform.DOLocalMove(new Vector3(0, 4.7f, -2f), .1f));
+        firstElementSpawn.Append(newElement.transform.DOLocalMove(new Vector3(0, .5f, -2f), .2f));
+        firstElementSpawn.Append(newElement.transform.DOLocalMove(new Vector3(0, -.5f, -2f), .2f));
+        firstElementSpawn.Append(newElement.transform.DOLocalMove(new Vector3(0, 0f, -2f), .2f));
 
         GameManager.instance.ElementsManager.CheckElements();
 
