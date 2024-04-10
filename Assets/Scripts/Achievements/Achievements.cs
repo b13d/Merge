@@ -15,7 +15,6 @@ public class Achievements : MonoBehaviour
     void Start()
     {
         Initial();
-
     }
 
     void Initial()

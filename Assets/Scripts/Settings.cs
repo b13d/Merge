@@ -7,14 +7,6 @@ public class Settings : MonoBehaviour
 {
     [SerializeField] private AudioSource _music;
     [SerializeField] private AudioSource _audio;
-    // [SerializeField] private Slider _audioSlider;
-    // [SerializeField] private Slider _musicSlider;
-    
-    void Start()
-    {
-        // _audio.volume = _audioSlider.value;
-        // _music.volume = _musicSlider.value;
-    }
 
     public void SliderAudio(Slider sliderAudio)
     {

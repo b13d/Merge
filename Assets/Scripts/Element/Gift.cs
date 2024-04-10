@@ -71,22 +71,16 @@ public class Gift : MonoBehaviour
             index++;
         }
 
-        // Debug.Log("Есть ли 1й уровень элементов? " + _levelElementsOnGrid.Contains(0));
-        // Debug.Log("Есть ли 2й уровень элементов? " + _levelElementsOnGrid.Contains(1));
-        // Debug.Log("Есть ли 3й уровень элементов? " + _levelElementsOnGrid.Contains(2));
-
         List<int> rndIDElements = new List<int>();
 
         rndIDElements.Add(0);
-
-        if (_levelElementsOnGrid.Contains(1) && YandexGame.savesData.lastAchievementID > 1)
+        
+        for (int i = 1; i < 3; i++)
         {
-            rndIDElements.Add(1);
-        }
-
-        if (_levelElementsOnGrid.Contains(2) && YandexGame.savesData.lastAchievementID > 2)
-        {
-            rndIDElements.Add(2);
+            if (_levelElementsOnGrid.Contains(i) && YandexGame.savesData.lastAchievementID > i)
+            {
+                rndIDElements.Add(i);
+            }
         }
 
         var rndID = rndIDElements[Random.Range(0, rndIDElements.Count)];

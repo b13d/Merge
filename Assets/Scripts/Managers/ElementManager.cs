@@ -42,11 +42,6 @@ public class ElementManager : MonoBehaviour
         }
     }
 
-    // private void Awake()
-    // {
-    //    _currentIncrementPerSecond = YandexGame.savesData.incomeMoney;
-    // }
-
     public int GetIncome
     {
         get { return _currentIncrementPerSecond; }

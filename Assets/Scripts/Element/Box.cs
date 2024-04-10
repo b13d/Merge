@@ -16,13 +16,12 @@ public class Box : MonoBehaviour
 
     private float _volumeDefault = .1f;
 
-    public int SetIndex
+    private void Start()
     {
-        get { return _placeIndex; }
-        set { _placeIndex = value; }
+        DefaultValueAudio();
     }
 
-    private void Start()
+    private void DefaultValueAudio()
     {
         if (GameManager.instance.GetVolumeAudio == 0)
         {
@@ -34,9 +33,6 @@ public class Box : MonoBehaviour
             _boxDown.volume = _volumeDefault;
             _boxOpen.volume = _volumeDefault;
         }
-
-        // _boxDown.volume = GameManager.instance.GetVolumeAudio;
-        // _boxOpen.volume = GameManager.instance.GetVolumeAudio;
     }
 
 
@@ -44,23 +40,8 @@ public class Box : MonoBehaviour
     {
         if (!EventSystem.current.IsPointerOverGameObject())
         {
-            Debug.Log("Нажал на коробку");
+            DefaultValueAudio();
 
-            if (GameManager.instance.GetVolumeAudio == 0)
-            {
-                _boxDown.volume = 0;
-                _boxOpen.volume = 0;
-            }
-            else
-            {
-                _boxDown.volume = _volumeDefault;
-                _boxOpen.volume = _volumeDefault;
-            }
-
-            // _boxDown.volume = GameManager.instance.GetVolumeAudio;
-            // _boxOpen.volume = GameManager.instance.GetVolumeAudio;
-
-            // GameManager.instance.SpawnBedsClear.ClearPlace(_placeIndex);
             GetComponent<Animator>().Play("openBox");
         }
     }
@@ -74,7 +55,6 @@ public class Box : MonoBehaviour
     {
         _boxOpen.Play();
 
-        // var newParticle = Instantiate(_particle, transform.position, Quaternion.identity);
         _particle.GetComponent<JoinParticle>().PlayParticle();
     }
 
@@ -84,12 +64,10 @@ public class Box : MonoBehaviour
 
 
         var newElement = Instantiate(_element, transform.position, Quaternion.identity, transform.parent);
-        // newElement.transform.DOLocalMove(new Vector3(0, 7, -2f), .3f);        
 
         firstElementSpawn.Append(newElement.transform.DOLocalMove(new Vector3(0, .5f, -2f), .2f));
         firstElementSpawn.Append(newElement.transform.DOLocalMove(new Vector3(0, -.5f, -2f), .2f));
         firstElementSpawn.Append(newElement.transform.DOLocalMove(new Vector3(0, 0f, -2f), .2f));
-        // newElement.transform.localPosition = new Vector3(0, 4.7f, -2f);
 
         GameManager.instance.ElementsManager.CheckElements();
 

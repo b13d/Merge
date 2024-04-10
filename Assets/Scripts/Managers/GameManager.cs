@@ -47,8 +47,6 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        // Debug.Log("TimeScale: " + Time.timeScale);
-        
         if (Time.timeScale > 0)
         {
             if (Input.GetKeyDown(KeyCode.Mouse0))
@@ -88,8 +86,6 @@ public class GameManager : MonoBehaviour
         if (_seconds < 0)
         {
             _seconds = 1f;
-
-            // Switched();
         }
     }
 
@@ -251,14 +247,6 @@ public class GameManager : MonoBehaviour
         // YandexGame.ResetSaveProgress();
         // YandexGame.SaveProgress();
 
-        // List<int> testPrice = new List<int>() { 1, 2, 3, 4, 5 };
-        // List<int> testBonus = new List<int>() { 10, 20, 30 };
-        //
-        // YandexGame.savesData.priceList.bonusElement = testBonus;
-        // YandexGame.savesData.priceList.price = testPrice;
-
-        // YandexGame.SaveProgress();
-
         amountOfMoney = YandexGame.savesData.money;
 
         if (YandexGame.savesData._elementsList.Count > 0)
@@ -287,8 +275,6 @@ public class GameManager : MonoBehaviour
                     newElement.transform.localPosition = new Vector3(0, 0f, -2f);
 
                     Instantiate(newElement, _spawnBeds.PlaceBeds[i].transform, false);
-
-                    // Instantiate(newElement, transform.position, Quaternion.identity, );
 
                     _spawnBeds.SetPlaceBusy = i;
                 }

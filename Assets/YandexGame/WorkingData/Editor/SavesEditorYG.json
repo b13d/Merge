@@ -1,25 +1,25 @@
 {
-    "idSave": 535,
+    "idSave": 18,
     "isFirstSession": false,
     "language": "ru",
     "promptDone": false,
     "_elementsList": [
-        1,
-        -1,
-        0,
         999,
+        999,
+        999,
+        999,
+        3,
         1,
-        1,
-        -1,
-        1,
-        1
+        999,
+        999,
+        999
     ],
     "money": 0,
-    "levelPlayer": 4,
-    "countExp": 74,
-    "maxValueSlider": 75.0,
-    "countActiveBeds": 9,
-    "recordMoney": 781215,
+    "levelPlayer": 0,
+    "countExp": 3,
+    "maxValueSlider": 15.0,
+    "countActiveBeds": 6,
+    "recordMoney": 270,
     "oldRecordMoney": 0,
     "shopData": {
         "price": [
@@ -45,6 +45,6 @@
             0
         ]
     },
-    "lastNewElementLevel": 8,
-    "lastAchievementID": 8
+    "lastNewElementLevel": 2,
+    "lastAchievementID": 2
 }

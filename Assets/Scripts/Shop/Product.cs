@@ -24,6 +24,8 @@ public class Product : MonoBehaviour
         _button.onClick.AddListener(BuyProduct);
     }
 
+    #region Properties
+
     public int SetLevelIndex
     {
         set { _levelIndex = value; }
@@ -39,7 +41,9 @@ public class Product : MonoBehaviour
         set { _bonus = value; }
     }
 
+    #endregion
 
+    
     [Serializable]
     public struct ProductStruct
     {

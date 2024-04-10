@@ -33,7 +33,7 @@ public class ClickBed : MonoBehaviour, IPointerClickHandler
             _stopClick = true;
             GameManager.instance.ElementsManager.CheckElements();
 
-            // Выключил спавн коробки!
+            // Disabled spawn box!
             GameManager.instance.SpawnBedsClear.SpawnBox();
 
             StartCoroutine(Reset());
@@ -63,38 +63,11 @@ public class ClickBed : MonoBehaviour, IPointerClickHandler
         if (_count == 0)
         {
             _stopClick = true;
-            Debug.Log("При нажати!!! Спавнится коробка");
-            
             GameManager.instance.SpawnBedsClear.SpawnBox();
             StartCoroutine(Reset());
         }
     }
-
-    // public void StopSpawn()
-    // {
-    //     StartCoroutine(StopSpawnBox());
-    // }
-
-    // public IEnumerator StopSpawnBox()
-    // {
-    //     Debug.Log("Корутина StopSpawnBox");
-    //     Debug.Log("count: " + _count);
-    //     
-    //     _stopClick = true;
-    //
-    //     if (_count == 10)
-    //     {
-    //         _image.fillAmount = 0;
-    //     }
-    //
-    //     yield return new WaitForSeconds(.5f);
-    //
-    //     Debug.Log("Возобновляем stopClick = false");
-    //
-    //     _stopClick = false;
-    // }
-
-    IEnumerator Reset()
+    IEnumerator  Reset()
     {
         _count = 10;
         
