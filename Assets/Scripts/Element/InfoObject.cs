@@ -4,25 +4,24 @@ using System.Collections.Generic;
 using UnityEngine;
 using YG;
 
+// revenue - это доход от элемента
+// incomeTime - кол-во секунд до того как монеты капнут
+
 public class InfoObject : MonoBehaviour
 {
     [SerializeField] private int _level = 0;
     [SerializeField] private int _revenue;
-    // revenue - это доход от элемента
-    // incomeTime - кол-во секунд до того как монеты капнут
 
     [SerializeField] private bool _isLastElement;
     [SerializeField] private float _incomeTime;
     [SerializeField] private CanvasUIElement _canvasUI;
 
     private int _showUIVia = 0;
-    
     private float _startIncomeTime;
     
     private void Start()
     {
         _revenue = GameManager.instance.ElementsManager.ElementsLevels[_level].income;
-        // _revenue = YandexGame.savesData.shopData.bonusElement[_level];
         _startIncomeTime = _incomeTime;
     }
 
@@ -55,6 +54,8 @@ public class InfoObject : MonoBehaviour
         _showUIVia -= 1;
     }
 
+    #region Properties
+
     public bool IsLastElement
     {
         get { return _isLastElement; }
@@ -79,4 +80,8 @@ public class InfoObject : MonoBehaviour
     {
         set { _revenue = value; }
     }
+
+    #endregion
+    
+    
 }

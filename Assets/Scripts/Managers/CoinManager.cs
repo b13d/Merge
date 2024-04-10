@@ -15,47 +15,35 @@ public class CoinManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _txtIncome;
 
     private float _second = 1f;
-    private int sum;
+    private int _sum;
 
     private void Start()
     {
         _txtBalance.text = YandexGame.savesData.money.ToString();
         _txtCountMoney.text = YandexGame.savesData.money.ToString();
-        sum = YandexGame.savesData.money;
+        _sum = YandexGame.savesData.money;
     }
-
-    // private void Update()
-    // {
-    //     _second -= Time.deltaTime;
-    //
-    //     if (_second < 0)
-    //     {
-    //         _second = 1f;
-    //         CollectionOfMoney();
-    //     }
-    // }
 
     public void CollectionOfMoney(int money)
     {
-        sum = int.Parse(_txtCountMoney.text);
-        // sum += GameManager.instance.ElementsManager.GetIncome;
-        sum += money;
+        _sum = int.Parse(_txtCountMoney.text);
+        _sum += money;
         
         _txtIncome.text = $"{GameManager.instance.ElementsManager.GetIncome}";
             
-        GameManager.instance.AmountOfMoney = sum;
-        _txtCountMoney.text = sum.ToString();
-        _txtBalance.text = sum.ToString();
+        GameManager.instance.AmountOfMoney = _sum;
+        _txtCountMoney.text = _sum.ToString();
+        _txtBalance.text = _sum.ToString();
 
-        if (sum > YandexGame.savesData.recordMoney)
+        if (_sum > YandexGame.savesData.recordMoney)
         {
-            YandexGame.savesData.recordMoney = sum;
+            YandexGame.savesData.recordMoney = _sum;
         }
     }
 
     public int GetMoney
     {
-        get { return sum; }
+        get { return _sum; }
     }
     public void UpdateUI()
     {

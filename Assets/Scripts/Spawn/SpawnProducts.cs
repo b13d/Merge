@@ -19,74 +19,73 @@ public class SpawnProducts : MonoBehaviour
     {
         _countProducts = YandexGame.savesData.lastAchievementID;
         InitialProducts();
+    }
 
-        Debug.Log("lastAchievementsID: " + YandexGame.savesData.lastAchievementID);
+    Product.ProductStruct SetPropetriesValue(int price, string title, string currentIncome)
+    {
+        var productProperty = new Product.ProductStruct();
+
+        productProperty.price = price;
+        productProperty.title = title;
+        productProperty.currentIncome = currentIncome;
+
+        return productProperty;
     }
 
     void InitialProducts()
     {
         _contentView.GetComponent<RectTransform>().sizeDelta = new Vector2(0, 0);
-        
+
         for (int i = 0; i <= _countProducts; i++)
         {
             _contentView.GetComponent<RectTransform>().sizeDelta += new Vector2(0, 200);
 
-            
+
             var newProduct = Instantiate(_productPrefab, transform.position, Quaternion.identity, _contentView);
-            var productProperty = new Product.ProductStruct();
+
+            var productProperties = new Product.ProductStruct();
 
             if (YandexGame.savesData.shopData.price.Count > 0 && YandexGame.savesData.shopData.price[0] > 0)
             {
-                productProperty.price = YandexGame.savesData.shopData.price[i];
-                productProperty.title = $"Элемент {i}";
-                productProperty.currentIncome =
-                    $"{YandexGame.savesData.shopData.bonusElement[i]} <sprite=\"coin\" name=\"coin\"> в {_incomeTimeList[i]} секунды";
+                productProperties = SetPropetriesValue(YandexGame.savesData.shopData.price[i], $"Элемент {i}",
+                    $"{YandexGame.savesData.shopData.bonusElement[i]} <sprite=\"coin\" name=\"coin\"> в {_incomeTimeList[i]} секунды");
             }
             else
             {
-                productProperty.price = (i + 1) * 10;
-                productProperty.title = $"Элемент {i}";
-                productProperty.currentIncome =
-                    $"{((i + 1) * 10)} <sprite=\"coin\" name=\"coin\"> в {_incomeTimeList[i]} секунды";
+                productProperties = SetPropetriesValue((i + 1) * 10, $"Элемент {i}",
+                    $"{((i + 1) * 10)} <sprite=\"coin\" name=\"coin\"> в {_incomeTimeList[i]} секунды");
             }
 
 
-
-            newProduct.GetComponent<Product>().SetBonus = productProperty.price;
+            newProduct.GetComponent<Product>().SetBonus = productProperties.price;
             newProduct.GetComponent<Product>().SetLevelIndex = i;
             newProduct.GetComponent<Product>().SetImage = _spritesElement[i];
-            newProduct.GetComponent<Product>().ProductProperty = productProperty;
+            newProduct.GetComponent<Product>().ProductProperty = productProperties;
         }
     }
 
     public void ActiveNewProduct(int id)
     {
         _contentView.GetComponent<RectTransform>().sizeDelta += new Vector2(0, 200);
-        
+
         var newProduct = Instantiate(_productPrefab, transform.position, Quaternion.identity, _contentView);
-        var productProperty = new Product.ProductStruct();
+        var productProperties = new Product.ProductStruct();
 
         if (YandexGame.savesData.shopData.price.Count > 0 && YandexGame.savesData.shopData.price[0] > 0)
         {
-            productProperty.price = YandexGame.savesData.shopData.price[id];
-            productProperty.title = $"Элемент {id}";
-            productProperty.currentIncome =
-                $"{YandexGame.savesData.shopData.bonusElement[id]} <sprite=\"coin\" name=\"coin\"> в {_incomeTimeList[id]} секунды";
+            productProperties = SetPropetriesValue(YandexGame.savesData.shopData.price[id], $"Элемент {id}",
+                $"{YandexGame.savesData.shopData.bonusElement[id]} <sprite=\"coin\" name=\"coin\"> в {_incomeTimeList[id]} секунды");
         }
         else
         {
-            productProperty.price = (id + 1) * 10;
-            productProperty.title = $"Элемент {id}";
-            productProperty.currentIncome =
-                $"{((id + 1) * 10)} <sprite=\"coin\" name=\"coin\"> в {_incomeTimeList[id]} секунды";
+            productProperties = SetPropetriesValue((id + 1) * 10, $"Элемент {id}",
+                $"{((id + 1) * 10)} <sprite=\"coin\" name=\"coin\"> в {_incomeTimeList[id]} секунды");
         }
 
 
-
-        newProduct.GetComponent<Product>().SetBonus = productProperty.price;
+        newProduct.GetComponent<Product>().SetBonus = productProperties.price;
         newProduct.GetComponent<Product>().SetLevelIndex = id;
         newProduct.GetComponent<Product>().SetImage = _spritesElement[id];
-        newProduct.GetComponent<Product>().ProductProperty = productProperty;
+        newProduct.GetComponent<Product>().ProductProperty = productProperties;
     }
-
 }

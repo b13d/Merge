@@ -50,7 +50,7 @@ public class AllocationOfBeds : MonoBehaviour
 
             if (place.transform.childCount > 0)
             {
-                if (place.transform.GetChild(0).tag == "Element")
+                if (place.transform.GetChild(0).CompareTag("Element"))
                 {
                     elements.Add(place.transform.GetChild(0).gameObject);
                 }
@@ -68,7 +68,7 @@ public class AllocationOfBeds : MonoBehaviour
 
             if (place.transform.childCount > 0)
             {
-                if (place.transform.GetChild(0).tag == "Element")
+                if (place.transform.GetChild(0).CompareTag("Element"))
                 {
                     var element = place.transform.GetChild(0);
 

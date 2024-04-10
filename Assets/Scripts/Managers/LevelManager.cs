@@ -105,7 +105,6 @@ public class LevelManager : MonoBehaviour
 
         YandexGame.savesData.countExp = _exp;
         YandexGame.savesData.maxValueSlider = _sliderExp.maxValue;
-        // YandexGame.savesData.maxValueSlider = _sliderExp.maxValue;
         YandexGame.SaveProgress();
     }
 

@@ -9,7 +9,10 @@ public class Bed : MonoBehaviour
     [SerializeField] private GameObject _bush;
     [SerializeField] private GameObject _highlighting;
     [SerializeField] private GameObject _placeElement;
-    
+
+
+    #region Properties
+
     public GameObject GetHighlighting
     {
         get { return _highlighting; }
@@ -19,6 +22,9 @@ public class Bed : MonoBehaviour
     {
         get { return _placeElement; }
     }
+
+    #endregion
+   
     
     private void Start()
     {

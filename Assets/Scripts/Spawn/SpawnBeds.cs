@@ -27,8 +27,6 @@ public class SpawnBeds : MonoBehaviour
     {
         for (int i = 0; i < _placeBeds.Count; i++)
         {
-            // if (i < YandexGame.savesData.levelPlayer + 3)
-
             if (i < YandexGame.savesData.countActiveBeds)
             {
                 // делаю грядку активной
@@ -48,6 +46,8 @@ public class SpawnBeds : MonoBehaviour
         }
     }
 
+    #region Propetries
+
     public List<GameObject> PlaceBeds
     {
         get { return _placeBeds; }
@@ -62,6 +62,10 @@ public class SpawnBeds : MonoBehaviour
     {
         get {return _placeBusy;}
     }
+
+    #endregion
+    
+    
 
     public void ClearBeds()
     {
@@ -128,8 +132,8 @@ public class SpawnBeds : MonoBehaviour
 
     public void SpawnBox()
     {
-        List<int> _clearPlace = new List<int>();
-        List<int> _activeBeds = new List<int>();
+        List<int> clearPlace = new List<int>();
+        List<int> activeBeds = new List<int>();
 
 
         CheckBedsOnVoid();
@@ -138,50 +142,47 @@ public class SpawnBeds : MonoBehaviour
         {
             if (!_placeBeds[j].transform.parent.GetComponent<Bed>().GetIsCloseBed)
             {
-                _activeBeds.Add(j);
+                activeBeds.Add(j);
             }
         }
 
-        for (int i = 0; i < _activeBeds.Count; i++)
+        for (int i = 0; i < activeBeds.Count; i++)
         {
             if (_placeBusy[i] == 0)
             {
-                _clearPlace.Add(i);
+                clearPlace.Add(i);
             }
         }
 
-        if (_clearPlace.Count == 1)
+        if (clearPlace.Count == 1)
         {
             GameManager.instance.GetFull = true;
         }
 
-        if (_clearPlace.Count == 0)
+        if (clearPlace.Count == 0)
         {
             GameManager.instance.GetFull = true;
 
             return;
         }
 
-        int rnd = Random.Range(0, _clearPlace.Count);
+        int rnd = Random.Range(0, clearPlace.Count);
 
-        _placeBusy[_clearPlace[rnd]] = 1;
+        _placeBusy[clearPlace[rnd]] = 1;
 
         float chanceGift = Random.Range(0.0f, 1.0f);
         GameObject newBox;
         
-        Debug.Log($"chanceGift: {chanceGift}");
-        
         if (chanceGift < 0.2f)
         {
-            newBox = Instantiate(_gift, transform.position, Quaternion.identity, _placeBeds[_clearPlace[rnd]].transform);
+            newBox = Instantiate(_gift, transform.position, Quaternion.identity, _placeBeds[clearPlace[rnd]].transform);
         }
         else
         {
-            newBox = Instantiate(_box, transform.position, Quaternion.identity, _placeBeds[_clearPlace[rnd]].transform);
+            newBox = Instantiate(_box, transform.position, Quaternion.identity, _placeBeds[clearPlace[rnd]].transform);
         }
 
         newBox.transform.localPosition = new Vector3(0, 0f, -2f);
-        // newBox.GetComponent<Box>().SetIndex = _clearPlace[rnd];
 
         GameManager.instance.SavePositionElement();
     }
