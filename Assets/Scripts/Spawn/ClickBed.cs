@@ -23,7 +23,8 @@ public class ClickBed : MonoBehaviour, IPointerClickHandler
 
     private void Update()
     {
-        if (_stopClick || GameManager.instance.GetFull)
+        
+        if (_stopClick || GameManager.instance != null && GameManager.instance.GetFull)
         {
             return;
         }

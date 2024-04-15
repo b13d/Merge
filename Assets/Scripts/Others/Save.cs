@@ -16,15 +16,24 @@ public class Save : MonoBehaviour
             YandexGame.NewLeaderboardScores("recordMoney", YandexGame.savesData.recordMoney);
         }
 
-        var elementLevel = GameManager.instance.ElementsManager.ElementsLevels;
+        // var elementLevel = GameManager.instance.ElementsManager.ElementsLevels;
         var newShopData = YandexGame.savesData.shopData;
         
-        for (int i = 0; i < elementLevel.Length; i++)
-        {
-            newShopData.price[i] = elementLevel[i].price;
-            newShopData.bonusElement[i] = elementLevel[i].income;
-        }
+        // for (int i = 0; i < elementLevel.Length; i++)
+        // {
+        //     newShopData.price[i] = elementLevel[i].price;
+        //     newShopData.income[i] = elementLevel[i].income;
+        // }
 
+        int index = 0;
+        
+        foreach (var income in newShopData.income)
+        {
+            Debug.Log($"income after save - {income} - levelProduct - {index}");
+
+            index++;
+        }
+        
         YandexGame.savesData.shopData = newShopData;
         
         YandexGame.SaveProgress();

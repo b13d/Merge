@@ -8,7 +8,10 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/Level_01.unity
     guid: 2cda990e2423bbf4892e6590ba056729
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Level.unity
     guid: 9b1d96dd28ba5144ca71fc35b68d78b5
+  - enabled: 1
+    path: Assets/Scenes/LevelFixMovement.unity
+    guid: 3d3af61b9c9ce0b4abae094c519eecb3
   m_configObjects: {}

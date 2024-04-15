@@ -21,7 +21,7 @@ public class InfoObject : MonoBehaviour
     
     private void Start()
     {
-        _revenue = GameManager.instance.ElementsManager.ElementsLevels[_level].income;
+        _revenue = YandexGame.savesData.shopData.income[_level];
         _startIncomeTime = _incomeTime;
     }
 
@@ -39,6 +39,9 @@ public class InfoObject : MonoBehaviour
 
     void Profit()
     {
+        // Debug.Log($"revenue: {_revenue}");
+        _revenue = YandexGame.savesData.shopData.income[_level];
+        
         GameManager.instance.GetCoinManager.CollectionOfMoney(_revenue);
 
         if (_showUIVia <= 0)
@@ -76,10 +79,15 @@ public class InfoObject : MonoBehaviour
         get { return _level; }
     }
 
-    public int SetPrice
+    public int SetRevenue
     {
         set { _revenue = value; }
     }
+    
+    // public int SetPrice
+    // {
+    //     set { _revenue = value; }
+    // }
 
     #endregion
     

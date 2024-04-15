@@ -79,7 +79,7 @@ public class AllocationOfBeds : MonoBehaviour
 
                     if (GameManager.instance.GetCurrentLevelElementTaked == element.GetComponent<InfoObject>().GetLevel)
                     {
-                        element.DOLocalMoveY(.5f, .2f);
+                        element.DOLocalMoveY(.25f, .2f);
                         element.GetComponent<SpriteRenderer>().material.EnableKeyword("_EMISSION");
 
                         _highlightingElements[i].SetActive(true);

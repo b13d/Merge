@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,13 +7,9 @@ using YG;
 
 public class SpawnProducts : MonoBehaviour
 {
-    [SerializeField] private GameObject _productPrefab;
-    [SerializeField] private Transform _contentView;
+    [SerializeField] private GameObject _prefabProduct;
     [SerializeField] private ButtonEvents _buttonEvents;
-
-    [SerializeField] private List<Sprite> _spritesElement;
-
-    private List<float> _incomeTimeList = new List<float>() { 2, 1.9f, 1.8f, 1.7f, 1.6f, 1.5f, 1.4f, 1.3f, 1.2f, 1.1f };
+    
     private int _countProducts;
 
     void Start()
@@ -21,71 +18,58 @@ public class SpawnProducts : MonoBehaviour
         InitialProducts();
     }
 
-    Product.ProductStruct SetPropetriesValue(int price, string title, string currentIncome)
-    {
-        var productProperty = new Product.ProductStruct();
-
-        productProperty.price = price;
-        productProperty.title = title;
-        productProperty.currentIncome = currentIncome;
-
-        return productProperty;
-    }
-
     void InitialProducts()
     {
-        _contentView.GetComponent<RectTransform>().sizeDelta = new Vector2(0, 0);
-
+        Products._placeSpawnStatic.GetComponent<RectTransform>().sizeDelta = new Vector2(0, 0);
+        
         for (int i = 0; i <= _countProducts; i++)
         {
-            _contentView.GetComponent<RectTransform>().sizeDelta += new Vector2(0, 200);
+            Products._placeSpawnStatic.GetComponent<RectTransform>().sizeDelta += new Vector2(0, 200);
 
+            var newProduct = Instantiate(_prefabProduct, transform.position, Quaternion.identity, Products._placeSpawnStatic);
 
-            var newProduct = Instantiate(_productPrefab, transform.position, Quaternion.identity, _contentView);
-
-            var productProperties = new Product.ProductStruct();
-
-            if (YandexGame.savesData.shopData.price.Count > 0 && YandexGame.savesData.shopData.price[0] > 0)
-            {
-                productProperties = SetPropetriesValue(YandexGame.savesData.shopData.price[i], $"Элемент {i}",
-                    $"{YandexGame.savesData.shopData.bonusElement[i]} <sprite=\"coin\" name=\"coin\"> в {_incomeTimeList[i]} секунды");
-            }
-            else
-            {
-                productProperties = SetPropetriesValue((i + 1) * 10, $"Элемент {i}",
-                    $"{((i + 1) * 10)} <sprite=\"coin\" name=\"coin\"> в {_incomeTimeList[i]} секунды");
-            }
-
-
-            newProduct.GetComponent<Product>().SetBonus = productProperties.price;
+            newProduct.GetComponent<Product>().SetBonus = Bonus(i);
             newProduct.GetComponent<Product>().SetLevelIndex = i;
-            newProduct.GetComponent<Product>().SetImage = _spritesElement[i];
-            newProduct.GetComponent<Product>().ProductProperty = productProperties;
+            newProduct.GetComponent<Product>().SetPrice = Price(i);
+            newProduct.GetComponent<Product>().SetImage = Products._spritesElementStatic[i];
+            
+            newProduct.GetComponent<Product>().SetValueProduct();
         }
     }
 
-    public void ActiveNewProduct(int id)
+    int Bonus(int id)
     {
-        _contentView.GetComponent<RectTransform>().sizeDelta += new Vector2(0, 200);
-
-        var newProduct = Instantiate(_productPrefab, transform.position, Quaternion.identity, _contentView);
-        var productProperties = new Product.ProductStruct();
-
-        if (YandexGame.savesData.shopData.price.Count > 0 && YandexGame.savesData.shopData.price[0] > 0)
+            return (id + 1) * 10;
+    }
+    
+    int Price(int id)
+    {
+        if (YandexGame.savesData.shopData.price[id] == 0)
         {
-            productProperties = SetPropetriesValue(YandexGame.savesData.shopData.price[id], $"Элемент {id}",
-                $"{YandexGame.savesData.shopData.bonusElement[id]} <sprite=\"coin\" name=\"coin\"> в {_incomeTimeList[id]} секунды");
+            return (id + 1) * 10;
         }
         else
         {
-            productProperties = SetPropetriesValue((id + 1) * 10, $"Элемент {id}",
-                $"{((id + 1) * 10)} <sprite=\"coin\" name=\"coin\"> в {_incomeTimeList[id]} секунды");
+            return YandexGame.savesData.shopData.price[id];
         }
+    }
+    
+    private GameObject GetPrefabProduct
+    {
+        get { return _prefabProduct; }
+    }
+    
+    public void AddNewProduct(int productID)
+    {
+        Products._placeSpawnStatic.GetComponent<RectTransform>().sizeDelta += new Vector2(0, 200);
 
+        var newProduct = Instantiate(_prefabProduct, transform.position, Quaternion.identity, Products._placeSpawnStatic);
 
-        newProduct.GetComponent<Product>().SetBonus = productProperties.price;
-        newProduct.GetComponent<Product>().SetLevelIndex = id;
-        newProduct.GetComponent<Product>().SetImage = _spritesElement[id];
-        newProduct.GetComponent<Product>().ProductProperty = productProperties;
+        newProduct.GetComponent<Product>().SetBonus = Bonus(productID);
+        newProduct.GetComponent<Product>().SetLevelIndex = productID;
+        newProduct.GetComponent<Product>().SetPrice = Price(productID);
+        newProduct.GetComponent<Product>().SetImage = Products._spritesElementStatic[productID];
+        
+        newProduct.GetComponent<Product>().SetValueProduct();
     }
 }

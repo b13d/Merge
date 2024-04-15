@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
@@ -39,7 +40,7 @@ public class GameManager : MonoBehaviour
     private bool _isFull;
     private int amountOfMoney = 0;
 
-    public static GameManager instance = null;
+    [CanBeNull] public static GameManager instance = null;
 
     private GameObject _lastObject;
 
@@ -242,8 +243,37 @@ public class GameManager : MonoBehaviour
 
     #endregion
 
+    // private void Start()
+    // {
+    //     foreach (var income in YandexGame.savesData.shopData.income)
+    //     {
+    //         Debug.Log(income);
+    //     }
+    //     
+    // }
+
     private void Awake()
     {
+        if (instance != null)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            // foreach (var bonus in  ElementsManager.ElementsLevels)
+            // {
+            //     Debug.Log(bonus.income);
+            // }
+
+            _audioMoveElement.volume = _audioSlider.value;
+            _audioJoinElement.volume = _audioSlider.value;
+            _music.volume = _musicSlider.value;
+
+            instance = this;
+            
+            DontDestroyOnLoad(gameObject);
+        }
+        
         // YandexGame.ResetSaveProgress();
         // YandexGame.SaveProgress();
 
@@ -284,22 +314,10 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    void Start()
-    {
-        if (instance != null)
-        {
-            Destroy(gameObject);
-        }
-        else
-        {
-            _audioMoveElement.volume = _audioSlider.value;
-            _audioJoinElement.volume = _audioSlider.value;
-            _music.volume = _musicSlider.value;
-
-            instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-    }
+    // void Awake()
+    // {
+    //    
+    // }
 
     public void ChangeSpeedGame(Toggle _toggle)
     {

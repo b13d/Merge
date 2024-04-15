@@ -64,10 +64,9 @@ public class Achievements : MonoBehaviour
         
         YandexGame.savesData.lastAchievementID = idElement;
         
-        _spawnProducts = GameObject.FindObjectOfType<SpawnProducts>();
+        _spawnProducts = FindObjectOfType<SpawnProducts>();
 
-        
-        _spawnProducts.ActiveNewProduct(idElement);
+        _spawnProducts.AddNewProduct(idElement);
         
         YandexGame.SaveProgress();
     }

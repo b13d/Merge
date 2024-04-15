@@ -5,8 +5,12 @@ using UnityEngine;
 [Serializable]
 public class ShopData
 {
-    public List<int> price = new List<int>();
-    public List<int> bonusElement = new List<int>();
+    // bonus - сколько за клик добавляет в income
+    // income - сколько в секунду приносит
+    public List<float> timeIncome = new List<float>() { 2, 1.9f, 1.8f, 1.7f, 1.6f, 1.5f, 1.4f, 1.3f, 1.2f, 1.1f };
+    public List<int> price = new List<int>() {10,20,30,40,50,60,70,80,90};
+    public List<int> income = new List<int>() { 10, 20, 30, 40, 50, 60, 70, 80, 90 };
+    public List<int> bonusElement = new List<int>() { 10, 20, 30, 40, 50, 60, 70, 80, 90 };
 }
 
 namespace YG
@@ -29,11 +33,11 @@ namespace YG
         // Ваши сохранения
 
         // public List<GameObject> _elementsList = new List<GameObject>(9) {null,null,null,null,null,null,null,null,null };
-        
-        public List<int> _elementsList = new List<int>(9) {999,999,999,999,999,999,999,999,999 };
-        
+
+        public List<int> _elementsList = new List<int>(9) { 999, 999, 999, 999, 999, 999, 999, 999, 999 };
+
         // public Dictionary<int, GameObject> elements = new Dictionary<int, GameObject>(9);
-        
+
         public int money;
 
         public int levelPlayer = 0;
@@ -53,7 +57,7 @@ namespace YG
         public int lastNewElementLevel = 0;
 
         public int lastAchievementID;
-        
+
         // public int incomeMoney;
 
         // Поля (сохранения) можно удалять и создавать новые. При обновлении игры сохранения ломаться не должны
@@ -62,7 +66,6 @@ namespace YG
         // Вы можете выполнить какие то действия при загрузке сохранений
         public SavesYG()
         {
-
             if (shopData.price.Count == 0)
             {
                 for (int i = 0; i < _elementsList.Count; i++)
@@ -75,7 +78,7 @@ namespace YG
             // {
             //     elements.Add(i, _elementsList[i]);
             // }
-            
+
             // Допустим, задать значения по умолчанию для отдельных элементов массива
 
             // openLevels[1] = true;

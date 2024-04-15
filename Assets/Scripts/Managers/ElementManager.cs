@@ -16,7 +16,6 @@ public class ElementManager : MonoBehaviour
         public string level;
         public int count;
         public int income;
-        public float incomeTime;
         public int price;
     }
 
@@ -88,10 +87,14 @@ public class ElementManager : MonoBehaviour
                         }
 
                         var currentLevel = element.GetComponent<InfoObject>().GetLevel;
-                        element.GetComponent<InfoObject>().SetPrice = _elementsLevel[currentLevel].income;
-                        
+                        // element.GetComponent<InfoObject>().SetPrice = _elementsLevel[currentLevel].income;
+                        // element.GetComponent<InfoObject>().SetPrice = YandexGame.savesData.shopData.price[currentLevel];
+                
                         _elementsLevel[currentLevel].count += 1;
-                        _currentIncrementPerSecond += _elementsLevel[currentLevel].income;
+                        _currentIncrementPerSecond += YandexGame.savesData.shopData.income[currentLevel];
+
+                        // _currentIncrementPerSecond += _elementsLevel[currentLevel].income;
+
                     }
                 }
             }
